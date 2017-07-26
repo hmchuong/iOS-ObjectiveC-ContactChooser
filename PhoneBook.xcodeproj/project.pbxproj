@@ -7,17 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		397D9EEFF3D3195577599407 /* libPods-PhoneBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38318158CF17D8735E9B9319 /* libPods-PhoneBook.a */; };
+		4EA0DD2352DEB4FDBB6B51F0 /* libPods-PhoneBookUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0C9A4E079A07D9BA3F588E /* libPods-PhoneBookUITests.a */; };
+		789A9B5FAF7DE5E0FA009407 /* libPods-PhoneBookTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D334FF3A1984498A2D0C80D6 /* libPods-PhoneBookTests.a */; };
 		C83F201D1F273F8D00A1D67A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F201C1F273F8D00A1D67A /* main.m */; };
 		C83F20201F273F8D00A1D67A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F201F1F273F8D00A1D67A /* AppDelegate.m */; };
-		C83F20231F273F8D00A1D67A /* PhoneBookTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20221F273F8D00A1D67A /* PhoneBookTableViewController.m */; };
 		C83F20261F273F8D00A1D67A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C83F20241F273F8D00A1D67A /* Main.storyboard */; };
 		C83F20281F273F8D00A1D67A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C83F20271F273F8D00A1D67A /* Assets.xcassets */; };
 		C83F202B1F273F8D00A1D67A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C83F20291F273F8D00A1D67A /* LaunchScreen.storyboard */; };
 		C83F20361F273F8D00A1D67A /* PhoneBookTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20351F273F8D00A1D67A /* PhoneBookTests.m */; };
 		C83F20411F273F8D00A1D67A /* PhoneBookUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20401F273F8D00A1D67A /* PhoneBookUITests.m */; };
 		C83F20501F2740CE00A1D67A /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C83F204F1F2740CE00A1D67A /* Contacts.framework */; };
-		C83F20531F274FEF00A1D67A /* SearchBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20521F274FEF00A1D67A /* SearchBarView.m */; };
 		C83F20561F27576C00A1D67A /* CheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20551F27576C00A1D67A /* CheckBox.m */; };
+		C849E64B1F28333B0062C24F /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64A1F28333B0062C24F /* Contact.m */; };
+		C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */; };
+		C849E6531F283EBA0062C24F /* ContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E6521F283EBA0062C24F /* ContactTableViewCell.m */; };
+		C849E6561F28ACF20062C24F /* ContactChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E6551F28ACF20062C24F /* ContactChooserViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,12 +43,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		006F78B18801EA7FC58EE74A /* Pods-PhoneBookUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBookUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBookUITests/Pods-PhoneBookUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		1F0C9A4E079A07D9BA3F588E /* libPods-PhoneBookUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhoneBookUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		29F48D8E3194D678791E5C61 /* Pods-PhoneBookTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBookTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBookTests/Pods-PhoneBookTests.debug.xcconfig"; sourceTree = "<group>"; };
+		38318158CF17D8735E9B9319 /* libPods-PhoneBook.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhoneBook.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		53D686E785CCFDD6DF51808E /* Pods-PhoneBook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBook.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBook/Pods-PhoneBook.release.xcconfig"; sourceTree = "<group>"; };
+		6C8F45F1DD5798C39D264A5D /* Pods-PhoneBook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBook.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBook/Pods-PhoneBook.debug.xcconfig"; sourceTree = "<group>"; };
+		85F8EA26513558B76173CD18 /* Pods-PhoneBookTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBookTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBookTests/Pods-PhoneBookTests.release.xcconfig"; sourceTree = "<group>"; };
+		9923D378F863E08E7C25AD4E /* Pods-PhoneBookUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBookUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBookUITests/Pods-PhoneBookUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C83F20181F273F8D00A1D67A /* PhoneBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C83F201C1F273F8D00A1D67A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C83F201E1F273F8D00A1D67A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C83F201F1F273F8D00A1D67A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C83F20211F273F8D00A1D67A /* PhoneBookTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhoneBookTableViewController.h; sourceTree = "<group>"; };
-		C83F20221F273F8D00A1D67A /* PhoneBookTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhoneBookTableViewController.m; sourceTree = "<group>"; };
 		C83F20251F273F8D00A1D67A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C83F20271F273F8D00A1D67A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C83F202A1F273F8D00A1D67A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,10 +66,17 @@
 		C83F20401F273F8D00A1D67A /* PhoneBookUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhoneBookUITests.m; sourceTree = "<group>"; };
 		C83F20421F273F8D00A1D67A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C83F204F1F2740CE00A1D67A /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
-		C83F20511F274FEF00A1D67A /* SearchBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarView.h; sourceTree = "<group>"; };
-		C83F20521F274FEF00A1D67A /* SearchBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarView.m; sourceTree = "<group>"; };
 		C83F20541F27576C00A1D67A /* CheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
 		C83F20551F27576C00A1D67A /* CheckBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckBox.m; sourceTree = "<group>"; };
+		C849E6491F28333B0062C24F /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
+		C849E64A1F28333B0062C24F /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
+		C849E64D1F283C160062C24F /* ThreadSafeMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadSafeMutableArray.h; sourceTree = "<group>"; };
+		C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadSafeMutableArray.m; sourceTree = "<group>"; };
+		C849E6511F283EBA0062C24F /* ContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactTableViewCell.h; sourceTree = "<group>"; };
+		C849E6521F283EBA0062C24F /* ContactTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableViewCell.m; sourceTree = "<group>"; };
+		C849E6541F28ACF20062C24F /* ContactChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactChooserViewController.h; sourceTree = "<group>"; };
+		C849E6551F28ACF20062C24F /* ContactChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactChooserViewController.m; sourceTree = "<group>"; };
+		D334FF3A1984498A2D0C80D6 /* libPods-PhoneBookTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhoneBookTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C83F20501F2740CE00A1D67A /* Contacts.framework in Frameworks */,
+				397D9EEFF3D3195577599407 /* libPods-PhoneBook.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				789A9B5FAF7DE5E0FA009407 /* libPods-PhoneBookTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,12 +101,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EA0DD2352DEB4FDBB6B51F0 /* libPods-PhoneBookUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		92775ECA1AC8C868438747AD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6C8F45F1DD5798C39D264A5D /* Pods-PhoneBook.debug.xcconfig */,
+				53D686E785CCFDD6DF51808E /* Pods-PhoneBook.release.xcconfig */,
+				29F48D8E3194D678791E5C61 /* Pods-PhoneBookTests.debug.xcconfig */,
+				85F8EA26513558B76173CD18 /* Pods-PhoneBookTests.release.xcconfig */,
+				006F78B18801EA7FC58EE74A /* Pods-PhoneBookUITests.debug.xcconfig */,
+				9923D378F863E08E7C25AD4E /* Pods-PhoneBookUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		C83F200F1F273F8D00A1D67A = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +129,7 @@
 				C83F203F1F273F8D00A1D67A /* PhoneBookUITests */,
 				C83F20191F273F8D00A1D67A /* Products */,
 				C83F204E1F2740CE00A1D67A /* Frameworks */,
+				92775ECA1AC8C868438747AD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,11 +146,12 @@
 		C83F201A1F273F8D00A1D67A /* PhoneBook */ = {
 			isa = PBXGroup;
 			children = (
+				C849E6501F283E8C0062C24F /* Controllers */,
+				C849E64C1F283BE50062C24F /* Utilities */,
+				C849E6481F2833090062C24F /* Models */,
 				C83F20571F27577200A1D67A /* CustomViews */,
 				C83F201E1F273F8D00A1D67A /* AppDelegate.h */,
 				C83F201F1F273F8D00A1D67A /* AppDelegate.m */,
-				C83F20211F273F8D00A1D67A /* PhoneBookTableViewController.h */,
-				C83F20221F273F8D00A1D67A /* PhoneBookTableViewController.m */,
 				C83F20241F273F8D00A1D67A /* Main.storyboard */,
 				C83F20271F273F8D00A1D67A /* Assets.xcassets */,
 				C83F20291F273F8D00A1D67A /* LaunchScreen.storyboard */,
@@ -155,6 +191,9 @@
 			isa = PBXGroup;
 			children = (
 				C83F204F1F2740CE00A1D67A /* Contacts.framework */,
+				38318158CF17D8735E9B9319 /* libPods-PhoneBook.a */,
+				D334FF3A1984498A2D0C80D6 /* libPods-PhoneBookTests.a */,
+				1F0C9A4E079A07D9BA3F588E /* libPods-PhoneBookUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -162,12 +201,39 @@
 		C83F20571F27577200A1D67A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				C83F20511F274FEF00A1D67A /* SearchBarView.h */,
-				C83F20521F274FEF00A1D67A /* SearchBarView.m */,
 				C83F20541F27576C00A1D67A /* CheckBox.h */,
 				C83F20551F27576C00A1D67A /* CheckBox.m */,
+				C849E6511F283EBA0062C24F /* ContactTableViewCell.h */,
+				C849E6521F283EBA0062C24F /* ContactTableViewCell.m */,
 			);
 			name = CustomViews;
+			sourceTree = "<group>";
+		};
+		C849E6481F2833090062C24F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C849E6491F28333B0062C24F /* Contact.h */,
+				C849E64A1F28333B0062C24F /* Contact.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		C849E64C1F283BE50062C24F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C849E64D1F283C160062C24F /* ThreadSafeMutableArray.h */,
+				C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		C849E6501F283E8C0062C24F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C849E6541F28ACF20062C24F /* ContactChooserViewController.h */,
+				C849E6551F28ACF20062C24F /* ContactChooserViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,9 +243,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C83F20451F273F8D00A1D67A /* Build configuration list for PBXNativeTarget "PhoneBook" */;
 			buildPhases = (
+				A1F828E30059BC0C9E6F380E /* [CP] Check Pods Manifest.lock */,
 				C83F20141F273F8D00A1D67A /* Sources */,
 				C83F20151F273F8D00A1D67A /* Frameworks */,
 				C83F20161F273F8D00A1D67A /* Resources */,
+				790AA7485A4CE74BE1AD82F5 /* [CP] Embed Pods Frameworks */,
+				B041999045B2C7B184893FB8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -194,9 +263,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C83F20481F273F8D00A1D67A /* Build configuration list for PBXNativeTarget "PhoneBookTests" */;
 			buildPhases = (
+				8E68E5105AB5B0B57D2C2C4F /* [CP] Check Pods Manifest.lock */,
 				C83F202D1F273F8D00A1D67A /* Sources */,
 				C83F202E1F273F8D00A1D67A /* Frameworks */,
 				C83F202F1F273F8D00A1D67A /* Resources */,
+				80ECF3577749D5738536A3B8 /* [CP] Embed Pods Frameworks */,
+				896AE6653F2CC8329AE55C32 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -212,9 +284,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C83F204B1F273F8D00A1D67A /* Build configuration list for PBXNativeTarget "PhoneBookUITests" */;
 			buildPhases = (
+				AAD8C1667B1A5E70F0CC2CC8 /* [CP] Check Pods Manifest.lock */,
 				C83F20381F273F8D00A1D67A /* Sources */,
 				C83F20391F273F8D00A1D67A /* Frameworks */,
 				C83F203A1F273F8D00A1D67A /* Resources */,
+				AF2950E60DCA9AF06F44A44B /* [CP] Embed Pods Frameworks */,
+				778EEB28D704D5DB0E9E20B9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -301,16 +376,156 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		778EEB28D704D5DB0E9E20B9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhoneBookUITests/Pods-PhoneBookUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		790AA7485A4CE74BE1AD82F5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhoneBook/Pods-PhoneBook-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80ECF3577749D5738536A3B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhoneBookTests/Pods-PhoneBookTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		896AE6653F2CC8329AE55C32 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhoneBookTests/Pods-PhoneBookTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E68E5105AB5B0B57D2C2C4F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A1F828E30059BC0C9E6F380E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		AAD8C1667B1A5E70F0CC2CC8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		AF2950E60DCA9AF06F44A44B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhoneBookUITests/Pods-PhoneBookUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B041999045B2C7B184893FB8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhoneBook/Pods-PhoneBook-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C83F20141F273F8D00A1D67A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C83F20531F274FEF00A1D67A /* SearchBarView.m in Sources */,
-				C83F20231F273F8D00A1D67A /* PhoneBookTableViewController.m in Sources */,
+				C849E6531F283EBA0062C24F /* ContactTableViewCell.m in Sources */,
 				C83F20201F273F8D00A1D67A /* AppDelegate.m in Sources */,
 				C83F20561F27576C00A1D67A /* CheckBox.m in Sources */,
+				C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */,
+				C849E64B1F28333B0062C24F /* Contact.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,
+				C849E6561F28ACF20062C24F /* ContactChooserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +674,7 @@
 		};
 		C83F20461F273F8D00A1D67A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C8F45F1DD5798C39D264A5D /* Pods-PhoneBook.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M3R5747G42;
@@ -472,6 +688,7 @@
 		};
 		C83F20471F273F8D00A1D67A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53D686E785CCFDD6DF51808E /* Pods-PhoneBook.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M3R5747G42;
@@ -485,6 +702,7 @@
 		};
 		C83F20491F273F8D00A1D67A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29F48D8E3194D678791E5C61 /* Pods-PhoneBookTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = M3R5747G42;
@@ -498,6 +716,7 @@
 		};
 		C83F204A1F273F8D00A1D67A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 85F8EA26513558B76173CD18 /* Pods-PhoneBookTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = M3R5747G42;
@@ -511,6 +730,7 @@
 		};
 		C83F204C1F273F8D00A1D67A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 006F78B18801EA7FC58EE74A /* Pods-PhoneBookUITests.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = M3R5747G42;
 				INFOPLIST_FILE = PhoneBookUITests/Info.plist;
@@ -523,6 +743,7 @@
 		};
 		C83F204D1F273F8D00A1D67A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9923D378F863E08E7C25AD4E /* Pods-PhoneBookUITests.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = M3R5747G42;
 				INFOPLIST_FILE = PhoneBookUITests/Info.plist;
@@ -552,6 +773,7 @@
 				C83F20471F273F8D00A1D67A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C83F20481F273F8D00A1D67A /* Build configuration list for PBXNativeTarget "PhoneBookTests" */ = {
 			isa = XCConfigurationList;
@@ -560,6 +782,7 @@
 				C83F204A1F273F8D00A1D67A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C83F204B1F273F8D00A1D67A /* Build configuration list for PBXNativeTarget "PhoneBookUITests" */ = {
 			isa = XCConfigurationList;
@@ -568,6 +791,7 @@
 				C83F204D1F273F8D00A1D67A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

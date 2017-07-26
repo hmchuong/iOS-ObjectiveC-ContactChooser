@@ -1,30 +1,29 @@
 //
-//  ViewController.m
+//  ContactChooserViewController.m
 //  PhoneBook
 //
-//  Created by chuonghm on 7/25/17.
+//  Created by chuonghm on 7/26/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "PhoneBookTableViewController.h"
+#import "ContactChooserViewController.h"
 #import <Contacts/Contacts.h>
-#import "SearchBarView.h"
 #import "ThreadSafeMutableArray.h"
 #import "Contact.h"
 #import "ContactTableViewCell.h"
 #import "MBProgressHUD.h"
 
-@interface PhoneBookTableViewController ()
+@interface ContactChooserViewController ()
 
-@property (strong, nonatomic) UISearchBar *searchBar;
-@property (strong, nonatomic) SearchBarView *searchBarView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *chosenContactsViewHeight;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) ThreadSafeMutableArray *contacts;
 @property (strong, nonatomic) NSMutableDictionary *contactsInSections;
 @property (strong, nonatomic) NSArray *sectionTitles;
 
 @end
 
-@implementation PhoneBookTableViewController
+@implementation ContactChooserViewController
 
 #pragma mark - Life cycle
 
@@ -32,29 +31,16 @@
     [super viewDidLoad];
     _contacts = [[ThreadSafeMutableArray alloc] init];
     _contactsInSections = [[NSMutableDictionary alloc] init];
-    
-    [self setupSearchBarView];
+    [_chosenContactsViewHeight setConstant:0];
     [self loadContacts];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    UIView *tableHeaderView = [self.tableView tableHeaderView];
-    if (tableHeaderView != nil) {
-        [self.tableView bringSubviewToFront:tableHeaderView];
-    }
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Scroll view delegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    // Make sure search bar always on top of table view
-    CGRect rect = _searchBar.frame;
-    rect.origin.y = MAX(0, scrollView.contentOffset.y + scrollView.contentInset.top);
-    _searchBar.frame = rect;
-}
-
-#pragma mark - Tableview delegate
+#pragma mark - TableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [_sectionTitles count];
@@ -85,28 +71,19 @@
     } @catch (NSException *exception) {
         NSLog(@"The dequeued cell is not an instance of %@",cellIdentifier);
     }
-
+    
     NSArray *sectionArray = [_contactsInSections objectForKey:[_sectionTitles objectAtIndex:[indexPath section]]];
     
     Contact *contact = [sectionArray objectAtIndex:[indexPath row]];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        contactCell.contact = contact;
-    });
+//    dispatch_sync(dispatch_get_main_queue(), ^{
+//        contactCell.contact = contact;
+//    });
+    contactCell.contact = contact;
     return contactCell;
 }
 
-#pragma mark - Utility
 
-/**
- Set up search bar view
- */
-- (void)setupSearchBarView {
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
-    [_searchBar sizeToFit];
-    _searchBarView = [[SearchBarView alloc] initWithFrame:[_searchBar bounds]];
-    [_searchBarView addSubview:_searchBar];
-    self.tableView.tableHeaderView = _searchBarView;
-}
+#pragma mark - Utilities
 
 /**
  Load contacts from phone book
@@ -162,9 +139,9 @@
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                 });
             }
-        }        
+        }
     }];
-
+    
 }
 
 @end

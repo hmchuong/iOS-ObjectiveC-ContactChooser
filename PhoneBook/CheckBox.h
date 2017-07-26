@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CheckBox : UIButton
+typedef NS_ENUM( NSUInteger, SSCheckMarkStyle )
+{
+    SSCheckMarkStyleOpenCircle,
+    SSCheckMarkStyleGrayedOut
+};
+
+@interface CheckBox : UIView
+
+@property (readwrite) bool checked;
+@property (readwrite) SSCheckMarkStyle checkMarkStyle;
 
 @end
