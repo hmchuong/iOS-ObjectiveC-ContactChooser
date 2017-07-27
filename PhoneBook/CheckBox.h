@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM( NSUInteger, SSCheckMarkStyle )
-{
-    SSCheckMarkStyleOpenCircle,
-    SSCheckMarkStyleGrayedOut
+/**
+ Checkbox style
+
+ - CheckMarkStyleOpenCircle: empty circle in unchecked state
+ - CheckMarkStyleGrayedOut: grayout check mark in unchecked state
+ */
+typedef NS_ENUM( NSUInteger, CheckMarkStyle) {
+    CheckMarkStyleOpenCircle,
+    CheckMarkStyleGrayedOut
 };
 
 @interface CheckBox : UIView
 
-@property (readwrite) bool checked;
-@property (readwrite) SSCheckMarkStyle checkMarkStyle;
+@property (readwrite, nonatomic) bool checked;
+@property (readwrite, nonatomic) CheckMarkStyle checkMarkStyle;
 
 @end

@@ -26,9 +26,7 @@
     [_name setText:[contact fullname]];
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
+- (void)drawRect:(CGRect)rect {
     [_avatar.layer setCornerRadius:_avatar.frame.size.width/2];
     _avatar.clipsToBounds = YES;
 }

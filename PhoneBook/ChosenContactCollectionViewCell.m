@@ -13,7 +13,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [_avatar.layer setCornerRadius:self.frame.size.width/2];
-    self.clipsToBounds = YES;
+    _avatar.clipsToBounds = YES;
 }
 
 @end

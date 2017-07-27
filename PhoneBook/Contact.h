@@ -9,12 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+/**
+ Contact object - store data of each phone book contact
+ */
 @interface Contact : NSObject
 
 @property (strong, nonatomic) UIImage *avatar;
-@property (strong, nonatomic) NSString *firstName;
-@property (strong, nonatomic) NSString *middleName;
-@property (strong, nonatomic) NSString *lastName;
+@property (strong, nonatomic) NSString *firstname;
+@property (strong, nonatomic) NSString *middlename;
+@property (strong, nonatomic) NSString *lastname;
 @property (strong, readonly, nonatomic) NSString *fullname;
 
 @end

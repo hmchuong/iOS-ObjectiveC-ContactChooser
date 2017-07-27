@@ -83,10 +83,28 @@
 - (NSUInteger)count;
 
 
+/**
+ Filter array using prdicate
+
+ @param predicate - NSPredicate to use
+ @return - NSArray after fitering
+ */
 - (NSArray *)filteredArrayUsingPredicate: (NSPredicate *) predicate;
 
+/**
+ Get index of object
+
+ @param object - object to get index
+ @return - index of object
+ */
 - (NSInteger)indexOfObject: (NSObject *)object;
 
+/**
+ Check whether array contains object
+
+ @param object - object to check
+ @return - YES if array contains the object, otherwise return NO
+ */
 - (BOOL)containsObject: (id)object;
 
 @end

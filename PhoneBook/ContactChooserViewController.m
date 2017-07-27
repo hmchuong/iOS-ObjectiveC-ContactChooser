@@ -390,9 +390,9 @@
                 for (CNContact *contact in cnContacts) {
                     // copy data to my custom Contacts class.
                     Contact *newContact = [[Contact alloc] init];
-                    newContact.firstName = [contact givenName];
-                    newContact.lastName = [contact familyName];
-                    newContact.middleName = [contact middleName];
+                    newContact.firstname = [contact givenName];
+                    newContact.lastname = [contact familyName];
+                    newContact.middlename = [contact middleName];
                     newContact.avatar = [UIImage imageWithData:[contact imageData]];
                     if ([newContact.fullname length] == 0) {
                         continue;

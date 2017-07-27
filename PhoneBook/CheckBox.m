@@ -10,95 +10,121 @@
 
 @implementation CheckBox
 
-- (void) drawRect:(CGRect)rect
-{
+#pragma mark - Life cycle
+
+- (void) drawRect:(CGRect)rect {
     [super drawRect:rect];
-    if ( self.checked )
+    
+    // In checked state
+    if ( self.checked ) {
         [self drawRectChecked:rect];
-    else
-    {
-        if ( self.checkMarkStyle == SSCheckMarkStyleOpenCircle )
+    } else {    // In unchecked state
+        if ( self.checkMarkStyle == CheckMarkStyleOpenCircle )
             [self drawRectOpenCircle:rect];
-        else if ( self.checkMarkStyle == SSCheckMarkStyleGrayedOut )
+        else if ( self.checkMarkStyle == CheckMarkStyleGrayedOut )
             [self drawRectGrayedOut:rect];
     }
     
 }
 
-- (void)setChecked:(bool)checked
-{
+#pragma mark - setters
+
+- (void)setChecked:(bool)checked {
     _checked = checked;
     [self setNeedsDisplay];
 }
 
-- (void)setCheckMarkStyle:(SSCheckMarkStyle)checkMarkStyle
-{
+- (void)setCheckMarkStyle:(CheckMarkStyle)checkMarkStyle {
     _checkMarkStyle = checkMarkStyle;
     [self setNeedsDisplay];
 }
 
-- (void) drawRectChecked: (CGRect) rect
-{
+#pragma mark - utilities
+
+/**
+ Draw checked state
+
+ @param rect - rect to draw
+ */
+- (void)drawRectChecked:(CGRect)rect {
+    // Set background of check box to checked color
     [self setBackgroundColor:[UIColor colorWithRed: 73.0/255 green: 149.0/255 blue: 249.0/255 alpha: 1]];
     [self.backgroundColor setFill];
     CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
     
+    // Hide border of check box
     self.layer.borderWidth = 0;
     
-    //// Frames
+    // Frame of checkbox
     CGRect frame = self.bounds;
     
-    //// Subframes
+    // Make frame of check mark
     CGRect group = CGRectMake(CGRectGetMinX(frame) + 3, CGRectGetMinY(frame) + 3, CGRectGetWidth(frame) - 6, CGRectGetHeight(frame) - 6);
     
     
-    //// Bezier Drawing
+    // Bezier Drawing check mark
     UIBezierPath* bezierPath = [UIBezierPath bezierPath];
     [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(group) + 0.27083 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.54167 * CGRectGetHeight(group))];
     [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.41667 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.68750 * CGRectGetHeight(group))];
     [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.75000 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.35417 * CGRectGetHeight(group))];
     bezierPath.lineCapStyle = kCGLineCapSquare;
     
+    // Set color of check mark
     [[UIColor whiteColor] setStroke];
     bezierPath.lineWidth = 1.3;
     [bezierPath stroke];
 }
 
-- (void) drawRectGrayedOut: (CGRect) rect {
+/**
+ Draw unchecked state in CheckMarkStyleGrayedOut
+
+ @param rect - rect to draw
+ */
+- (void)drawRectGrayedOut:(CGRect)rect {
+    // Set border and corner radius of check box
     self.layer.cornerRadius = self.frame.size.width/2;
     [self.layer setBorderWidth:1];
     [self.layer setBorderColor:[UIColor lightGrayColor].CGColor];
     self.clipsToBounds = YES;
     
+    // Set background of check box
     [self setBackgroundColor:[UIColor lightGrayColor]];
     [self.backgroundColor setFill];
     CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
     
-    //// Frames
+    // Frame of checkbox
     CGRect frame = self.bounds;
     
-    //// Subframes
+    // Make frame of check mark
     CGRect group = CGRectMake(CGRectGetMinX(frame) + 3, CGRectGetMinY(frame) + 3, CGRectGetWidth(frame) - 6, CGRectGetHeight(frame) - 6);
     
     
-    //// Bezier Drawing
+    // Bezier Drawing check mark
     UIBezierPath* bezierPath = [UIBezierPath bezierPath];
     [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(group) + 0.27083 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.54167 * CGRectGetHeight(group))];
     [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.41667 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.68750 * CGRectGetHeight(group))];
     [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.75000 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.35417 * CGRectGetHeight(group))];
     bezierPath.lineCapStyle = kCGLineCapSquare;
     
+    // Set color of check mark
     [[UIColor whiteColor] setStroke];
     bezierPath.lineWidth = 1.3;
     [bezierPath stroke];
 }
 
-- (void) drawRectOpenCircle: (CGRect) rect {
+/**
+ Draw unchecked state in CheckMarkStyleOpenCircle
+
+ @param rect - rect to draw
+ */
+- (void)drawRectOpenCircle:(CGRect)rect {
+    // Set border and corner radius of check box
     self.layer.cornerRadius = self.frame.size.width/2;
     [self.layer setBorderWidth:1];
     [self.layer setBorderColor:[UIColor lightGrayColor].CGColor];
     self.clipsToBounds = YES;
     
+    // Set background of check box
     [self setBackgroundColor:[UIColor whiteColor]];
     [self.backgroundColor setFill];
     CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
