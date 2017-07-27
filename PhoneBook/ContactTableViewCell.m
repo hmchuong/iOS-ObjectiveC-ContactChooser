@@ -7,6 +7,7 @@
 //
 
 #import "ContactTableViewCell.h"
+#import "ContactChooserViewController.h"
 #import "CheckBox.h"
 
 @interface ContactTableViewCell()
@@ -34,8 +35,12 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
     [_checkBox setChecked:selected];
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    
 }
 
 @end

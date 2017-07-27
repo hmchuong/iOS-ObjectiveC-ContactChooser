@@ -87,4 +87,6 @@
 
 - (NSInteger)indexOfObject: (NSObject *)object;
 
+- (BOOL)containsObject: (id)object;
+
 @end

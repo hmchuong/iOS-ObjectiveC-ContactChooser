@@ -174,4 +174,12 @@
     return result;
 }
 
+- (BOOL)containsObject: (id)object {
+    BOOL __block result;
+    dispatch_sync(_tsQueue, ^{
+        result = [_internalArray containsObject:object];
+    });
+    return result;
+}
+
 @end

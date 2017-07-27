@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Contact.h"
 
-@interface ContactChooserViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ContactChooserViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 
 @end
