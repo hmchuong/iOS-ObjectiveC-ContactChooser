@@ -166,4 +166,12 @@
     return result;
 }
 
+- (NSInteger)indexOfObject: (NSObject *)object {
+    NSInteger __block result;
+    dispatch_sync(_tsQueue, ^{
+        result = [_internalArray indexOfObject:object];
+    });
+    return result;
+}
+
 @end

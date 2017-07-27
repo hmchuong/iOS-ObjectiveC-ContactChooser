@@ -85,4 +85,6 @@
 
 - (NSArray *)filteredArrayUsingPredicate: (NSPredicate *) predicate;
 
+- (NSInteger)indexOfObject: (NSObject *)object;
+
 @end

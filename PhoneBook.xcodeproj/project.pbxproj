@@ -10,6 +10,7 @@
 		397D9EEFF3D3195577599407 /* libPods-PhoneBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38318158CF17D8735E9B9319 /* libPods-PhoneBook.a */; };
 		4EA0DD2352DEB4FDBB6B51F0 /* libPods-PhoneBookUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0C9A4E079A07D9BA3F588E /* libPods-PhoneBookUITests.a */; };
 		789A9B5FAF7DE5E0FA009407 /* libPods-PhoneBookTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D334FF3A1984498A2D0C80D6 /* libPods-PhoneBookTests.a */; };
+		AD7CEA6F1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7CEA6E1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.m */; };
 		C83F201D1F273F8D00A1D67A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F201C1F273F8D00A1D67A /* main.m */; };
 		C83F20201F273F8D00A1D67A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F201F1F273F8D00A1D67A /* AppDelegate.m */; };
 		C83F20261F273F8D00A1D67A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C83F20241F273F8D00A1D67A /* Main.storyboard */; };
@@ -51,6 +52,8 @@
 		6C8F45F1DD5798C39D264A5D /* Pods-PhoneBook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBook.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBook/Pods-PhoneBook.debug.xcconfig"; sourceTree = "<group>"; };
 		85F8EA26513558B76173CD18 /* Pods-PhoneBookTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBookTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBookTests/Pods-PhoneBookTests.release.xcconfig"; sourceTree = "<group>"; };
 		9923D378F863E08E7C25AD4E /* Pods-PhoneBookUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBookUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBookUITests/Pods-PhoneBookUITests.release.xcconfig"; sourceTree = "<group>"; };
+		AD7CEA6D1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChosenContactCollectionViewCell.h; sourceTree = "<group>"; };
+		AD7CEA6E1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChosenContactCollectionViewCell.m; sourceTree = "<group>"; };
 		C83F20181F273F8D00A1D67A /* PhoneBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C83F201C1F273F8D00A1D67A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C83F201E1F273F8D00A1D67A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -205,6 +208,8 @@
 				C83F20551F27576C00A1D67A /* CheckBox.m */,
 				C849E6511F283EBA0062C24F /* ContactTableViewCell.h */,
 				C849E6521F283EBA0062C24F /* ContactTableViewCell.m */,
+				AD7CEA6D1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.h */,
+				AD7CEA6E1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.m */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -449,7 +454,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		A1F828E30059BC0C9E6F380E /* [CP] Check Pods Manifest.lock */ = {
@@ -464,7 +469,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		AAD8C1667B1A5E70F0CC2CC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -479,7 +484,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		AF2950E60DCA9AF06F44A44B /* [CP] Embed Pods Frameworks */ = {
@@ -524,6 +529,7 @@
 				C83F20561F27576C00A1D67A /* CheckBox.m in Sources */,
 				C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */,
 				C849E64B1F28333B0062C24F /* Contact.m in Sources */,
+				AD7CEA6F1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,
 				C849E6561F28ACF20062C24F /* ContactChooserViewController.m in Sources */,
 			);
@@ -677,6 +683,7 @@
 			baseConfigurationReference = 6C8F45F1DD5798C39D264A5D /* Pods-PhoneBook.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M3R5747G42;
 				INFOPLIST_FILE = PhoneBook/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -691,6 +698,7 @@
 			baseConfigurationReference = 53D686E785CCFDD6DF51808E /* Pods-PhoneBook.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M3R5747G42;
 				INFOPLIST_FILE = PhoneBook/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;

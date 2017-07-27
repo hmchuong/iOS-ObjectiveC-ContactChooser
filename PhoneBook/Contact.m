@@ -34,13 +34,13 @@
 
 - (NSString*)fullname {
     NSMutableString *showingName = [[NSMutableString alloc] init];
-    if (_lastName != nil) {
+    if (_lastName != nil && [_lastName length] > 0) {
         [showingName appendString:_lastName];
     }
-    if (_middleName != nil) {
+    if (_middleName != nil && [_middleName length] > 0) {
         [showingName appendFormat:@" %@",_middleName];
     }
-    if (_firstName != nil) {
+    if (_firstName != nil && [_firstName length] > 0) {
         [showingName appendFormat:@" %@",_firstName];
     }
     
