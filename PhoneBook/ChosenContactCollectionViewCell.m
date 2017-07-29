@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    // Make circle avatar
     [_avatar.layer setCornerRadius:self.frame.size.width/2];
     _avatar.clipsToBounds = YES;
 }

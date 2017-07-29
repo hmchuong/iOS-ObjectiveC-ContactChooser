@@ -20,25 +20,28 @@
 
 @implementation ContactTableViewCell
 
+#pragma mark - setters
+
 - (void)setContact:(Contact *)contact {
     _contact = contact;
+    
+    // Set avatar + fullname
     [_avatar setImage:[contact avatar]];
     [_name setText:[contact fullname]];
 }
 
 - (void)drawRect:(CGRect)rect {
+    
+    // Make circle avatar
     [_avatar.layer setCornerRadius:_avatar.frame.size.width/2];
     _avatar.clipsToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    [_checkBox setChecked:selected];
-}
-
-- (void)setHighlighted:(BOOL)highlighted {
-    [super setHighlighted:highlighted];
     
+    // Set checked for check box
+    [_checkBox setChecked:selected];
 }
 
 @end

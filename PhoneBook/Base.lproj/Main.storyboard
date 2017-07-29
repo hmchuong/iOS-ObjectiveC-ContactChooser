@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="On3-FV-0fN">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="On3-FV-0fN">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -166,47 +165,15 @@
                     </view>
                     <navigationItem key="navigationItem" title="Danh bạ" id="kjT-zm-wGR"/>
                     <connections>
-                        <outlet property="chosenContactsViewHeight" destination="DGA-xb-bTa" id="Zz1-CP-iKQ"/>
-                        <outlet property="collectionView" destination="xno-gH-2x7" id="CSw-5M-AJh"/>
+                        <outlet property="contactsTableView" destination="TQ9-hO-leO" id="gKp-Ct-D6N"/>
                         <outlet property="searchBar" destination="Cxy-Jo-NvX" id="QKV-Kt-s49"/>
-                        <outlet property="tableView" destination="TQ9-hO-leO" id="S21-kv-uZu"/>
+                        <outlet property="selectedContactsCollectionView" destination="xno-gH-2x7" id="k5Y-O1-5C4"/>
+                        <outlet property="selectedContactsViewHeight" destination="DGA-xb-bTa" id="Kb4-Rl-705"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7RX-SS-FNV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3043.125" y="910"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="uRq-MD-DXf">
-            <objects>
-                <viewController id="IA5-tm-xWe" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ruZ-6Y-OVK"/>
-                        <viewControllerLayoutGuide type="bottom" id="vmp-Eb-mVn"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9Fe-2h-GbG">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SfE-cZ-5Re" customClass="CheckBox">
-                                <rect key="frame" x="26" y="30" width="50" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="PSF-fQ-oCq"/>
-                                    <constraint firstAttribute="width" constant="50" id="wdj-yL-gNs"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="SfE-cZ-5Re" firstAttribute="leading" secondItem="9Fe-2h-GbG" secondAttribute="leadingMargin" constant="10" id="BcQ-sD-ahD"/>
-                            <constraint firstItem="SfE-cZ-5Re" firstAttribute="top" secondItem="ruZ-6Y-OVK" secondAttribute="bottom" constant="10" id="CbK-4t-caT"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kwr-OC-W3S" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="276" y="278"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8JN-vY-ryu">
