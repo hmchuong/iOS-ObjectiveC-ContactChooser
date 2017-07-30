@@ -114,8 +114,8 @@
     if (numberOfRows == 0) {
         // Make a view with message inside
         UILabel *noDataLabel         = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.contactsTableView.bounds.size.width, self.contactsTableView.bounds.size.height/3)];
-        noDataLabel.text             = @"Không tìm thấy kết quả phù hợp";
-        noDataLabel.textColor        = [UIColor blackColor];
+        noDataLabel.text             = NO_DATA_MESSAGE;
+        noDataLabel.textColor        = TEXT_COLOR;
         noDataLabel.textAlignment    = NSTextAlignmentCenter;
         
         UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contactsTableView.bounds.size.width, self.contactsTableView.bounds.size.height)];
@@ -163,10 +163,7 @@
     if (_highlightedIndex != nil && !_isSearching &&
         _highlightedIndex.row == indexPath.row &&
         _highlightedIndex.section == indexPath.section) {
-            contactCell.backgroundColor = [UIColor colorWithRed:230.0/255
-                                                          green:230.0/255
-                                                           blue:230.0/255
-                                                          alpha:1];
+            contactCell.backgroundColor = HIGHLIGHT_COLOR;
     } else {        // Unhighlight cell
         contactCell.backgroundColor = [UIColor clearColor];
     }
@@ -222,7 +219,7 @@
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              // Change height of collection view
-                             _selectedContactsViewHeight.constant = 55;
+                             _selectedContactsViewHeight.constant = HEIGHT_OF_COLLECTION_VIEW;
                              [self.view layoutIfNeeded];
                          }
                          completion:nil];
@@ -240,9 +237,6 @@
         deselectedContact = [sectionArray objectAtIndex:[indexPath row]];
     }
     
-    // Remove the contact from selected contacts
-    [_selectedContacts removeObject:deselectedContact];
-    
     // Remove highlighted index
     _highlightedIndex = nil;
     [[self.contactsTableView cellForRowAtIndexPath:indexPath] setBackgroundColor: [UIColor clearColor]];
@@ -251,11 +245,14 @@
     NSIndexPath *indexInCollectionView = [NSIndexPath indexPathForRow:[_selectedContacts indexOfObject:deselectedContact]
                                                             inSection: 0];
     
+    // Remove the contact from selected contacts
+    [_selectedContacts removeObject:deselectedContact];
+    
     // Perform animation for remove contact in collection view
     [self.selectedContactsCollectionView performBatchUpdates:^ {
         [self.selectedContactsCollectionView deleteItemsAtIndexPaths:@[indexInCollectionView]];
     } completion:nil];
-
+    
     // Animation for hiding collection view if the last contact has been removed
     if ([_selectedContacts count] == 0) {
         [UIView animateWithDuration:0.2
@@ -357,7 +354,7 @@
     }
     
     // Update UI of selected collection cell
-    selectedCell.alpha = 0.5;
+    selectedCell.alpha = ALPHA_OF_HIGHLIGH_COLLECTION_CELL;
     
     
     // Scroll to selected contact in table view
@@ -367,7 +364,7 @@
     _highlightedIndex = indexPathInTableViewOfSelectedContact;
     
     // Highlight cell in table
-    [[self.contactsTableView cellForRowAtIndexPath:_highlightedIndex] setBackgroundColor: [UIColor colorWithRed:230.0/255 green:230.0/255 blue:230.0/255 alpha:1]];
+    [[self.contactsTableView cellForRowAtIndexPath:_highlightedIndex] setBackgroundColor: HIGHLIGHT_COLOR];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -418,6 +415,12 @@
 
 #pragma mark - Utilities
 
+/**
+ Get index path in table view of contact
+
+ @param contact - Contact to get index
+ @return - index path of contact
+ */
 - (NSIndexPath *)getTableViewIndexPathFromContact: (Contact *)contact {
     // Get section title & section index
     NSString *sectionTitle = [NSString stringWithFormat:@"%c",[[contact fullname] characterAtIndex:0]];
@@ -470,30 +473,7 @@
                 }
                 _contacts = [[NSArray alloc] initWithArray:contacts];
                 
-                // filter and remove unexisted sections
-                NSArray *baseSections = @[@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z",@"#"];
-                
-                for (NSString *section in baseSections) {
-                    NSArray *sectionArray;
-                    
-                    if ([section isEqual: @"#"]) {  // filter "#" section
-                        NSString *format = @"[^a-zA-Z]+.*";
-                        sectionArray = [self.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname MATCHES %@",format]];
-                    } else {        // filter another section
-                        sectionArray = [self.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname beginswith[c] %@", section]];
-                    }
-                    
-                    // add section to container
-                    if ([sectionArray count] > 0) {
-                        [_contactsInSections setValue:sectionArray forKey:section];
-                    }
-                }
-                
-                // Sort section titles
-                NSArray *keys = [_contactsInSections allKeys];
-                _sectionTitles = [keys sortedArrayUsingComparator:^(id a, id b) {
-                    return [a compare:b options:NSNumericSearch];
-                }];
+                [self groupContacts];
                 
                 // Reload table view + hide progress indicator
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -504,6 +484,38 @@
         }
     }];
     
+}
+
+/**
+ Group contacts to alphabetical sections
+ */
+- (void)groupContacts {
+    // Add alphabetical sections
+    for (unichar c = 'A'; c <= 'Z'; c++) {
+        NSArray *sectionArray;
+        sectionArray = [self.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname beginswith[c] %@", [NSString stringWithFormat:@"%c",c]]];
+        
+        // Add to section array
+        if ([sectionArray count] > 0) {
+            [_contactsInSections setValue:sectionArray forKey:[NSString stringWithFormat:@"%c",c]];
+        }
+    }
+    
+    // Add "#" section
+    NSString *format = @"[^a-zA-Z]+.*";
+    NSArray *sectionArray;
+    sectionArray = [self.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname MATCHES %@",format]];
+    
+    // Add to section array
+    if ([sectionArray count] > 0) {
+        [_contactsInSections setValue:sectionArray forKey:@"#"];
+    }
+    
+    // Sort section titles
+    NSArray *keys = [_contactsInSections allKeys];
+    _sectionTitles = [keys sortedArrayUsingComparator:^(id a, id b) {
+        return [a compare:b options:NSNumericSearch];
+    }];
 }
 
 /**

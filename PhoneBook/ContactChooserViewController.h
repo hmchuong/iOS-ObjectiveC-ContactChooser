@@ -9,6 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "Contact.h"
 
+#define TEXT_COLOR [UIColor blackColor]
+#define HIGHLIGHT_COLOR [UIColor colorWithRed:230.0/255 \
+                                        green:230.0/255 \
+                                         blue:230.0/255 \
+                                        alpha:1]
+#define HEIGHT_OF_COLLECTION_VIEW 55
+#define ALPHA_OF_HIGHLIGH_COLLECTION_CELL 0.5
+#define NO_DATA_MESSAGE @"Không tìm thấy kết quả phù hợp"
+
 @interface ContactChooserViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 
 @end

@@ -48,7 +48,7 @@
  */
 - (void)drawRectChecked:(CGRect)rect {
     // Set background of check box to checked color
-    [self setBackgroundColor:[UIColor colorWithRed: 73.0/255 green: 149.0/255 blue: 249.0/255 alpha: 1]];
+    [self setBackgroundColor: CHECKED_COLOR];
     [self.backgroundColor setFill];
     CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
     
@@ -71,7 +71,7 @@
     
     // Set color of check mark
     [[UIColor whiteColor] setStroke];
-    bezierPath.lineWidth = 1.3;
+    bezierPath.lineWidth = CHECK_MARK_WIDTH;
     [bezierPath stroke];
 }
 
@@ -84,11 +84,11 @@
     // Set border and corner radius of check box
     self.layer.cornerRadius = self.frame.size.width/2;
     [self.layer setBorderWidth:1];
-    [self.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    [self.layer setBorderColor:UNCHECKED_COLOR.CGColor];
     self.clipsToBounds = YES;
     
     // Set background of check box
-    [self setBackgroundColor:[UIColor lightGrayColor]];
+    [self setBackgroundColor:UNCHECKED_COLOR];
     [self.backgroundColor setFill];
     CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
     
@@ -108,7 +108,7 @@
     
     // Set color of check mark
     [[UIColor whiteColor] setStroke];
-    bezierPath.lineWidth = 1.3;
+    bezierPath.lineWidth = CHECK_MARK_WIDTH;
     [bezierPath stroke];
 }
 
@@ -121,7 +121,7 @@
     // Set border and corner radius of check box
     self.layer.cornerRadius = self.frame.size.width/2;
     [self.layer setBorderWidth:1];
-    [self.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    [self.layer setBorderColor:UNCHECKED_COLOR.CGColor];
     self.clipsToBounds = YES;
     
     // Set background of check box
