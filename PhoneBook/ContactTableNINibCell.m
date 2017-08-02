@@ -8,6 +8,7 @@
 
 #import "ContactTableNINibCell.h"
 #import "SDImageCache.h"
+#import "ImageCache.h"
 
 @implementation ContactTableNINibCell
 
@@ -25,7 +26,7 @@
 
 - (BOOL)shouldUpdateCellWithObject:(Contact *)object {
     // Update UI
-    [_avatar setImage:[SDImageCache.sharedImageCache imageFromCacheForKey:[object avatarKey]]];
+    [_avatar setImage:[ImageCache.sharedInstance imageFromKey:[object avatarKey]]];
     [_name setText:[object fullname]];
     [_avatar.layer setCornerRadius:_avatar.frame.size.width/2];
     _avatar.clipsToBounds = YES;

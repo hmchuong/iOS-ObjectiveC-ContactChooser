@@ -26,6 +26,8 @@
 		C85818961F3081700033577B /* ContactCollectionNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85818941F3081700033577B /* ContactCollectionNINibCell.xib */; };
 		C87AAB161F2F26A000EEE4B6 /* ContactTableNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */; };
 		C87AAB171F2F26A000EEE4B6 /* ContactTableNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */; };
+		C8F4B5241F31C8F200077116 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F4B5231F31C8F200077116 /* ImageCache.m */; };
+		C8F4B5281F31D94A00077116 /* ThreadSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F4B5271F31D94A00077116 /* ThreadSafeMutableDictionary.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,10 @@
 		C87AAB131F2F26A000EEE4B6 /* ContactTableNINibCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactTableNINibCell.h; sourceTree = "<group>"; };
 		C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableNINibCell.m; sourceTree = "<group>"; };
 		C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableNINibCell.xib; sourceTree = "<group>"; };
+		C8F4B5221F31C8F200077116 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
+		C8F4B5231F31C8F200077116 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
+		C8F4B5261F31D94A00077116 /* ThreadSafeMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadSafeMutableDictionary.h; sourceTree = "<group>"; };
+		C8F4B5271F31D94A00077116 /* ThreadSafeMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadSafeMutableDictionary.m; sourceTree = "<group>"; };
 		D334FF3A1984498A2D0C80D6 /* libPods-PhoneBookTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhoneBookTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -228,8 +234,9 @@
 		C849E64C1F283BE50062C24F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C849E64D1F283C160062C24F /* ThreadSafeMutableArray.h */,
-				C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */,
+				C8F4B5251F31D90E00077116 /* ThreadSafeMutableDictionary */,
+				C8F4B5211F31C8CA00077116 /* ImageCache */,
+				C8F4B5201F31C8A500077116 /* ThreadSafeMutableArray */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -261,6 +268,33 @@
 				C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */,
 			);
 			name = ContactTableNINibCell;
+			sourceTree = "<group>";
+		};
+		C8F4B5201F31C8A500077116 /* ThreadSafeMutableArray */ = {
+			isa = PBXGroup;
+			children = (
+				C849E64D1F283C160062C24F /* ThreadSafeMutableArray.h */,
+				C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */,
+			);
+			name = ThreadSafeMutableArray;
+			sourceTree = "<group>";
+		};
+		C8F4B5211F31C8CA00077116 /* ImageCache */ = {
+			isa = PBXGroup;
+			children = (
+				C8F4B5221F31C8F200077116 /* ImageCache.h */,
+				C8F4B5231F31C8F200077116 /* ImageCache.m */,
+			);
+			name = ImageCache;
+			sourceTree = "<group>";
+		};
+		C8F4B5251F31D90E00077116 /* ThreadSafeMutableDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				C8F4B5261F31D94A00077116 /* ThreadSafeMutableDictionary.h */,
+				C8F4B5271F31D94A00077116 /* ThreadSafeMutableDictionary.m */,
+			);
+			name = ThreadSafeMutableDictionary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -553,8 +587,10 @@
 				C83F20561F27576C00A1D67A /* CheckBox.m in Sources */,
 				C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */,
 				C849E64B1F28333B0062C24F /* Contact.m in Sources */,
+				C8F4B5281F31D94A00077116 /* ThreadSafeMutableDictionary.m in Sources */,
 				C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,
+				C8F4B5241F31C8F200077116 /* ImageCache.m in Sources */,
 				C849E6561F28ACF20062C24F /* ContactChooserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

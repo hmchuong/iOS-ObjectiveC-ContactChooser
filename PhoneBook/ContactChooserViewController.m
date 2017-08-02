@@ -17,6 +17,7 @@
 #import "NimbusCollections.h"
 #import "ContactCollectionNINibCell.h"
 #import "SDImageCache.h"
+#import "ImageCache.h"
 
 @interface ContactChooserViewController ()
 
@@ -376,18 +377,17 @@
                         continue;
                     }
                     newContact.avatarKey = [contact identifier];
-                    UIImage *avatar = [SDImageCache.sharedImageCache imageFromCacheForKey:newContact.avatarKey];
+                    UIImage *avatar = [UIImage imageWithData:[contact imageData]];
                     if (avatar == nil) {
-                        avatar = [UIImage imageWithData:[contact imageData]];
-                        if (avatar == nil) {
-                            avatar = [newContact avatarImage];
-                        }
-                        [SDImageCache.sharedImageCache storeImage:avatar
-                                                        imageData:[contact imageData]
-                                                           forKey:newContact.avatarKey
-                                                           toDisk:YES
-                                                       completion:nil];
+                        avatar = [newContact avatarImage];
                     }
+//                    [SDImageCache.sharedImageCache storeImage:avatar
+//                                                    imageData:[contact imageData]
+//                                                       forKey:newContact.avatarKey
+//                                                       toDisk:YES
+//                                                   completion:nil];
+                    [ImageCache.sharedInstance storeImage:avatar
+                                                  withKey:newContact.avatarKey];
                     [contacts addObject:newContact];
                 }
                 self.contacts = contacts;
