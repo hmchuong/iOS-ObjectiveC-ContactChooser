@@ -11,7 +11,6 @@
 #import "ThreadSafeMutableArray.h"
 #import "Contact.h"
 #import "MBProgressHUD.h"
-#import "ChosenContactCollectionViewCell.h"
 #import "NIMutableTableViewModel.h"
 #import "NICellCatalog.h"
 #import "ContactTableNINibCell.h"
@@ -26,20 +25,14 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectedContactsViewHeight;       // Height of selected contacts view
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;                       // Table view contains contacts
 
-#pragma mark - Contacts Container
+#pragma mark - Contacts container
 @property (strong, nonatomic) NSArray *contacts;                                           // All contacts
-@property (strong, nonatomic) NSArray *filteredContacts;                                   // Result contacts of searching
-@property (strong, nonatomic) NSDictionary *contactsInSections;                            // Alphabetically group contacts
-@property (strong, nonatomic) NSArray *sectionTitles;                                      // Title of sections
-//@property (strong, nonatomic) ThreadSafeMutableArray *selectedContacts;                    // Selected contacts
-
-#pragma mark - Properties
-@property BOOL isSearching;                                                                // YES - searching state, NO - non searching state
-
 @property (retain, nonatomic) NIMutableTableViewModel *contactsModel;
 @property (retain, nonatomic) NIMutableTableViewModel *filteredContactsModel;
 @property (retain, nonatomic) NIMutableCollectionViewModel * selectedContactsModel;
-@property (strong, nonatomic) NSIndexPath *prevHighlightedIndex;
+
+#pragma mark - Properties
+@property BOOL isSearching;                                                                // YES - searching state, NO - non searching state
 
 @end
 
@@ -49,10 +42,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // init arrays
-    _contactsInSections = [[NSMutableDictionary alloc] init];
-    //_selectedContacts = [[ThreadSafeMutableArray alloc] init];
     
     // Hide selected contacts view
     [_selectedContactsViewHeight setConstant:0];
@@ -251,17 +240,16 @@
         self.contactsTableView.backgroundView = nil;
     } else {
         _isSearching = YES;
-        
         // Filter data with searchText
         NSPredicate *resultPredicate = [NSPredicate
                                         predicateWithFormat:@"SELF.fullname CONTAINS[cd] %@",
                                         searchText];
-        _filteredContacts = [_contacts filteredArrayUsingPredicate:resultPredicate];
-        _filteredContactsModel = [[NIMutableTableViewModel alloc] initWithListArray:_filteredContacts
+        NSArray *filteredContacts = [_contacts filteredArrayUsingPredicate:resultPredicate];
+        _filteredContactsModel = [[NIMutableTableViewModel alloc] initWithListArray:filteredContacts
                                                                     delegate:self];
         self.contactsTableView.dataSource = _filteredContactsModel;
         
-        if ([_filteredContacts count] == 0) {
+        if ([filteredContacts count] == 0) {
             UILabel *noDataLabel         = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.contactsTableView.bounds.size.width, self.contactsTableView.bounds.size.height/3)];
             noDataLabel.text             = NO_DATA_MESSAGE;
             noDataLabel.textColor        = TEXT_COLOR;
@@ -356,30 +344,6 @@
         [self.contactsTableView scrollToRowAtIndexPath:indexPathInTableViewOfSelectedContact atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
 }
-
-/**
- Get index path in table view of contact
-
- @param contact - Contact to get index
- @return - index path of contact
- */
-- (NSIndexPath *)getTableViewIndexPathFromContact: (Contact *)contact {
-    // Get section title & section index
-    NSString *sectionTitle = [NSString stringWithFormat:@"%c",[[contact fullname] characterAtIndex:0]];
-    
-    if(![_sectionTitles containsObject:sectionTitle]) {
-        sectionTitle = @"#";
-    }
-    
-    NSUInteger sectionIndexOfSelectedContact = [_sectionTitles indexOfObject:sectionTitle];
-    
-    // Get row index
-    NSArray *sectionArray = [_contactsInSections objectForKey:sectionTitle];
-    NSUInteger rowIndexOfSelectedContact = [sectionArray indexOfObject:contact];
-    
-    return [NSIndexPath indexPathForRow:rowIndexOfSelectedContact inSection:sectionIndexOfSelectedContact];
-}
-
 /**
  Load contacts from phone book
  */

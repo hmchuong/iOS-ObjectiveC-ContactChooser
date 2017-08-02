@@ -49,34 +49,7 @@
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                         </collectionViewFlowLayout>
-                                        <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChosenContactCollectionViewCell" id="zH6-lz-t8r" customClass="ChosenContactCollectionViewCell">
-                                                <rect key="frame" x="10" y="0.0" width="40" height="55"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                    <rect key="frame" x="0.0" y="0.0" width="40" height="55"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c0I-Ok-2VV">
-                                                            <rect key="frame" x="0.0" y="11.5" width="40" height="40"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="40" id="Shj-wq-dup"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                    </subviews>
-                                                </view>
-                                                <color key="backgroundColor" red="0.89796036479999997" green="0.89808970690000001" blue="0.89793205259999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstItem="c0I-Ok-2VV" firstAttribute="leading" secondItem="zH6-lz-t8r" secondAttribute="leading" id="SqJ-Dr-E9F"/>
-                                                    <constraint firstItem="c0I-Ok-2VV" firstAttribute="centerY" secondItem="zH6-lz-t8r" secondAttribute="centerY" constant="4" id="c8Z-PC-qQ1"/>
-                                                    <constraint firstAttribute="trailing" secondItem="c0I-Ok-2VV" secondAttribute="trailing" id="rde-1U-0tH"/>
-                                                </constraints>
-                                                <size key="customSize" width="40" height="55"/>
-                                                <connections>
-                                                    <outlet property="avatar" destination="c0I-Ok-2VV" id="oi3-Fx-0sz"/>
-                                                </connections>
-                                            </collectionViewCell>
-                                        </cells>
+                                        <cells/>
                                         <connections>
                                             <outlet property="delegate" destination="8eG-Yc-pcB" id="KPp-6l-k9q"/>
                                         </connections>
@@ -98,53 +71,6 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.82737809419999997" green="0.82749772070000005" blue="0.82735186819999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ContactTableViewCell" rowHeight="70" id="SkR-8h-Nh5" customClass="ContactTableView">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="70"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SkR-8h-Nh5" id="jZm-YE-JBF">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IeT-z1-tEm">
-                                                    <rect key="frame" x="115" y="24" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tXD-l2-V0h">
-                                                    <rect key="frame" x="55" y="9" width="50" height="50.5"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="9aC-PR-hDa"/>
-                                                        <constraint firstAttribute="height" constant="50" id="udw-gP-soc"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLD-kH-QEq" customClass="CheckBox">
-                                                    <rect key="frame" x="10" y="22" width="25" height="25"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="Ugx-uI-otd"/>
-                                                        <constraint firstAttribute="width" constant="25" id="tlb-0e-sdS"/>
-                                                    </constraints>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="tXD-l2-V0h" firstAttribute="leading" secondItem="aLD-kH-QEq" secondAttribute="trailing" constant="20" id="Fj2-Yn-GhD"/>
-                                                <constraint firstItem="IeT-z1-tEm" firstAttribute="centerY" secondItem="jZm-YE-JBF" secondAttribute="centerY" id="JNz-nX-kRd"/>
-                                                <constraint firstItem="IeT-z1-tEm" firstAttribute="leading" secondItem="tXD-l2-V0h" secondAttribute="trailing" constant="10" id="OLX-vI-XTW"/>
-                                                <constraint firstItem="tXD-l2-V0h" firstAttribute="centerY" secondItem="jZm-YE-JBF" secondAttribute="centerY" id="PP3-te-Azn"/>
-                                                <constraint firstItem="aLD-kH-QEq" firstAttribute="centerY" secondItem="jZm-YE-JBF" secondAttribute="centerY" id="ShR-Up-rlq"/>
-                                                <constraint firstItem="aLD-kH-QEq" firstAttribute="leading" secondItem="jZm-YE-JBF" secondAttribute="leading" constant="10" id="UxJ-1S-N7E"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <inset key="separatorInset" minX="115" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <connections>
-                                            <outlet property="avatar" destination="tXD-l2-V0h" id="2H6-qy-j9G"/>
-                                            <outlet property="checkBox" destination="aLD-kH-QEq" id="CJz-d0-VTe"/>
-                                            <outlet property="name" destination="IeT-z1-tEm" id="RBi-zx-XXB"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="delegate" destination="8eG-Yc-pcB" id="EWk-pG-qgp"/>
                                 </connections>
