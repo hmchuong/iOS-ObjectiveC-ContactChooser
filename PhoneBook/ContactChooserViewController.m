@@ -16,6 +16,7 @@
 #import "ContactTableNINibCell.h"
 #import "NimbusCollections.h"
 #import "ContactCollectionNINibCell.h"
+#import "SDImageCache.h"
 
 @interface ContactChooserViewController ()
 
@@ -355,7 +356,7 @@
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (granted == YES) {
             //keys with fetching properties
-            NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactMiddleNameKey, CNContactImageDataKey];
+            NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactMiddleNameKey, CNContactImageDataKey, CNContactIdentifierKey];
             NSString *containerId = store.defaultContainerIdentifier;
             NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
             NSError *error;
@@ -371,11 +372,22 @@
                     newContact.firstname = [contact givenName];
                     newContact.lastname = [contact familyName];
                     newContact.middlename = [contact middleName];
-                    newContact.avatar = [UIImage imageWithData:[contact imageData]];
                     if ([newContact.fullname length] == 0) {
                         continue;
                     }
-                    
+                    newContact.avatarKey = [contact identifier];
+                    UIImage *avatar = [SDImageCache.sharedImageCache imageFromCacheForKey:newContact.avatarKey];
+                    if (avatar == nil) {
+                        avatar = [UIImage imageWithData:[contact imageData]];
+                        if (avatar == nil) {
+                            avatar = [newContact avatarImage];
+                        }
+                        [SDImageCache.sharedImageCache storeImage:avatar
+                                                        imageData:[contact imageData]
+                                                           forKey:newContact.avatarKey
+                                                           toDisk:YES
+                                                       completion:nil];
+                    }
                     [contacts addObject:newContact];
                 }
                 self.contacts = contacts;
@@ -384,7 +396,6 @@
                 // Reload table view + hide progress indicator
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.contactsTableView reloadData];
-                    //[self.contactsTableView reloadSectionIndexTitles];
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                 });
             }

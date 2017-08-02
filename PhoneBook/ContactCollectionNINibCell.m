@@ -7,6 +7,7 @@
 //
 
 #import "ContactCollectionNINibCell.h"
+#import "SDImageCache.h"
 
 @implementation ContactCollectionNINibCell
 
@@ -18,7 +19,7 @@
 }
 
 - (BOOL)shouldUpdateCellWithObject:(Contact *)object {
-    [_avatar setImage:[object avatar]];
+    [_avatar setImage:[SDImageCache.sharedImageCache imageFromCacheForKey:[object avatarKey]]];
     
     if ([object isHighlighted]) {
         self.alpha = ALPHA_OF_HIGHLIGH_COLLECTION_CELL;

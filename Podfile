@@ -7,7 +7,8 @@ target 'PhoneBook' do
 
   # Pods for PhoneBook
   pod 'MBProgressHUD', '~> 1.0.0'
-  pod 'Nimbus'
+  pod 'Nimbus', '~> 1.3.0'
+  pod 'SDWebImage', '~> 4.0.0'
   target 'PhoneBookTests' do
     inherit! :search_paths
     # Pods for testing

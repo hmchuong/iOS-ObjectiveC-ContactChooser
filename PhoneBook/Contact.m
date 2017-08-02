@@ -27,40 +27,6 @@
 #pragma mark - getters
 
 /**
- Getter of avatar
-
- @return - avatar UIImage
- */
-- (UIImage*)avatar {
-    
-    if (_avatar == nil) {
-        // Make avatar from represented name's characters
-        // Split fullname to tokens
-        NSArray *tokensOfFullname = [self.fullname componentsSeparatedByString:@" "];
-        
-        NSString *representName;
-        
-        if ([tokensOfFullname count] > 1) {   // fullname has more than 1 word.
-            // Get first characters of first and last word.
-            NSString *firstToken = [tokensOfFullname objectAtIndex:0];
-            NSString *lastToken = [tokensOfFullname objectAtIndex:[tokensOfFullname count]-1];
-            
-            // Link the two characters.
-            representName = [[NSString alloc] initWithFormat:@"%c%c",[firstToken characterAtIndex:0],[lastToken characterAtIndex:0]];
-        } else {
-            // Get only the first character of the only word for representing name.
-            NSString *firstToken = [tokensOfFullname objectAtIndex:0];
-            representName = [[NSString alloc] initWithFormat:@"%c",[firstToken characterAtIndex:0]];
-        }
-        
-        // Make UIImage from representing name
-        _avatar = [self imageFromText:representName];
-    }
-    
-    return _avatar;
-}
-
-/**
  Getter of fullname
 
  @return - fullname: lastname + middlename + firstname
@@ -86,17 +52,15 @@
 #pragma mark - utilities
 
 /**
- Make image from text
-
- @param text - text to draw image
+ Make image avatar
  @return - UIImage with text inside
  */
--(UIImage *)imageFromText:(NSString *)text {
+- (UIImage *)avatarImage {
     // Create label contains text
     UILabel *lblNameInitialize = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
     lblNameInitialize.textColor = [UIColor whiteColor];
     [lblNameInitialize setFont:[UIFont fontWithName:@"Helvetica" size:40]];
-    lblNameInitialize.text = text;
+    lblNameInitialize.text = [self getRepresentCharacters];
     lblNameInitialize.textAlignment = NSTextAlignmentCenter;
     lblNameInitialize.backgroundColor = UIColorFromHex(0x49BA96);
     
@@ -119,10 +83,35 @@
 
 - (BOOL)isEqual:(id)object {
     Contact *compareObject = (Contact *)object;
-    if ([self.fullname isEqual:compareObject.fullname] && [self.avatar isEqual:compareObject.avatar]) {
+    if ([self.fullname isEqual:compareObject.fullname] && [self.avatarKey isEqual:compareObject.avatarKey]) {
         return YES;
     }
     return NO;
+}
+
+/**
+ Get represent characters from name
+
+ @return - characters represent the contact's name
+ */
+- (NSString *)getRepresentCharacters {
+    NSArray *tokensOfFullname = [self.fullname componentsSeparatedByString:@" "];
+    
+    NSString *representName;
+    
+    if ([tokensOfFullname count] > 1) {   // fullname has more than 1 word.
+        // Get first characters of first and last word.
+        NSString *firstToken = [tokensOfFullname objectAtIndex:0];
+        NSString *lastToken = [tokensOfFullname objectAtIndex:[tokensOfFullname count]-1];
+        
+        // Link the two characters.
+        representName = [[NSString alloc] initWithFormat:@"%c%c",[firstToken characterAtIndex:0],[lastToken characterAtIndex:0]];
+    } else {
+        // Get only the first character of the only word for representing name.
+        NSString *firstToken = [tokensOfFullname objectAtIndex:0];
+        representName = [[NSString alloc] initWithFormat:@"%c",[firstToken characterAtIndex:0]];
+    }
+    return representName;
 }
 
 
