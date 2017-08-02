@@ -10,6 +10,8 @@
 #import "NimbusCollections.h"
 #import "Contact.h"
 
+#define ALPHA_OF_HIGHLIGH_COLLECTION_CELL 0.5
+
 @interface ContactCollectionNINibCell : UICollectionViewCell<NICollectionViewCell>
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;

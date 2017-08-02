@@ -13,12 +13,18 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    [_avatar.layer setCornerRadius:self.frame.size.width/2];
+    _avatar.clipsToBounds = YES;
 }
 
 - (BOOL)shouldUpdateCellWithObject:(Contact *)object {
     [_avatar setImage:[object avatar]];
-    [_avatar.layer setCornerRadius:self.frame.size.width/2];
-    _avatar.clipsToBounds = YES;
+    
+    if ([object isHighlighted]) {
+        self.alpha = ALPHA_OF_HIGHLIGH_COLLECTION_CELL;
+    } else {
+        self.alpha = 1;
+    }
     return YES;
 }
 
