@@ -7,6 +7,8 @@
 //
 
 #import "Contact.h"
+#import "ContactCollectionNINibCell.h"
+#import "ContactTableNINibCell.h"
 
 /**
  Macro for get UIColor from hex value
@@ -106,5 +108,22 @@
     
     return returnImage;
 }
+
+- (UINib *)cellNib {
+    return [UINib nibWithNibName:NSStringFromClass([ContactTableNINibCell class]) bundle:nil];
+}
+
+- (UINib *)collectionViewCellNib {
+    return [UINib nibWithNibName:NSStringFromClass([ContactCollectionNINibCell class]) bundle:nil];
+}
+
+- (BOOL)isEqual:(id)object {
+    Contact *compareObject = (Contact *)object;
+    if ([self.fullname isEqual:compareObject.fullname] && [self.avatar isEqual:compareObject.avatar]) {
+        return YES;
+    }
+    return NO;
+}
+
 
 @end

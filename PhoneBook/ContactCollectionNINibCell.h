@@ -10,15 +10,6 @@
 #import "NimbusCollections.h"
 #import "Contact.h"
 
-@interface ContactCollectionNINibCellObject : NSObject<NICollectionViewNibCellObject>
-
-@property (strong, nonatomic) Contact* contact;
-
-+ (instancetype)objectWithContact:(Contact *)contact;
-+ (NSArray *)genterateCellArrayFromContactArray:(NSArray *)contacts;
-
-@end
-
 @interface ContactCollectionNINibCell : UICollectionViewCell<NICollectionViewCell>
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;

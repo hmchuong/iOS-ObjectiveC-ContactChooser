@@ -22,8 +22,11 @@
 		C83F20561F27576C00A1D67A /* CheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20551F27576C00A1D67A /* CheckBox.m */; };
 		C849E64B1F28333B0062C24F /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64A1F28333B0062C24F /* Contact.m */; };
 		C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */; };
-		C849E6531F283EBA0062C24F /* ContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E6521F283EBA0062C24F /* ContactTableViewCell.m */; };
 		C849E6561F28ACF20062C24F /* ContactChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E6551F28ACF20062C24F /* ContactChooserViewController.m */; };
+		C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C85818931F3081700033577B /* ContactCollectionNINibCell.m */; };
+		C85818961F3081700033577B /* ContactCollectionNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85818941F3081700033577B /* ContactCollectionNINibCell.xib */; };
+		C87AAB161F2F26A000EEE4B6 /* ContactTableNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */; };
+		C87AAB171F2F26A000EEE4B6 /* ContactTableNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,10 +78,14 @@
 		C849E64A1F28333B0062C24F /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		C849E64D1F283C160062C24F /* ThreadSafeMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadSafeMutableArray.h; sourceTree = "<group>"; };
 		C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadSafeMutableArray.m; sourceTree = "<group>"; };
-		C849E6511F283EBA0062C24F /* ContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactTableViewCell.h; sourceTree = "<group>"; };
-		C849E6521F283EBA0062C24F /* ContactTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableViewCell.m; sourceTree = "<group>"; };
 		C849E6541F28ACF20062C24F /* ContactChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactChooserViewController.h; sourceTree = "<group>"; };
 		C849E6551F28ACF20062C24F /* ContactChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactChooserViewController.m; sourceTree = "<group>"; };
+		C85818921F3081700033577B /* ContactCollectionNINibCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCollectionNINibCell.h; sourceTree = "<group>"; };
+		C85818931F3081700033577B /* ContactCollectionNINibCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCollectionNINibCell.m; sourceTree = "<group>"; };
+		C85818941F3081700033577B /* ContactCollectionNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCollectionNINibCell.xib; sourceTree = "<group>"; };
+		C87AAB131F2F26A000EEE4B6 /* ContactTableNINibCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactTableNINibCell.h; sourceTree = "<group>"; };
+		C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableNINibCell.m; sourceTree = "<group>"; };
+		C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableNINibCell.xib; sourceTree = "<group>"; };
 		D334FF3A1984498A2D0C80D6 /* libPods-PhoneBookTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhoneBookTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -204,10 +211,10 @@
 		C83F20571F27577200A1D67A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				C85818911F30815B0033577B /* ContactCollectionNINibCell */,
+				C87AAB121F2F257A00EEE4B6 /* ContactTableNINibCell */,
 				C83F20541F27576C00A1D67A /* CheckBox.h */,
 				C83F20551F27576C00A1D67A /* CheckBox.m */,
-				C849E6511F283EBA0062C24F /* ContactTableViewCell.h */,
-				C849E6521F283EBA0062C24F /* ContactTableViewCell.m */,
 				AD7CEA6D1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.h */,
 				AD7CEA6E1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.m */,
 			);
@@ -239,6 +246,26 @@
 				C849E6551F28ACF20062C24F /* ContactChooserViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		C85818911F30815B0033577B /* ContactCollectionNINibCell */ = {
+			isa = PBXGroup;
+			children = (
+				C85818921F3081700033577B /* ContactCollectionNINibCell.h */,
+				C85818931F3081700033577B /* ContactCollectionNINibCell.m */,
+				C85818941F3081700033577B /* ContactCollectionNINibCell.xib */,
+			);
+			name = ContactCollectionNINibCell;
+			sourceTree = "<group>";
+		};
+		C87AAB121F2F257A00EEE4B6 /* ContactTableNINibCell */ = {
+			isa = PBXGroup;
+			children = (
+				C87AAB131F2F26A000EEE4B6 /* ContactTableNINibCell.h */,
+				C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */,
+				C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */,
+			);
+			name = ContactTableNINibCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -359,6 +386,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C87AAB171F2F26A000EEE4B6 /* ContactTableNINibCell.xib in Resources */,
+				C85818961F3081700033577B /* ContactCollectionNINibCell.xib in Resources */,
 				C83F202B1F273F8D00A1D67A /* LaunchScreen.storyboard in Resources */,
 				C83F20281F273F8D00A1D67A /* Assets.xcassets in Resources */,
 				C83F20261F273F8D00A1D67A /* Main.storyboard in Resources */,
@@ -454,7 +483,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		A1F828E30059BC0C9E6F380E /* [CP] Check Pods Manifest.lock */ = {
@@ -469,7 +498,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		AAD8C1667B1A5E70F0CC2CC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -484,7 +513,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		AF2950E60DCA9AF06F44A44B /* [CP] Embed Pods Frameworks */ = {
@@ -524,11 +553,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C849E6531F283EBA0062C24F /* ContactTableViewCell.m in Sources */,
+				C87AAB161F2F26A000EEE4B6 /* ContactTableNINibCell.m in Sources */,
 				C83F20201F273F8D00A1D67A /* AppDelegate.m in Sources */,
 				C83F20561F27576C00A1D67A /* CheckBox.m in Sources */,
 				C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */,
 				C849E64B1F28333B0062C24F /* Contact.m in Sources */,
+				C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */,
 				AD7CEA6F1F2948FE00CA6A5A /* ChosenContactCollectionViewCell.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,
 				C849E6561F28ACF20062C24F /* ContactChooserViewController.m in Sources */,

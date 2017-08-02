@@ -6,9 +6,9 @@
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ContactRowNINibCell.h"
+#import "ContactTableNINibCell.h"
 
-@implementation ContactRowNINibCell
+@implementation ContactTableNINibCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -19,6 +19,21 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+    [_checkBox setChecked:selected];
+}
+
+- (BOOL)shouldUpdateCellWithObject:(Contact *)object {
+    // Update UI
+    [_avatar setImage:[object avatar]];
+    [_name setText:[object fullname]];
+    [_avatar.layer setCornerRadius:_avatar.frame.size.width/2];
+    _avatar.clipsToBounds = YES;
+    if (object.isHighlighted) {
+        self.backgroundColor = HIGHLIGHT_COLOR;
+    } else {
+        self.backgroundColor = [UIColor clearColor];
+    }
+    return YES;
 }
 
 @end

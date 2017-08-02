@@ -182,4 +182,12 @@
     return result;
 }
 
+- (NSArray *)toNSArray {
+    NSArray __block *array;
+    dispatch_sync(_tsQueue, ^{
+        array = [[NSArray alloc] initWithArray:_internalArray];
+    });
+    return array;
+}
+
 @end

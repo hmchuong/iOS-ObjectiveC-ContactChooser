@@ -10,9 +10,13 @@
 #import <Contacts/Contacts.h>
 #import "ThreadSafeMutableArray.h"
 #import "Contact.h"
-#import "ContactTableViewCell.h"
 #import "MBProgressHUD.h"
 #import "ChosenContactCollectionViewCell.h"
+#import "NIMutableTableViewModel.h"
+#import "NICellCatalog.h"
+#import "ContactTableNINibCell.h"
+#import "NimbusCollections.h"
+#import "ContactCollectionNINibCell.h"
 
 @interface ContactChooserViewController ()
 
@@ -28,10 +32,13 @@
 @property (strong, nonatomic) NSDictionary *contactsInSections;                            // Alphabetically group contacts
 @property (strong, nonatomic) NSArray *sectionTitles;                                      // Title of sections
 @property (strong, nonatomic) ThreadSafeMutableArray *selectedContacts;                    // Selected contacts
-@property (strong, nonatomic) NSIndexPath *highlightedIndex;                               // Index of higlighted contact in selected contacts
 
 #pragma mark - Properties
 @property BOOL isSearching;                                                                // YES - searching state, NO - non searching state
+
+@property (retain, nonatomic) NIMutableTableViewModel *contactsModel;
+@property (retain, nonatomic) NIMutableTableViewModel *filteredContactsModel;
+@property (retain, nonatomic) NIMutableCollectionViewModel * selectedContactsModel;
 
 @end
 
@@ -54,6 +61,9 @@
     
     // Load contacts from phone book
     [self loadContacts];
+    
+    _selectedContactsModel = [[NIMutableCollectionViewModel alloc] initWithDelegate:self];
+    self.selectedContactsCollectionView.dataSource = _selectedContactsModel;
 }
 
 #pragma mark - ScrollViewDelegate
@@ -65,155 +75,84 @@
 
 #pragma mark - TableViewDelegate
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // If searching, all results in 1 section
-    if (_isSearching) {
-        return 1;
-    }
-    
-    // Return #sections
-    return [_sectionTitles count];
-    
-}
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    NSInteger numberOfRows;
+//    
+//    if (_isSearching) {     // Number of rows is number of filtered contacts
+//        numberOfRows = [_filteredContacts count];
+//    } else {                // Number of rows is number of contacts in section
+//        NSArray *sectionArray = [_contactsInSections objectForKey:[_sectionTitles objectAtIndex:section]];
+//        numberOfRows = [sectionArray count];
+//    }
+//    
+//    // If there is no row, show 'no result' message
+//    if (numberOfRows == 0) {
+//        // Make a view with message inside
+//        UILabel *noDataLabel         = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.contactsTableView.bounds.size.width, self.contactsTableView.bounds.size.height/3)];
+//        noDataLabel.text             = NO_DATA_MESSAGE;
+//        noDataLabel.textColor        = TEXT_COLOR;
+//        noDataLabel.textAlignment    = NSTextAlignmentCenter;
+//        
+//        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contactsTableView.bounds.size.width, self.contactsTableView.bounds.size.height)];
+//        [backgroundView addSubview:noDataLabel];
+//        
+//        // Add to table view background
+//        self.contactsTableView.backgroundView = backgroundView;
+//        self.contactsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    } else {
+//        // Remove table view background
+//        self.contactsTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+//        self.contactsTableView.backgroundView = nil;
+//    }
+//    
+//    return numberOfRows;
+//}
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    // If searching, return no section index
-    if (_isSearching) {
-        return nil;
-    }
-    
-    // Return section
-    return _sectionTitles;
-    
-}
-
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    return index;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    // If searching, return no section title
-    if (_isSearching) {
-        return nil;
-    }
-    // Return section title
-    return [_sectionTitles objectAtIndex:section];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger numberOfRows;
-    
-    if (_isSearching) {     // Number of rows is number of filtered contacts
-        numberOfRows = [_filteredContacts count];
-    } else {                // Number of rows is number of contacts in section
-        NSArray *sectionArray = [_contactsInSections objectForKey:[_sectionTitles objectAtIndex:section]];
-        numberOfRows = [sectionArray count];
-    }
-    
-    // If there is no row, show 'no result' message
-    if (numberOfRows == 0) {
-        // Make a view with message inside
-        UILabel *noDataLabel         = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.contactsTableView.bounds.size.width, self.contactsTableView.bounds.size.height/3)];
-        noDataLabel.text             = NO_DATA_MESSAGE;
-        noDataLabel.textColor        = TEXT_COLOR;
-        noDataLabel.textAlignment    = NSTextAlignmentCenter;
-        
-        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contactsTableView.bounds.size.width, self.contactsTableView.bounds.size.height)];
-        [backgroundView addSubview:noDataLabel];
-        
-        // Add to table view background
-        self.contactsTableView.backgroundView = backgroundView;
-        self.contactsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    } else {
-        // Remove table view background
-        self.contactsTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        self.contactsTableView.backgroundView = nil;
-    }
-    
-    return numberOfRows;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    // Get Contact view cell to render
-    NSString *cellIdentifier = @"ContactTableViewCell";
-    ContactTableViewCell *contactCell;
-    
-    @try {
-        contactCell = [self.contactsTableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    } @catch (NSException *exception) {
-        NSLog(@"The dequeued cell is not an instance of %@",cellIdentifier);
-    }
-    
-    // Get contact data at indexPath
-    Contact *contact;
-    if (_isSearching) {
-        contact = [_filteredContacts objectAtIndex:[indexPath row]];
-    } else {
-        NSArray *sectionArray = [_contactsInSections objectForKey:[_sectionTitles objectAtIndex:[indexPath section]]];
-        contact = [sectionArray objectAtIndex:[indexPath row]];
-    }
-    
-    // Update UI of contact view cell
-    dispatch_async(dispatch_get_main_queue(), ^{
-        contactCell.contact = contact;
-    });
-    
-    // Highlight cell if needed
-    if (_highlightedIndex != nil && !_isSearching &&
-        _highlightedIndex.row == indexPath.row &&
-        _highlightedIndex.section == indexPath.section) {
-            contactCell.backgroundColor = HIGHLIGHT_COLOR;
-    } else {        // Unhighlight cell
-        contactCell.backgroundColor = [UIColor clearColor];
-    }
-   
-    return contactCell;
-}
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // Get contact at indexPath
     Contact *contact;
     if (_isSearching) {
-        contact = [_filteredContacts objectAtIndex:[indexPath row]];
+        contact = [_filteredContactsModel objectAtIndexPath:indexPath];
     } else {
-        NSArray *sectionArray = [_contactsInSections objectForKey:[_sectionTitles objectAtIndex:[indexPath section]]];
-        contact = [sectionArray objectAtIndex:[indexPath row]];
+        contact = [_contactsModel objectAtIndexPath:indexPath];
     }
     
-    // Set selected cell after reload table view
-    if ([_selectedContacts containsObject:contact]) {
+    if ([_selectedContactsModel indexPathForObject:contact]) {
         [cell setSelected:YES animated:YES];
     }
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Get section array
-    NSArray *sectionArray;
+    // Get selected contact
+    Contact *selectedContact;
     if (_isSearching) {
-        sectionArray = _filteredContacts;
+        selectedContact = [_filteredContactsModel objectAtIndexPath:indexPath];
     } else {
-        sectionArray = [_contactsInSections objectForKey:[_sectionTitles objectAtIndex:[indexPath section]]];
+        selectedContact = [_contactsModel objectAtIndexPath:indexPath];
     }
     
     // Add object to selected contacts
-    [_selectedContacts addObject:[sectionArray objectAtIndex:[indexPath row]]];
     
-    // Get index of just added contact in collection view
-    NSIndexPath *indexInCollectionView = [NSIndexPath indexPathForRow:[_selectedContacts count]-1
-                                                            inSection: 0];
+    NSArray *indexPathAfterInsert = [_selectedContactsModel addObject:selectedContact];
+    [self.selectedContactsCollectionView reloadData];
     
-    // Perform animation for adding new selected contact in collection view
-    [self.selectedContactsCollectionView performBatchUpdates:^ {
-        [self.selectedContactsCollectionView insertItemsAtIndexPaths:@[indexInCollectionView]];
-    } completion:^(BOOL success){
-        [self.selectedContactsCollectionView.collectionViewLayout invalidateLayout];
-        [self.selectedContactsCollectionView.collectionViewLayout prepareLayout];
-    }];
+//    // Get index of just added contact in collection view
+//    NSIndexPath *indexInCollectionView = [NSIndexPath indexPathForRow:[_selectedContacts count]-1
+//                                                            inSection: 0];
+//    
+//    // Perform animation for adding new selected contact in collection view
+//    [self.selectedContactsCollectionView performBatchUpdates:^ {
+//        [self.selectedContactsCollectionView insertItemsAtIndexPaths:@[indexInCollectionView]];
+//    } completion:^(BOOL success){
+//        [self.selectedContactsCollectionView.collectionViewLayout invalidateLayout];
+//        [self.selectedContactsCollectionView.collectionViewLayout prepareLayout];
+//    }];
    
     // Animation for showing collection view if the first contact has been added
-    if ([_selectedContacts count] == 1) {
+    if ([indexPathAfterInsert[0] row] == 0) {
         [UIView animateWithDuration:0.2
                               delay:0.2
                             options:UIViewAnimationOptionCurveEaseOut
@@ -229,32 +168,32 @@
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // Get deselected contact
-    NSObject *deselectedContact;
+    Contact *deselectedContact;
     if (_isSearching) {
-        deselectedContact = [_filteredContacts objectAtIndex:[indexPath row]];
+        deselectedContact = [_filteredContactsModel objectAtIndexPath:indexPath];
+        [_filteredContactsModel removeObjectAtIndexPath:indexPath];
+        deselectedContact.isHighlighted = NO;
+        [_filteredContactsModel insertObject:deselectedContact atRow:indexPath.row inSection:indexPath.section];
     } else {
-        NSArray *sectionArray = [_contactsInSections objectForKey:[_sectionTitles objectAtIndex:[indexPath section]]];
-        deselectedContact = [sectionArray objectAtIndex:[indexPath row]];
+        deselectedContact = [_contactsModel objectAtIndexPath:indexPath];
+        [_contactsModel removeObjectAtIndexPath:indexPath];
+        deselectedContact.isHighlighted = NO;
+        [_contactsModel insertObject:deselectedContact atRow:indexPath.row inSection:indexPath.section];
     }
     
-    // Remove highlighted index
-    _highlightedIndex = nil;
-    [[self.contactsTableView cellForRowAtIndexPath:indexPath] setBackgroundColor: [UIColor clearColor]];
-    
     // Get indexPath in collection view
-    NSIndexPath *indexInCollectionView = [NSIndexPath indexPathForRow:[_selectedContacts indexOfObject:deselectedContact]
-                                                            inSection: 0];
+    NSIndexPath *indexInCollectionView = [_selectedContactsModel indexPathForObject:deselectedContact];
     
     // Remove the contact from selected contacts
-    [_selectedContacts removeObject:deselectedContact];
+    [_selectedContactsModel removeObjectAtIndexPath:indexInCollectionView];
     
     // Perform animation for remove contact in collection view
-    [self.selectedContactsCollectionView performBatchUpdates:^ {
-        [self.selectedContactsCollectionView deleteItemsAtIndexPaths:@[indexInCollectionView]];
-    } completion:nil];
+//    [self.selectedContactsCollectionView performBatchUpdates:^ {
+//        [self.selectedContactsCollectionView deleteItemsAtIndexPaths:@[indexInCollectionView]];
+//    } completion:nil];
     
     // Animation for hiding collection view if the last contact has been removed
-    if ([_selectedContacts count] == 0) {
+    if ([indexInCollectionView row] == 0) {
         [UIView animateWithDuration:0.2
                               delay:0.2
                             options:UIViewAnimationOptionCurveEaseOut
@@ -265,6 +204,7 @@
                          }
                          completion:nil];
     }
+    [self.contactsTableView reloadData];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -283,47 +223,46 @@
     UILabel *sectionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
     [sectionTitleLabel setFont:[UIFont boldSystemFontOfSize:12]];
     [sectionTitleLabel setTextColor:[UIColor grayColor]];
-    NSString *string =[_sectionTitles objectAtIndex:section];
+    NSString *string = [_contactsModel tableView:self.contactsTableView
+                         titleForHeaderInSection:section];
     [sectionTitleLabel setText:string];
     
     [viewForHeaderInSection addSubview:sectionTitleLabel];
-    [viewForHeaderInSection setBackgroundColor:[UIColor colorWithRed:1
-                                             green:1
-                                              blue:1
-                                             alpha:0.9]];
+    [viewForHeaderInSection setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
+    
     return viewForHeaderInSection;
 }
 
 #pragma mark - CollectionViewDelegate
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_selectedContacts count];
-}
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    // Get ContactCollectionViewCell
-    NSString *cellIdentifier = @"ChosenContactCollectionViewCell";
-    ChosenContactCollectionViewCell *selectedCell;
-    @try {
-        selectedCell = [self.selectedContactsCollectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    } @catch (NSException *exception) {
-        NSLog(@"The dequeued cell is not an instance of %@",cellIdentifier);
-    }
-    
-    // Get contact at indexPath
-    Contact *contact = [_selectedContacts objectAtIndex:[indexPath row]];
-    
-    // Update UI of ContactCollectionViewCell
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [selectedCell.avatar setImage:[contact avatar]];
-    });
-    
-    return selectedCell;
-}
+//- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+//    return [_selectedContacts count];
+//}
+//
+//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+//    return 1;
+//}
+//
+//- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+//    // Get ContactCollectionViewCell
+//    NSString *cellIdentifier = @"ChosenContactCollectionViewCell";
+//    ChosenContactCollectionViewCell *selectedCell;
+//    @try {
+//        selectedCell = [self.selectedContactsCollectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+//    } @catch (NSException *exception) {
+//        NSLog(@"The dequeued cell is not an instance of %@",cellIdentifier);
+//    }
+//    
+//    // Get contact at indexPath
+//    Contact *contact = [_selectedContacts objectAtIndex:[indexPath row]];
+//    
+//    // Update UI of ContactCollectionViewCell
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [selectedCell.avatar setImage:[contact avatar]];
+//    });
+//    
+//    return selectedCell;
+//}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // Disable searching
@@ -331,12 +270,12 @@
         [self disableSearching];
     }
     
-    // Remove highlighted index
-    _highlightedIndex = nil;
-    
     // Get selected collection cell
     Contact *selectedContact = [_selectedContacts objectAtIndex:[indexPath row]];
-    NSIndexPath *indexPathInTableViewOfSelectedContact = [self getTableViewIndexPathFromContact:selectedContact];
+
+    NSIndexPath *indexPathInTableViewOfSelectedContact = [_contactsModel indexPathForObject:selectedContact];
+    
+    [_contactsModel removeObjectAtIndexPath:indexPathInTableViewOfSelectedContact];
     
     UICollectionViewCell *selectedCell = [collectionView cellForItemAtIndexPath:indexPath];
     
@@ -348,7 +287,10 @@
         selectedCell.alpha = 1;
         
         // Update UI of deselect table cell
-        [[self.contactsTableView cellForRowAtIndexPath:indexPathInTableViewOfSelectedContact] setBackgroundColor: [UIColor clearColor]];
+        selectedContact.isHighlighted = NO;
+        
+        [_contactsModel insertObject:selectedContact atRow:[indexPathInTableViewOfSelectedContact row] inSection:[indexPathInTableViewOfSelectedContact section]];
+        [self.contactsTableView reloadData];
         
         return;
     }
@@ -356,15 +298,14 @@
     // Update UI of selected collection cell
     selectedCell.alpha = ALPHA_OF_HIGHLIGH_COLLECTION_CELL;
     
+    // Update UI of deselect table cell
+    selectedContact.isHighlighted = YES;
+    
+    [_contactsModel insertObject:selectedContact atRow:[indexPathInTableViewOfSelectedContact row] inSection:[indexPathInTableViewOfSelectedContact section]];
+    [self.contactsTableView reloadData];
     
     // Scroll to selected contact in table view
     [self.contactsTableView selectRowAtIndexPath:indexPathInTableViewOfSelectedContact animated:YES scrollPosition:UITableViewScrollPositionTop];
-    
-    // Update highlighted index
-    _highlightedIndex = indexPathInTableViewOfSelectedContact;
-    
-    // Highlight cell in table
-    [[self.contactsTableView cellForRowAtIndexPath:_highlightedIndex] setBackgroundColor: HIGHLIGHT_COLOR];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -377,13 +318,16 @@
     UICollectionViewCell *deselectedCell = [collectionView cellForItemAtIndexPath:indexPath];
     deselectedCell.alpha = 1;
     
-    // Remove highlighted index
-    _highlightedIndex = nil;
-    
     // Unhighlight deselected table cell
     Contact *deselectedContact = [_selectedContacts objectAtIndex:[indexPath row]];
-    NSIndexPath *indexPathOfChosenContact = [self getTableViewIndexPathFromContact:deselectedContact];
-    [[self.contactsTableView cellForRowAtIndexPath:indexPathOfChosenContact] setBackgroundColor: [UIColor clearColor]];
+    
+    NSIndexPath *indexPathInTableViewOfSelectedContact = [_contactsModel indexPathForObject:deselectedContact];
+    
+    [_contactsModel removeObjectAtIndexPath:indexPathInTableViewOfSelectedContact];
+    deselectedContact.isHighlighted = NO;
+    
+    [_contactsModel insertObject:deselectedContact atRow:[indexPathInTableViewOfSelectedContact row] inSection:[indexPathInTableViewOfSelectedContact section]];
+    [self.contactsTableView reloadData];
 }
 
 #pragma mark - UISearchbarDelegate
@@ -400,6 +344,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length == 0) {       // Emty searchText --> non searching state
         _isSearching = NO;
+        self.contactsTableView.dataSource = _contactsModel;
     } else {
         _isSearching = YES;
         
@@ -408,9 +353,39 @@
                                         predicateWithFormat:@"SELF.fullname CONTAINS[cd] %@",
                                         searchText];
         _filteredContacts = [_contacts filteredArrayUsingPredicate:resultPredicate];
+        _filteredContactsModel = [[NIMutableTableViewModel alloc] initWithListArray:_filteredContacts
+                                                                    delegate:self];
+        self.contactsTableView.dataSource = _filteredContactsModel;
     }
-    
     [self.contactsTableView reloadData];
+}
+
+#pragma mark - NITableViewModelDelegate
+
+- (UITableViewCell *)tableViewModel:(NITableViewModel *)tableViewModel
+                   cellForTableView:(UITableView *)tableView
+                        atIndexPath:(NSIndexPath *)indexPath
+                         withObject:(id)object {
+    
+    return [NICellFactory tableViewModel:tableViewModel
+                        cellForTableView:tableView
+                             atIndexPath:indexPath
+                              withObject:object];
+    
+}
+
+#pragma mark - NICollectionViewModelDelegate
+
+- (UICollectionViewCell *)collectionViewModel:(NICollectionViewModel *)collectionViewModel
+                        cellForCollectionView:(UICollectionView *)collectionView
+                                  atIndexPath:(NSIndexPath *)indexPath
+                                   withObject:(id)object {
+    
+    return [NICollectionViewCellFactory collectionViewModel:collectionViewModel
+                                      cellForCollectionView:collectionView
+                                                atIndexPath:indexPath
+                                                 withObject:object];
+    
 }
 
 #pragma mark - Utilities
@@ -456,6 +431,7 @@
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
             if (error) {
                 NSLog(@"error fetching contacts %@", error);
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             } else {
                 NSMutableArray *contacts = [[NSMutableArray alloc] init];
                 for (CNContact *contact in cnContacts) {
@@ -471,13 +447,13 @@
                     
                     [contacts addObject:newContact];
                 }
-                _contacts = [[NSArray alloc] initWithArray:contacts];
-                
-                [self groupContacts];
+                self.contacts = contacts;
+                [self buildDatasource];
                 
                 // Reload table view + hide progress indicator
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.contactsTableView reloadData];
+                    //[self.contactsTableView reloadSectionIndexTitles];
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                 });
             }
@@ -489,33 +465,32 @@
 /**
  Group contacts to alphabetical sections
  */
-- (void)groupContacts {
-    // Add alphabetical sections
+- (void)buildDatasource {
+    NSMutableArray* tableContents = [[NSMutableArray alloc] init];
+    
     for (unichar c = 'A'; c <= 'Z'; c++) {
         NSArray *sectionArray;
-        sectionArray = [self.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname beginswith[c] %@", [NSString stringWithFormat:@"%c",c]]];
-        
-        // Add to section array
+        NSString *section = [NSString stringWithFormat:@"%c",c];
+        sectionArray = [self.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname beginswith[c] %@", section]];
         if ([sectionArray count] > 0) {
-            [_contactsInSections setValue:sectionArray forKey:[NSString stringWithFormat:@"%c",c]];
+            [tableContents addObject:section];
+            [tableContents addObjectsFromArray:sectionArray];
         }
     }
     
-    // Add "#" section
     NSString *format = @"[^a-zA-Z]+.*";
     NSArray *sectionArray;
     sectionArray = [self.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname MATCHES %@",format]];
     
-    // Add to section array
     if ([sectionArray count] > 0) {
-        [_contactsInSections setValue:sectionArray forKey:@"#"];
+        [tableContents addObject:@"#"];
+        [tableContents addObjectsFromArray:sectionArray];
     }
+    _contactsModel = [[NIMutableTableViewModel alloc] initWithSectionedArray:tableContents
+                                                     delegate:self];
+    [_contactsModel setSectionIndexType:NITableViewModelSectionIndexDynamic showsSearch:YES showsSummary:NO];
     
-    // Sort section titles
-    NSArray *keys = [_contactsInSections allKeys];
-    _sectionTitles = [keys sortedArrayUsingComparator:^(id a, id b) {
-        return [a compare:b options:NSNumericSearch];
-    }];
+    self.contactsTableView.dataSource = _contactsModel;
 }
 
 /**
@@ -525,6 +500,7 @@
     _isSearching = NO;
     [self.searchBar setText:nil];
     [self.searchBar resignFirstResponder];
+    self.contactsTableView.dataSource = _contactsModel;
     [self.contactsTableView reloadData];
 }
 

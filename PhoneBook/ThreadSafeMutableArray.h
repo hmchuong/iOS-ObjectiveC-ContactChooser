@@ -107,4 +107,6 @@
  */
 - (BOOL)containsObject: (id)object;
 
+- (NSArray *)toNSArray;
+
 @end
