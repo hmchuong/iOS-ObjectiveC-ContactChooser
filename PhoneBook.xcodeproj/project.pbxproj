@@ -24,6 +24,7 @@
 		C849E6561F28ACF20062C24F /* ContactChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E6551F28ACF20062C24F /* ContactChooserViewController.m */; };
 		C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C85818931F3081700033577B /* ContactCollectionNINibCell.m */; };
 		C85818961F3081700033577B /* ContactCollectionNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85818941F3081700033577B /* ContactCollectionNINibCell.xib */; };
+		C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C86F16B41F32C68400CEF23F /* NSDate+Extension.m */; };
 		C87AAB161F2F26A000EEE4B6 /* ContactTableNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */; };
 		C87AAB171F2F26A000EEE4B6 /* ContactTableNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */; };
 		C8F4B5241F31C8F200077116 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F4B5231F31C8F200077116 /* ImageCache.m */; };
@@ -82,6 +83,8 @@
 		C85818921F3081700033577B /* ContactCollectionNINibCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCollectionNINibCell.h; sourceTree = "<group>"; };
 		C85818931F3081700033577B /* ContactCollectionNINibCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCollectionNINibCell.m; sourceTree = "<group>"; };
 		C85818941F3081700033577B /* ContactCollectionNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCollectionNINibCell.xib; sourceTree = "<group>"; };
+		C86F16B31F32C68400CEF23F /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
+		C86F16B41F32C68400CEF23F /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		C87AAB131F2F26A000EEE4B6 /* ContactTableNINibCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactTableNINibCell.h; sourceTree = "<group>"; };
 		C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableNINibCell.m; sourceTree = "<group>"; };
 		C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableNINibCell.xib; sourceTree = "<group>"; };
@@ -159,6 +162,7 @@
 		C83F201A1F273F8D00A1D67A /* PhoneBook */ = {
 			isa = PBXGroup;
 			children = (
+				C86F16A91F32C37C00CEF23F /* Extensions */,
 				C849E6501F283E8C0062C24F /* Controllers */,
 				C849E64C1F283BE50062C24F /* Utilities */,
 				C849E6481F2833090062C24F /* Models */,
@@ -258,6 +262,15 @@
 				C85818941F3081700033577B /* ContactCollectionNINibCell.xib */,
 			);
 			name = ContactCollectionNINibCell;
+			sourceTree = "<group>";
+		};
+		C86F16A91F32C37C00CEF23F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C86F16B31F32C68400CEF23F /* NSDate+Extension.h */,
+				C86F16B41F32C68400CEF23F /* NSDate+Extension.m */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		C87AAB121F2F257A00EEE4B6 /* ContactTableNINibCell */ = {
@@ -512,7 +525,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		A1F828E30059BC0C9E6F380E /* [CP] Check Pods Manifest.lock */ = {
@@ -527,7 +540,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		AAD8C1667B1A5E70F0CC2CC8 /* [CP] Check Pods Manifest.lock */ = {
@@ -542,7 +555,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		AF2950E60DCA9AF06F44A44B /* [CP] Embed Pods Frameworks */ = {
@@ -584,6 +597,7 @@
 			files = (
 				C87AAB161F2F26A000EEE4B6 /* ContactTableNINibCell.m in Sources */,
 				C83F20201F273F8D00A1D67A /* AppDelegate.m in Sources */,
+				C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */,
 				C83F20561F27576C00A1D67A /* CheckBox.m in Sources */,
 				C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */,
 				C849E64B1F28333B0062C24F /* Contact.m in Sources */,

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#define TOTAL_COST_LIMIT 500
+#define EXPIRATION_DAYS 30
+
 @interface ImageCache : NSObject
 
 /**
@@ -34,5 +37,17 @@
  @return image stored in cache
  */
 - (UIImage *)imageFromKey:(NSString *)key;
+
+/**
+ Remove image with key from cache
+
+ @param key - key of image
+ */
+- (void)removeImageForKey:(NSString *)key;
+
+/**
+ Remove all cache
+ */
+- (void)removeAllCache;
 
 @end

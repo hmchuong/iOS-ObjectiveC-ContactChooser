@@ -16,7 +16,6 @@
 #import "ContactTableNINibCell.h"
 #import "NimbusCollections.h"
 #import "ContactCollectionNINibCell.h"
-#import "SDImageCache.h"
 #import "ImageCache.h"
 
 @interface ContactChooserViewController ()
@@ -205,8 +204,16 @@
     if (_isSearching) {
         [self disableSearching];
     }
+    Contact *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
     
-    [self changeHighlightedStateAtIndexPath:indexPath];
+    if (selectedContact.isHighlighted) {
+        [_selectedContactsCollectionView deselectItemAtIndexPath:indexPath animated:YES];
+        [self collectionView:collectionView  didDeselectItemAtIndexPath:indexPath];
+        return;
+    }
+    [self changeHighlightedState:YES
+                    AtIndexPath:indexPath];
+    
     [_selectedContactsCollectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 }
 
@@ -216,7 +223,8 @@
         [self disableSearching];
     }
     
-    [self changeHighlightedStateAtIndexPath:indexPath];
+    [self changeHighlightedState:NO
+                     AtIndexPath:indexPath];
 }
 
 #pragma mark - UISearchbarDelegate
@@ -306,12 +314,14 @@
 - (void)deselectAllRow {
     NSArray *indexPaths = [_selectedContactsCollectionView indexPathsForSelectedItems];
     for (NSIndexPath *indexPath in indexPaths) {
-        [self changeHighlightedStateAtIndexPath:indexPath];
+        [self changeHighlightedState:NO
+                         AtIndexPath:indexPath];
         [_selectedContactsCollectionView deselectItemAtIndexPath:indexPath animated:NO];
     }
 }
 
-- (void)changeHighlightedStateAtIndexPath:(NSIndexPath *)indexPath {
+- (void)changeHighlightedState:(BOOL)isHighlighted
+                   AtIndexPath:(NSIndexPath *)indexPath {
     // Get selected collection cell
     Contact *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
     
@@ -321,7 +331,7 @@
     
     //Set highlight --> Update (Remove + insert + reload)
     
-    selectedContact.isHighlighted = ![selectedContact isHighlighted];
+    selectedContact.isHighlighted = isHighlighted;
     
     // Update collection
     [_selectedContactsModel removeObjectAtIndexPath:indexPath];
@@ -333,7 +343,7 @@
     [_contactsModel removeObjectAtIndexPath:indexPathInTableViewOfSelectedContact];
     [_contactsModel insertObject:selectedContact atRow:[indexPathInTableViewOfSelectedContact row] inSection:[indexPathInTableViewOfSelectedContact section]];
     
-    if (selectedContact.isHighlighted) {
+    if (isHighlighted) {
         [[_contactsTableView cellForRowAtIndexPath:indexPathInTableViewOfSelectedContact] setBackgroundColor: HIGHLIGHT_COLOR];
         [_selectedContactsCollectionView cellForItemAtIndexPath:indexPath].alpha = ALPHA_OF_HIGHLIGH_COLLECTION_CELL;
     } else {
@@ -381,11 +391,6 @@
                     if (avatar == nil) {
                         avatar = [newContact avatarImage];
                     }
-//                    [SDImageCache.sharedImageCache storeImage:avatar
-//                                                    imageData:[contact imageData]
-//                                                       forKey:newContact.avatarKey
-//                                                       toDisk:YES
-//                                                   completion:nil];
                     [ImageCache.sharedInstance storeImage:avatar
                                                   withKey:newContact.avatarKey];
                     [contacts addObject:newContact];

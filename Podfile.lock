@@ -72,21 +72,16 @@ PODS:
     - Nimbus/Core
   - Nimbus/WebController (1.3.0):
     - Nimbus/Core
-  - SDWebImage (4.0.0):
-    - SDWebImage/Core (= 4.0.0)
-  - SDWebImage/Core (4.0.0)
 
 DEPENDENCIES:
   - MBProgressHUD (~> 1.0.0)
   - Nimbus (~> 1.3.0)
-  - SDWebImage (~> 4.0.0)
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Nimbus: e7f33bc6d6cb4fe5ea0aee0c7e0883696123422c
-  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
 
-PODFILE CHECKSUM: ccb13c9cb61735190cbb4be26a40de91bd431aa1
+PODFILE CHECKSUM: 473d90d53ce46637a3a8c1bd2b50b603809567f6
 
 COCOAPODS: 1.2.1

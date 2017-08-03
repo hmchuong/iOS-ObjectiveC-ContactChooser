@@ -7,7 +7,6 @@
 //
 
 #import "ContactTableNINibCell.h"
-#import "SDImageCache.h"
 #import "ImageCache.h"
 
 @implementation ContactTableNINibCell
