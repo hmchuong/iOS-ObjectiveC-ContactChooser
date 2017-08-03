@@ -69,15 +69,15 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // Get contact at indexPath
-    Contact *contact;
+    // Get cell at indexPath
+    NSObject *cell;
     if (_isSearching) {
-        contact = [_filteredContactsModel objectAtIndexPath:indexPath];
+        cell = [_filteredContactsModel objectAtIndexPath:indexPath];
     } else {
-        contact = [_contactsModel objectAtIndexPath:indexPath];
+        cell = [_contactsModel objectAtIndexPath:indexPath];
     }
     
-    if ([_selectedContactsModel indexPathForObject:contact]) {
+    if ([_selectedContactsModel indexPathForObject:cell]) {
         [cell setSelected:YES animated:YES];
         [_contactsTableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
