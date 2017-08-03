@@ -21,10 +21,10 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
 
 @interface ImageCache()
 
-@property (strong, nonatomic) NSFileManager *icFileManager;
-@property (strong, nonatomic) NSCache *icMemCache;
-@property (strong, nonatomic) dispatch_queue_t icIOQueue;
-@property (strong, nonatomic) NSString *icDirPath;
+@property (strong, nonatomic) NSFileManager *icFileManager;     // File manager
+@property (strong, nonatomic) NSCache *icMemCache;              // Memory cache
+@property (strong, nonatomic) dispatch_queue_t icIOQueue;       // Queue for read/write file serial
+@property (strong, nonatomic) NSString *icDirPath;              // Directory path for save file
 
 @end
 
@@ -37,7 +37,8 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
     self = [super init];
     _icMemCache = [[NSCache alloc]init];
     [_icMemCache setTotalCostLimit:TOTAL_COST_LIMIT];
-    _icIOQueue = dispatch_queue_create("com.vn.zalo.ImageCache", DISPATCH_QUEUE_SERIAL);
+    _icMemCache.delegate = self;
+    _icIOQueue = dispatch_queue_create("com.vn.vng.zalo.ImageCache", DISPATCH_QUEUE_SERIAL);
     
     // I/O
     dispatch_async(_icIOQueue, ^{
@@ -47,7 +48,7 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
         // Create directory path
         NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docsPath = [dirPaths objectAtIndex:0];
-        _icDirPath = [docsPath stringByAppendingString:@"/com.vn.zalo.ImageCache"];
+        _icDirPath = [docsPath stringByAppendingString:@"/com.vn.vng.zalo.ImageCache"];
         
         // Create directory if not exist
         if (![_icFileManager fileExistsAtPath:_icDirPath]) {
@@ -59,7 +60,7 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
         }
     });
     
-    // clear memory cache if mem warning
+    // Clear memory cache if mem warning
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(clearMemory)
                                                  name:UIApplicationDidReceiveMemoryWarningNotification
@@ -150,7 +151,7 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
             // Delete file
             BOOL success = [_icFileManager removeItemAtPath:[NSString stringWithFormat:@"%@/%@", _icDirPath, file] error:&error];
 #if DEBUG
-            NSAssert(!success || error, error.debugDescription);
+            NSAssert(success && !error, error.debugDescription);
 #endif
             
         }
@@ -267,7 +268,7 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
         [_icFileManager removeItemAtPath:[self getFilePathFromKey:key] error:&error];
         
 #if DEBUG
-        NSAssert(error, error.debugDescription);
+        NSAssert(!error, error.debugDescription);
 #endif
         
     });
@@ -291,8 +292,9 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
         
         // Get all files on disk
         NSArray *files = [_icFileManager contentsOfDirectoryAtPath:_icDirPath error:&error];
+        
 #if DEBUG
-        NSAssert(error, error.debugDescription);
+        NSAssert(!error, error.debugDescription);
 #endif
         
         for (NSString *file in files) {

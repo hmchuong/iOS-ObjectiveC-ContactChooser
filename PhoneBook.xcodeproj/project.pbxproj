@@ -25,10 +25,10 @@
 		C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C85818931F3081700033577B /* ContactCollectionNINibCell.m */; };
 		C85818961F3081700033577B /* ContactCollectionNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85818941F3081700033577B /* ContactCollectionNINibCell.xib */; };
 		C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C86F16B41F32C68400CEF23F /* NSDate+Extension.m */; };
+		C86F16BA1F32DF9000CEF23F /* ContactPhoneBookLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C86F16B91F32DF9000CEF23F /* ContactPhoneBookLoader.m */; };
 		C87AAB161F2F26A000EEE4B6 /* ContactTableNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */; };
 		C87AAB171F2F26A000EEE4B6 /* ContactTableNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */; };
 		C8F4B5241F31C8F200077116 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F4B5231F31C8F200077116 /* ImageCache.m */; };
-		C8F4B5281F31D94A00077116 /* ThreadSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F4B5271F31D94A00077116 /* ThreadSafeMutableDictionary.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,13 +85,13 @@
 		C85818941F3081700033577B /* ContactCollectionNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCollectionNINibCell.xib; sourceTree = "<group>"; };
 		C86F16B31F32C68400CEF23F /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
 		C86F16B41F32C68400CEF23F /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
+		C86F16B81F32DF9000CEF23F /* ContactPhoneBookLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactPhoneBookLoader.h; sourceTree = "<group>"; };
+		C86F16B91F32DF9000CEF23F /* ContactPhoneBookLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactPhoneBookLoader.m; sourceTree = "<group>"; };
 		C87AAB131F2F26A000EEE4B6 /* ContactTableNINibCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactTableNINibCell.h; sourceTree = "<group>"; };
 		C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableNINibCell.m; sourceTree = "<group>"; };
 		C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableNINibCell.xib; sourceTree = "<group>"; };
 		C8F4B5221F31C8F200077116 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
 		C8F4B5231F31C8F200077116 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
-		C8F4B5261F31D94A00077116 /* ThreadSafeMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadSafeMutableDictionary.h; sourceTree = "<group>"; };
-		C8F4B5271F31D94A00077116 /* ThreadSafeMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadSafeMutableDictionary.m; sourceTree = "<group>"; };
 		D334FF3A1984498A2D0C80D6 /* libPods-PhoneBookTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhoneBookTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -229,8 +229,8 @@
 		C849E6481F2833090062C24F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C849E6491F28333B0062C24F /* Contact.h */,
-				C849E64A1F28333B0062C24F /* Contact.m */,
+				C86F16B71F32DF5700CEF23F /* Contact */,
+				C86F16B61F32DF3B00CEF23F /* ContactPhoneBookLoader */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -238,7 +238,6 @@
 		C849E64C1F283BE50062C24F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C8F4B5251F31D90E00077116 /* ThreadSafeMutableDictionary */,
 				C8F4B5211F31C8CA00077116 /* ImageCache */,
 				C8F4B5201F31C8A500077116 /* ThreadSafeMutableArray */,
 			);
@@ -273,6 +272,24 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		C86F16B61F32DF3B00CEF23F /* ContactPhoneBookLoader */ = {
+			isa = PBXGroup;
+			children = (
+				C86F16B81F32DF9000CEF23F /* ContactPhoneBookLoader.h */,
+				C86F16B91F32DF9000CEF23F /* ContactPhoneBookLoader.m */,
+			);
+			name = ContactPhoneBookLoader;
+			sourceTree = "<group>";
+		};
+		C86F16B71F32DF5700CEF23F /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				C849E6491F28333B0062C24F /* Contact.h */,
+				C849E64A1F28333B0062C24F /* Contact.m */,
+			);
+			name = Contact;
+			sourceTree = "<group>";
+		};
 		C87AAB121F2F257A00EEE4B6 /* ContactTableNINibCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,15 +316,6 @@
 				C8F4B5231F31C8F200077116 /* ImageCache.m */,
 			);
 			name = ImageCache;
-			sourceTree = "<group>";
-		};
-		C8F4B5251F31D90E00077116 /* ThreadSafeMutableDictionary */ = {
-			isa = PBXGroup;
-			children = (
-				C8F4B5261F31D94A00077116 /* ThreadSafeMutableDictionary.h */,
-				C8F4B5271F31D94A00077116 /* ThreadSafeMutableDictionary.m */,
-			);
-			name = ThreadSafeMutableDictionary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -601,11 +609,11 @@
 				C83F20561F27576C00A1D67A /* CheckBox.m in Sources */,
 				C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */,
 				C849E64B1F28333B0062C24F /* Contact.m in Sources */,
-				C8F4B5281F31D94A00077116 /* ThreadSafeMutableDictionary.m in Sources */,
 				C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,
 				C8F4B5241F31C8F200077116 /* ImageCache.m in Sources */,
 				C849E6561F28ACF20062C24F /* ContactChooserViewController.m in Sources */,
+				C86F16BA1F32DF9000CEF23F /* ContactPhoneBookLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

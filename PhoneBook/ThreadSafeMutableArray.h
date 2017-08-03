@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ Mutable array thread safe
+ */
 @interface ThreadSafeMutableArray : NSObject
 
 /**

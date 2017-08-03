@@ -47,11 +47,10 @@
     // Hide selected contacts view
     [_selectedContactsViewHeight setConstant:0];
     
+    [ContactPhoneBookLoader sharedInstance].delegate = self;
+    
     // Set background of section index to clear
     self.contactsTableView.sectionIndexBackgroundColor = [UIColor clearColor];
-    
-    // Load contacts from phone book
-    [self loadContacts];
     
     _selectedContactsModel = [[NIMutableCollectionViewModel alloc] initWithDelegate:self];
     [_selectedContactsModel addSectionWithTitle:@""];
@@ -144,7 +143,6 @@
         [_contactsModel insertObject:deselectedContact atRow:indexPath.row inSection:indexPath.section];
     }
     [[tableView cellForRowAtIndexPath:indexPath] setBackgroundColor:[UIColor clearColor]];
-    //[tableView reloadRowsAtIndexPaths:[[NSArray alloc] initWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
     
     // Get indexPath in collection view
     NSIndexPath *indexInCollectionView = [_selectedContactsModel indexPathForObject:deselectedContact];
@@ -180,10 +178,12 @@
     // View contains seperator line + section title below
     UIView *viewForHeaderInSection = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
     
+    // Seperator line
     UIView *seperator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0.3)];
     [seperator setBackgroundColor:[UIColor lightGrayColor]];
     [viewForHeaderInSection addSubview:seperator];
     
+    // Section title
     UILabel *sectionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
     [sectionTitleLabel setFont:[UIFont boldSystemFontOfSize:12]];
     [sectionTitleLabel setTextColor:[UIColor grayColor]];
@@ -309,7 +309,78 @@
     
 }
 
+#pragma mark - ContactPhoneBookLoaderDelegate
+
+- (NSArray *)contactPhoneBookLoaderGetContactPropertiesKeys {
+    
+    return @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactMiddleNameKey, CNContactImageDataKey, CNContactIdentifierKey];
+}
+
+- (void)contactPhoneBookLoaderPermissionDenied {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+    // Request permission
+    [self showContactPermissionRequest];
+}
+
+- (void)contactPhoneBookLoaderStartUpdateContacts {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    });
+}
+
+- (void)contactPhoneBookLoaderDoneUpdateContacts:(NSArray<CNContact *> *)cnContacts
+                                       withError:(NSError *)error {
+    
+#if DEBUG
+    NSAssert(!error, error.description);
+#endif
+    
+    // Build datasource
+    NSMutableArray *contacts = [[NSMutableArray alloc] init];
+    for (CNContact *cnContact in cnContacts) {
+        Contact *contact = [[Contact alloc] initWithCNContact:cnContact];
+        if ([contact.fullname length] == 0) {
+            continue;
+        }
+        [contacts addObject:contact];
+    }
+    self.contacts = contacts;
+    [self buildDatasource];
+    [self reloadAll];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+    
+}
+
 #pragma mark - Utilities
+
+- (void)showContactPermissionRequest {
+    UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"Access phone book"
+                                                                  message:@"This application request to access phone book contact for right behavior. Click 'Setting' and turn on 'Phone book' permission"
+                                                           preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* yesButton = [UIAlertAction actionWithTitle:@"Setting"
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction * action) {
+                                                          
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    }];
+    
+    UIAlertAction* noButton = [UIAlertAction actionWithTitle:@"Cancel"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:nil];
+    
+    [alert addAction:yesButton];
+    [alert addAction:noButton];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:alert animated:YES completion:nil];
+    });
+}
 
 - (void)deselectAllRow {
     NSArray *indexPaths = [_selectedContactsCollectionView indexPathsForSelectedItems];
@@ -356,58 +427,6 @@
         [self.contactsTableView scrollToRowAtIndexPath:indexPathInTableViewOfSelectedContact atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
 }
-/**
- Load contacts from phone book
- */
-- (void)loadContacts {
-    // Show progress indicator
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    CNContactStore *store = [[CNContactStore alloc] init];
-    [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-        if (granted == YES) {
-            //keys with fetching properties
-            NSArray *keys = @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactMiddleNameKey, CNContactImageDataKey, CNContactIdentifierKey];
-            NSString *containerId = store.defaultContainerIdentifier;
-            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
-            NSError *error;
-            NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
-            if (error) {
-                NSLog(@"error fetching contacts %@", error);
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-            } else {
-                NSMutableArray *contacts = [[NSMutableArray alloc] init];
-                for (CNContact *contact in cnContacts) {
-                    // copy data to my custom Contacts class.
-                    Contact *newContact = [[Contact alloc] init];
-                    newContact.firstname = [contact givenName];
-                    newContact.lastname = [contact familyName];
-                    newContact.middlename = [contact middleName];
-                    if ([newContact.fullname length] == 0) {
-                        continue;
-                    }
-                    newContact.avatarKey = [contact identifier];
-                    UIImage *avatar = [UIImage imageWithData:[contact imageData]];
-                    if (avatar == nil) {
-                        avatar = [newContact avatarImage];
-                    }
-                    [ImageCache.sharedInstance storeImage:avatar
-                                                  withKey:newContact.avatarKey];
-                    [contacts addObject:newContact];
-                }
-                self.contacts = contacts;
-                [self buildDatasource];
-                
-                // Reload table view + hide progress indicator
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.contactsTableView reloadData];
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                });
-            }
-        }
-    }];
-    
-}
 
 /**
  Group contacts to alphabetical sections
@@ -436,8 +455,23 @@
     _contactsModel = [[NIMutableTableViewModel alloc] initWithSectionedArray:tableContents
                                                      delegate:self];
     [_contactsModel setSectionIndexType:NITableViewModelSectionIndexDynamic showsSearch:YES showsSummary:NO];
+}
+
+- (void)reloadAll {
     
-    self.contactsTableView.dataSource = _contactsModel;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.contactsTableView.dataSource = _contactsModel;
+        
+        
+        _selectedContactsModel = [[NIMutableCollectionViewModel alloc] initWithDelegate:self];
+        [_selectedContactsModel addSectionWithTitle:@""];
+        
+        self.selectedContactsCollectionView.dataSource = _selectedContactsModel;
+
+        [self.contactsTableView reloadData];
+        [self.selectedContactsCollectionView reloadData];
+        _selectedContactsViewHeight.constant = 0;
+    });
 }
 
 /**

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 
 
+/**
+ Extension for NSDate
+ */
 @interface NSDate(Compare)
 
 /**

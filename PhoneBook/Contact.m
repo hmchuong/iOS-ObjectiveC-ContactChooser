@@ -9,6 +9,7 @@
 #import "Contact.h"
 #import "ContactCollectionNINibCell.h"
 #import "ContactTableNINibCell.h"
+#import "ImageCache.h"
 
 /**
  Macro for get UIColor from hex value
@@ -23,6 +24,29 @@
                     alpha:1.0]
 
 @implementation Contact
+
+- (instancetype)initWithCNContact:(CNContact *)cnContact {
+    self = [super init];
+    // init name
+    self.firstname = [cnContact givenName];
+    self.lastname = [cnContact familyName];
+    self.middlename = [cnContact middleName];
+    
+    // init avatar key
+    self.avatarKey = [cnContact identifier];
+    UIImage *avatar = [UIImage imageWithData:[cnContact imageData]];
+    
+    // Generate avatar
+    if (avatar == nil) {
+        avatar = [self avatarImage];
+    }
+    
+    // Store data to cache
+    [ImageCache.sharedInstance storeImage:avatar
+                                  withKey:self.avatarKey];
+    return self;
+}
+
 
 #pragma mark - getters
 
@@ -96,20 +120,29 @@
  */
 - (NSString *)getRepresentCharacters {
     NSArray *tokensOfFullname = [self.fullname componentsSeparatedByString:@" "];
-    
     NSString *representName;
     
     if ([tokensOfFullname count] > 1) {   // fullname has more than 1 word.
-        // Get first characters of first and last word.
-        NSString *firstToken = [tokensOfFullname objectAtIndex:0];
-        NSString *lastToken = [tokensOfFullname objectAtIndex:[tokensOfFullname count]-1];
+        @try {
+            // Get first characters of first and last word.
+            NSString *firstToken = [tokensOfFullname objectAtIndex:0];
+            NSString *lastToken = [tokensOfFullname objectAtIndex:[tokensOfFullname count]-1];
+            
+            // Link the two characters.
+            representName = [[NSString alloc] initWithFormat:@"%c%c",[firstToken characterAtIndex:0],[lastToken characterAtIndex:0]];
+        } @catch (NSException *exception) {
+            representName = @"";
+        }
         
-        // Link the two characters.
-        representName = [[NSString alloc] initWithFormat:@"%c%c",[firstToken characterAtIndex:0],[lastToken characterAtIndex:0]];
     } else {
         // Get only the first character of the only word for representing name.
-        NSString *firstToken = [tokensOfFullname objectAtIndex:0];
-        representName = [[NSString alloc] initWithFormat:@"%c",[firstToken characterAtIndex:0]];
+        @try {
+            NSString *firstToken = [tokensOfFullname objectAtIndex:0];
+            representName = [[NSString alloc] initWithFormat:@"%c",[firstToken characterAtIndex:0]];
+        } @catch (NSException *exception) {
+            representName = @"";
+        }
+        
     }
     return representName;
 }

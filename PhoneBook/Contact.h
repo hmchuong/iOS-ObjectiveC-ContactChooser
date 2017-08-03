@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import "NICellCatalog.h"
 #import "NimbusCollections.h"
+#import <Contacts/Contacts.h>
+
 /**
  Contact object - store data of each phone book contact
  */
@@ -22,5 +24,18 @@
 @property (strong, readonly, nonatomic) NSString *fullname;
 @property BOOL isHighlighted;
 
+/**
+ Init contact with CNContact object
+
+ @param cnContact - CNContact object
+ @return contact after init
+ */
+- (instancetype)initWithCNContact:(CNContact *)cnContact;
+
+/**
+ Get avatar image
+
+ @return avatar of contact
+ */
 - (UIImage *)avatarImage;
 @end

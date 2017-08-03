@@ -9,9 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define TOTAL_COST_LIMIT 500
-#define EXPIRATION_DAYS 30
+#define TOTAL_COST_LIMIT 1024*1024          // Threshold for clean memory cache
+#define EXPIRATION_DAYS 30                  // Clear file on disk after 30 days
 
+/**
+ ImageCache utility - support caching equally between disk and memory
+ */
 @interface ImageCache : NSObject
 
 /**

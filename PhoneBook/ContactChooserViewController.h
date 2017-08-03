@@ -10,6 +10,7 @@
 #import "Contact.h"
 #import "NIMutableTableViewModel.h"
 #include "NIMutableCollectionViewModel.h"
+#import "ContactPhoneBookLoader.h"
 
 #define TEXT_COLOR [UIColor blackColor]
 #define HIGHLIGHT_COLOR [UIColor colorWithRed:230.0/255 \
@@ -20,6 +21,6 @@
 #define ALPHA_OF_HIGHLIGH_COLLECTION_CELL 0.5
 #define NO_DATA_MESSAGE @"Không tìm thấy kết quả phù hợp"
 
-@interface ContactChooserViewController : UIViewController<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate>
+@interface ContactChooserViewController : UIViewController<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate,ContactPhoneBookLoaderDelegate>
 
 @end
