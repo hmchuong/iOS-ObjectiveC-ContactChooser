@@ -15,7 +15,7 @@
 /**
  Contact object - store data of each phone book contact
  */
-@interface Contact : NSObject<NINibCellObject,NICollectionViewNibCellObject>
+@interface ContactPhoneBook : NSObject<NINibCellObject,NICollectionViewNibCellObject>
 
 @property (strong, nonatomic) NSString *avatarKey;
 @property (strong, nonatomic) NSString *firstname;

@@ -19,7 +19,7 @@
 		C83F20411F273F8D00A1D67A /* PhoneBookUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20401F273F8D00A1D67A /* PhoneBookUITests.m */; };
 		C83F20501F2740CE00A1D67A /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C83F204F1F2740CE00A1D67A /* Contacts.framework */; };
 		C83F20561F27576C00A1D67A /* CheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20551F27576C00A1D67A /* CheckBox.m */; };
-		C849E64B1F28333B0062C24F /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64A1F28333B0062C24F /* Contact.m */; };
+		C849E64B1F28333B0062C24F /* ContactPhoneBook.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64A1F28333B0062C24F /* ContactPhoneBook.m */; };
 		C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */; };
 		C849E6561F28ACF20062C24F /* ContactChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E6551F28ACF20062C24F /* ContactChooserViewController.m */; };
 		C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C85818931F3081700033577B /* ContactCollectionNINibCell.m */; };
@@ -74,8 +74,8 @@
 		C83F204F1F2740CE00A1D67A /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		C83F20541F27576C00A1D67A /* CheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
 		C83F20551F27576C00A1D67A /* CheckBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckBox.m; sourceTree = "<group>"; };
-		C849E6491F28333B0062C24F /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
-		C849E64A1F28333B0062C24F /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
+		C849E6491F28333B0062C24F /* ContactPhoneBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactPhoneBook.h; sourceTree = "<group>"; };
+		C849E64A1F28333B0062C24F /* ContactPhoneBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactPhoneBook.m; sourceTree = "<group>"; };
 		C849E64D1F283C160062C24F /* ThreadSafeMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadSafeMutableArray.h; sourceTree = "<group>"; };
 		C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadSafeMutableArray.m; sourceTree = "<group>"; };
 		C849E6541F28ACF20062C24F /* ContactChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactChooserViewController.h; sourceTree = "<group>"; };
@@ -87,6 +87,7 @@
 		C86F16B41F32C68400CEF23F /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		C86F16B81F32DF9000CEF23F /* ContactPhoneBookLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactPhoneBookLoader.h; sourceTree = "<group>"; };
 		C86F16B91F32DF9000CEF23F /* ContactPhoneBookLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactPhoneBookLoader.m; sourceTree = "<group>"; };
+		C86F16BD1F33367100CEF23F /* BaseContact.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseContact.h; sourceTree = "<group>"; };
 		C87AAB131F2F26A000EEE4B6 /* ContactTableNINibCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactTableNINibCell.h; sourceTree = "<group>"; };
 		C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableNINibCell.m; sourceTree = "<group>"; };
 		C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableNINibCell.xib; sourceTree = "<group>"; };
@@ -218,10 +219,9 @@
 		C83F20571F27577200A1D67A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				C86F16BB1F3334CC00CEF23F /* CheckBox */,
 				C85818911F30815B0033577B /* ContactCollectionNINibCell */,
 				C87AAB121F2F257A00EEE4B6 /* ContactTableNINibCell */,
-				C83F20541F27576C00A1D67A /* CheckBox.h */,
-				C83F20551F27576C00A1D67A /* CheckBox.m */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -229,7 +229,8 @@
 		C849E6481F2833090062C24F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C86F16B71F32DF5700CEF23F /* Contact */,
+				C86F16BD1F33367100CEF23F /* BaseContact.h */,
+				C86F16B71F32DF5700CEF23F /* ContactPhoneBook */,
 				C86F16B61F32DF3B00CEF23F /* ContactPhoneBookLoader */,
 			);
 			name = Models;
@@ -281,13 +282,22 @@
 			name = ContactPhoneBookLoader;
 			sourceTree = "<group>";
 		};
-		C86F16B71F32DF5700CEF23F /* Contact */ = {
+		C86F16B71F32DF5700CEF23F /* ContactPhoneBook */ = {
 			isa = PBXGroup;
 			children = (
-				C849E6491F28333B0062C24F /* Contact.h */,
-				C849E64A1F28333B0062C24F /* Contact.m */,
+				C849E6491F28333B0062C24F /* ContactPhoneBook.h */,
+				C849E64A1F28333B0062C24F /* ContactPhoneBook.m */,
 			);
-			name = Contact;
+			name = ContactPhoneBook;
+			sourceTree = "<group>";
+		};
+		C86F16BB1F3334CC00CEF23F /* CheckBox */ = {
+			isa = PBXGroup;
+			children = (
+				C83F20541F27576C00A1D67A /* CheckBox.h */,
+				C83F20551F27576C00A1D67A /* CheckBox.m */,
+			);
+			name = CheckBox;
 			sourceTree = "<group>";
 		};
 		C87AAB121F2F257A00EEE4B6 /* ContactTableNINibCell */ = {
@@ -608,7 +618,7 @@
 				C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */,
 				C83F20561F27576C00A1D67A /* CheckBox.m in Sources */,
 				C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */,
-				C849E64B1F28333B0062C24F /* Contact.m in Sources */,
+				C849E64B1F28333B0062C24F /* ContactPhoneBook.m in Sources */,
 				C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,
 				C8F4B5241F31C8F200077116 /* ImageCache.m in Sources */,

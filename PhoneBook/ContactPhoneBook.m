@@ -6,7 +6,7 @@
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "Contact.h"
+#import "ContactPhoneBook.h"
 #import "ContactCollectionNINibCell.h"
 #import "ContactTableNINibCell.h"
 #import "ImageCache.h"
@@ -23,7 +23,7 @@
                      blue:((float)((hexValue & 0x0000FF) >>  0))/255.0 \
                     alpha:1.0]
 
-@implementation Contact
+@implementation ContactPhoneBook
 
 - (instancetype)initWithCNContact:(CNContact *)cnContact {
     self = [super init];
@@ -106,7 +106,7 @@
 }
 
 - (BOOL)isEqual:(id)object {
-    Contact *compareObject = (Contact *)object;
+    ContactPhoneBook *compareObject = (ContactPhoneBook *)object;
     if ([self.fullname isEqual:compareObject.fullname] && [self.avatarKey isEqual:compareObject.avatarKey]) {
         return YES;
     }
