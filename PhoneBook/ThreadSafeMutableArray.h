@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ Mutable array thread safe
+ */
 @interface ThreadSafeMutableArray : NSObject
 
 /**
@@ -106,5 +109,7 @@
  @return - YES if array contains the object, otherwise return NO
  */
 - (BOOL)containsObject: (id)object;
+
+- (NSArray *)toNSArray;
 
 @end

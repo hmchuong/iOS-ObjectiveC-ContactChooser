@@ -13,6 +13,7 @@
 #pragma mark - Life cycle
 
 - (void) drawRect:(CGRect)rect {
+    
     [super drawRect:rect];
     
     // In checked state
@@ -27,19 +28,21 @@
     
 }
 
-#pragma mark - setters
+#pragma mark - Setters
 
 - (void)setChecked:(bool)checked {
+    
     _checked = checked;
     [self setNeedsDisplay];
 }
 
 - (void)setCheckMarkStyle:(CheckMarkStyle)checkMarkStyle {
+    
     _checkMarkStyle = checkMarkStyle;
     [self setNeedsDisplay];
 }
 
-#pragma mark - utilities
+#pragma mark - Utilities
 
 /**
  Draw checked state
@@ -47,6 +50,7 @@
  @param rect - rect to draw
  */
 - (void)drawRectChecked:(CGRect)rect {
+    
     // Set background of check box to checked color
     [self setBackgroundColor: CHECKED_COLOR];
     [self.backgroundColor setFill];
@@ -81,6 +85,7 @@
  @param rect - rect to draw
  */
 - (void)drawRectGrayedOut:(CGRect)rect {
+    
     // Set border and corner radius of check box
     self.layer.cornerRadius = self.frame.size.width/2;
     [self.layer setBorderWidth:1];
@@ -118,6 +123,7 @@
  @param rect - rect to draw
  */
 - (void)drawRectOpenCircle:(CGRect)rect {
+    
     // Set border and corner radius of check box
     self.layer.cornerRadius = self.frame.size.width/2;
     [self.layer setBorderWidth:1];
