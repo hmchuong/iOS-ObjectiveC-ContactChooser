@@ -37,7 +37,6 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
     self = [super init];
     _icMemCache = [[NSCache alloc]init];
     [_icMemCache setTotalCostLimit:TOTAL_COST_LIMIT];
-    _icMemCache.delegate = self;
     _icIOQueue = dispatch_queue_create("com.vn.vng.zalo.ImageCache", DISPATCH_QUEUE_SERIAL);
     
     // I/O

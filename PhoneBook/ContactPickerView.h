@@ -1,5 +1,5 @@
 //
-//  ContactPicker.h
+//  ContactPickerView.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
@@ -18,22 +18,44 @@
 
 @class ContactPickerView;
 
+/**
+ Contact picker delegate protocol
+ */
 @protocol ContactPickerDelegate <NSObject>
 
 @required
 
-- (NSArray *)sectionedArrayOfContactPicker:(ContactPickerView *)contactPicker;
+/**
+ Get sectioned data
+
+ @param contactPicker - ContactPickerView want to get
+ @param contacts - contacts to section
+ @return - NSArray of sectioned data
+ */
+- (NSArray *)sectionedDataOfContactPicker:(ContactPickerView *)contactPicker
+                              withContacts:(NSArray<ContactModelObject *> *) contacts;
 
 @end
 
+
+/**
+ Contact picker view
+ */
 @interface ContactPickerView : UIView<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate>
 
-@property (weak, nonatomic) UIViewController<ContactPickerDelegate>* delegate;
-@property (strong, nonatomic) NSArray<ContactModelObject<ContactModelObjectDelegate> *> *contacts;
-@property (strong, nonatomic) NSString *noResultSearchingMessage;
+@property (weak, nonatomic) id<ContactPickerDelegate> delegate;                     // ContactPicker delegate
+@property (strong, nonatomic) NSArray<ContactModelObject *> *contacts;              // Contacts data
+@property (strong, nonatomic) NSString *noResultSearchingMessage;                   // Message show when no data appear
 
-+ (instancetype)loadToView:(UIView *)view
-  inViewController:(id<ContactPickerDelegate>)viewController;
+/**
+ Init Contact Picker
+
+ @param view - view to load inside
+ @param viewController - view controller of view
+ @return - ContactPickerView after init
+ */
++ (instancetype)initWithView:(UIView *)view
+            inViewController:(id<ContactPickerDelegate>)viewController;
 
 
 @end

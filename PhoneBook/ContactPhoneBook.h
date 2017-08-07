@@ -1,5 +1,5 @@
 //
-//  Contact.h
+//  ContactPhoneBook.h
 //  PhoneBook
 //
 //  Created by chuonghm on 7/26/17.
@@ -14,12 +14,12 @@
 /**
  Contact object - store data of each phone book contact
  */
-@interface ContactPhoneBook : ContactModelObject<ContactModelObjectDelegate>
+@interface ContactPhoneBook : ContactModelObject
 
-@property (strong, nonatomic) NSString *avatarKey;
-@property (strong, nonatomic) NSString *firstname;
-@property (strong, nonatomic) NSString *middlename;
-@property (strong, nonatomic) NSString *lastname;
+@property (strong, nonatomic) NSString *avatarKey;      // Key storing image in cache
+@property (strong, nonatomic) NSString *firstname;      // first name of contact
+@property (strong, nonatomic) NSString *middlename;     // middle name of contact
+@property (strong, nonatomic) NSString *lastname;       // last name of contact
 
 /**
  Init contact with CNContact object

@@ -7,34 +7,39 @@
 //
 
 #import "ContactTableNINibCell.h"
-#import "ImageCache.h"
 #import "ContactModelObject.h"
 
 @implementation ContactTableNINibCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+    // Update checkbox view
     [_checkBox setChecked:selected];
 }
 
-- (BOOL)shouldUpdateCellWithObject:(ContactModelObject<ContactModelObjectDelegate> *)object {
-    // Update UI
+- (BOOL)shouldUpdateCellWithObject:(ContactModelObject *)object {
+    
+    // Set avatar
     [_avatar setImage:[object getAvatarImage]];
-    [_name setText:[object getFullname]];
     [_avatar.layer setCornerRadius:_avatar.frame.size.width/2];
     _avatar.clipsToBounds = YES;
+    
+    // Set text
+    [_name setText:[object fullname]];
+    
+    // Update background
     if ([object isHighlighted]) {
-        self.backgroundColor = HIGHLIGHT_COLOR;
+        self.backgroundColor = [object highlightedTableCellBackgroundColor];
     } else {
         self.backgroundColor = [UIColor clearColor];
     }
+    
     return YES;
 }
 

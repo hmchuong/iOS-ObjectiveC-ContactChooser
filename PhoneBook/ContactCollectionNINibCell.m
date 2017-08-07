@@ -14,16 +14,20 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    
+    // Make rounded avatar
     [_avatar.layer setCornerRadius:self.frame.size.width/2];
     _avatar.clipsToBounds = YES;
 }
 
-- (BOOL)shouldUpdateCellWithObject:(ContactModelObject<ContactModelObjectDelegate> *)object {
+- (BOOL)shouldUpdateCellWithObject:(ContactModelObject *)object {
+    
+    // Update image of cell
     [_avatar setImage:[object getAvatarImage]];
     
+    // Update UI fixes state of cell
     if ([object isHighlighted]) {
-        self.alpha = ALPHA_OF_HIGHLIGH_COLLECTION_CELL;
+        self.alpha = [object alphaOfHighlightedCollectionCell];
     } else {
         self.alpha = 1;
     }

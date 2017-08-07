@@ -25,7 +25,7 @@ typedef NS_ENUM( NSUInteger, CheckMarkStyle) {
 
 @interface CheckBox : UIView
 
-@property (readwrite, nonatomic) bool checked;
-@property (readwrite, nonatomic) CheckMarkStyle checkMarkStyle;
+@property (readwrite, nonatomic) bool checked;                      // checked state
+@property (readwrite, nonatomic) CheckMarkStyle checkMarkStyle;     // style of check box
 
 @end

@@ -1,5 +1,5 @@
 //
-//  ContactModel.h
+//  ContactModelObject.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
@@ -17,20 +17,22 @@
                                         alpha:1]
 #define ALPHA_OF_HIGHLIGHTED_COLLECTION_CELL 0.5
 
-@class ContactModelObject;
-
-@protocol ContactModelObjectDelegate <NSObject>
-
-@required
-- (UIImage *)getAvatarImage;
-- (NSString *)getFullname;
-
-@end
-
+/**
+ Contact object for table and collection cell
+ */
 @interface ContactModelObject : NSObject<NINibCellObject,NICollectionViewNibCellObject>
 
-@property BOOL isHighlighted;
-@property float alphaOfHighlightedCollectionCell;
-@property UIColor *highlightedTableCellBackgroundColor;
+@property (strong,nonatomic) NSString *fullname;                    // Name to show on the table cell
+
+@property BOOL isHighlighted;                                       // Highlight state
+@property float alphaOfHighlightedCollectionCell;                   // Alpha of collection cell in highlight state
+@property UIColor *highlightedTableCellBackgroundColor;             // Background color of table cell in highlight state
+
+/**
+ Get avatar of contact
+
+ @return - avatar image
+ */
+- (UIImage *)getAvatarImage;
 
 @end

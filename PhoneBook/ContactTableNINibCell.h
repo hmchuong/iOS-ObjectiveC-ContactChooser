@@ -10,15 +10,13 @@
 #import "NICellFactory.h"
 #import "CheckBox.h"
 
-#define HIGHLIGHT_COLOR [UIColor colorWithRed:230.0/255 \
-green:230.0/255 \
-blue:230.0/255 \
-alpha:1]
-
+/**
+ Nimbus table cell for contact picker
+ */
 @interface ContactTableNINibCell : UITableViewCell<NICell>
 
-@property (weak, nonatomic) IBOutlet CheckBox *checkBox;
-@property (weak, nonatomic) IBOutlet UIImageView *avatar;
-@property (weak, nonatomic) IBOutlet UILabel *name;
+@property (weak, nonatomic) IBOutlet CheckBox *checkBox;        // Check box view
+@property (weak, nonatomic) IBOutlet UIImageView *avatar;       // Avatar of contact
+@property (weak, nonatomic) IBOutlet UILabel *name;             // Name of contact
 
 @end

@@ -11,23 +11,21 @@
 
 @interface ContactPhoneBookPickerViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *contactPicker;
-@property (strong, nonatomic) ContactPickerView *contactPickerModel;
+@property (weak, nonatomic) IBOutlet UIView *contactPickerView;             // UIView contains ContactPickerView
+@property (strong, nonatomic) ContactPickerView *contactPicker;             // Contact picker view
 
 @end
 
 @implementation ContactPhoneBookPickerViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    _contactPickerModel = [ContactPickerView loadToView:_contactPicker inViewController:self];
-    [ContactPhoneBookLoader sharedInstance].delegate = self;
-}
+#pragma mark - Life cycle
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidLoad {
+    
+    [super viewDidLoad];
+    
+    _contactPicker = [ContactPickerView initWithView:_contactPickerView inViewController:self];
+    [ContactPhoneBookLoader sharedInstance].delegate = self;
 }
 
 
@@ -40,15 +38,18 @@
 
 - (void)contactPhoneBookLoaderPermissionDenied {
     
+    // Hide progress view
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
+    
     // Request permission
     [self showContactPermissionRequest];
 }
 
 - (void)contactPhoneBookLoaderStartUpdateContacts {
     
+    // Show progress view
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     });
@@ -61,18 +62,20 @@
     NSAssert(!error, error.description);
 #endif
     
-    // Build datasource
+    // Build custom contact object
     NSMutableArray *contacts = [[NSMutableArray alloc] init];
     for (CNContact *cnContact in cnContacts) {
         ContactPhoneBook *contact = [[ContactPhoneBook alloc] initWithCNContact:cnContact];
-        if ([[contact getFullname] length] == 0) {
+        if ([[contact fullname] length] == 0) {
             continue;
         }
         [contacts addObject:contact];
     }
     
-    self.contactPickerModel.contacts = contacts;
+    // Pass contact array to contact picker
+    self.contactPicker.contacts = contacts;
     
+    // Hide Progress view
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
@@ -81,33 +84,41 @@
 
 #pragma mark - ContactPickerDelegate
 
-- (NSArray *)sectionedArrayOfContactPicker:(ContactPickerView *)contactPicker {
+- (NSArray *)sectionedDataOfContactPicker:(ContactPickerView *)contactPicker withContacts:(NSArray<ContactModelObject *> *)contacts {
     NSMutableArray* tableContents = [[NSMutableArray alloc] init];
     
+    // Grouping alphabetically
     for (unichar c = 'A'; c <= 'Z'; c++) {
         NSArray *sectionArray;
         NSString *section = [NSString stringWithFormat:@"%c",c];
-        sectionArray = [self.contactPickerModel.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname beginswith[c] %@", section]];
+        sectionArray = [contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname beginswith[c] %@", section]];
         if ([sectionArray count] > 0) {
             [tableContents addObject:section];
             [tableContents addObjectsFromArray:sectionArray];
         }
     }
     
+    // Grouping another contacts to section "#"
     NSString *format = @"[^a-zA-Z]+.*";
     NSArray *sectionArray;
-    sectionArray = [self.contactPickerModel.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname MATCHES %@",format]];
+    sectionArray = [contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname MATCHES %@",format]];
     
     if ([sectionArray count] > 0) {
         [tableContents addObject:@"#"];
         [tableContents addObjectsFromArray:sectionArray];
     }
+    
+    // Grouping
     return tableContents;
 }
 
 #pragma mark - Utilities
 
+/**
+ Show pop up request allowing this app accesses phonebook contacts
+ */
 - (void)showContactPermissionRequest {
+    
     UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"Access phone book"
                                                                   message:@"This application request to access phone book contact for right behavior. Click 'Setting' and turn on 'Phone book' permission"
                                                            preferredStyle:UIAlertControllerStyleAlert];

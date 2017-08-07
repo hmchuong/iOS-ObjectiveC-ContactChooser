@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "NimbusCollections.h"
 
-#define ALPHA_OF_HIGHLIGH_COLLECTION_CELL 0.5
-
+/**
+ Nimbus collection cell for contact picker 
+ */
 @interface ContactCollectionNINibCell : UICollectionViewCell<NICollectionViewCell>
 
-@property (weak, nonatomic) IBOutlet UIImageView *avatar;
+@property (weak, nonatomic) IBOutlet UIImageView *avatar;                   // Avatar of contact
 
 @end

@@ -36,7 +36,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Danh bạ" id="deE-Kn-COY"/>
                     <connections>
-                        <outlet property="contactPicker" destination="WuU-io-Kj5" id="UWU-9Q-92E"/>
+                        <outlet property="contactPickerView" destination="WuU-io-Kj5" id="r3O-qz-IvD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lii-Ih-WBf" userLabel="First Responder" sceneMemberID="firstResponder"/>
