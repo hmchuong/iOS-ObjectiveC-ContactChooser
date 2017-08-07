@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Contact.h"
+#import "ContactPhoneBook.h"
 #import "NIMutableTableViewModel.h"
 #include "NIMutableCollectionViewModel.h"
 #import "ContactPhoneBookLoader.h"
@@ -21,6 +21,6 @@
 #define ALPHA_OF_HIGHLIGH_COLLECTION_CELL 0.5
 #define NO_DATA_MESSAGE @"Không tìm thấy kết quả phù hợp"
 
-@interface ContactChooserViewController : UIViewController<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate,ContactPhoneBookLoaderDelegate>
+@interface ContactPickerViewController : UIViewController<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate,ContactPhoneBookLoaderDelegate>
 
 @end

@@ -8,6 +8,7 @@
 
 #import "ContactTableNINibCell.h"
 #import "ImageCache.h"
+#import "ContactModelObject.h"
 
 @implementation ContactTableNINibCell
 
@@ -23,13 +24,13 @@
     [_checkBox setChecked:selected];
 }
 
-- (BOOL)shouldUpdateCellWithObject:(Contact *)object {
+- (BOOL)shouldUpdateCellWithObject:(ContactModelObject<ContactModelObjectDelegate> *)object {
     // Update UI
-    [_avatar setImage:[ImageCache.sharedInstance imageFromKey:[object avatarKey]]];
-    [_name setText:[object fullname]];
+    [_avatar setImage:[object getAvatarImage]];
+    [_name setText:[object getFullname]];
     [_avatar.layer setCornerRadius:_avatar.frame.size.width/2];
     _avatar.clipsToBounds = YES;
-    if (object.isHighlighted) {
+    if ([object isHighlighted]) {
         self.backgroundColor = HIGHLIGHT_COLOR;
     } else {
         self.backgroundColor = [UIColor clearColor];

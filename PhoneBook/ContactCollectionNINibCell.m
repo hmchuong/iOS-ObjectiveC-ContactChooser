@@ -8,6 +8,7 @@
 
 #import "ContactCollectionNINibCell.h"
 #import "ImageCache.h"
+#import "ContactModelObject.h"
 
 @implementation ContactCollectionNINibCell
 
@@ -18,8 +19,8 @@
     _avatar.clipsToBounds = YES;
 }
 
-- (BOOL)shouldUpdateCellWithObject:(Contact *)object {
-    [_avatar setImage:[ImageCache.sharedInstance imageFromKey:[object avatarKey]]];
+- (BOOL)shouldUpdateCellWithObject:(ContactModelObject<ContactModelObjectDelegate> *)object {
+    [_avatar setImage:[object getAvatarImage]];
     
     if ([object isHighlighted]) {
         self.alpha = ALPHA_OF_HIGHLIGH_COLLECTION_CELL;

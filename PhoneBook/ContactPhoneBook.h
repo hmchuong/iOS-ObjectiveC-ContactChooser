@@ -8,21 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "NICellCatalog.h"
-#import "NimbusCollections.h"
 #import <Contacts/Contacts.h>
+#import "ContactModelObject.h"
 
 /**
  Contact object - store data of each phone book contact
  */
-@interface ContactPhoneBook : NSObject<NINibCellObject,NICollectionViewNibCellObject>
+@interface ContactPhoneBook : ContactModelObject<ContactModelObjectDelegate>
 
 @property (strong, nonatomic) NSString *avatarKey;
 @property (strong, nonatomic) NSString *firstname;
 @property (strong, nonatomic) NSString *middlename;
 @property (strong, nonatomic) NSString *lastname;
-@property (strong, readonly, nonatomic) NSString *fullname;
-@property BOOL isHighlighted;
 
 /**
  Init contact with CNContact object
@@ -32,10 +29,4 @@
  */
 - (instancetype)initWithCNContact:(CNContact *)cnContact;
 
-/**
- Get avatar image
-
- @return avatar of contact
- */
-- (UIImage *)avatarImage;
 @end

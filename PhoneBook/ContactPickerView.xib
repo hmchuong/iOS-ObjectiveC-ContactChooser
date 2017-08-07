@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ContactPickerView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ugf-q8-Ifg">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="97"/>
+                    <subviews>
+                        <searchBar contentMode="redraw" placeholder="Nhập tên bạn bè" translatesAutoresizingMaskIntoConstraints="NO" id="DoS-VX-Daj">
+                            <rect key="frame" x="0.0" y="53" width="375" height="44"/>
+                            <color key="backgroundColor" red="0.89796036479999997" green="0.89808970690000001" blue="0.89793205259999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="u1P-wx-xBT"/>
+                            </constraints>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="barTintColor" red="0.89796036479999997" green="0.89808970690000001" blue="0.89793205259999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pvx-nF-yeT">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
+                            <color key="backgroundColor" red="0.90188163519999998" green="0.90201145410000005" blue="0.90185326340000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="55" id="wve-EL-gsw"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GUb-cf-JxD">
+                                <size key="itemSize" width="40" height="55"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                            <cells/>
+                        </collectionView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="DoS-VX-Daj" secondAttribute="trailing" id="Qcq-oo-CkL"/>
+                        <constraint firstAttribute="bottom" secondItem="DoS-VX-Daj" secondAttribute="bottom" id="SGH-Hz-iC3"/>
+                        <constraint firstItem="pvx-nF-yeT" firstAttribute="top" secondItem="Ugf-q8-Ifg" secondAttribute="top" id="Wah-K5-87t"/>
+                        <constraint firstItem="DoS-VX-Daj" firstAttribute="top" secondItem="pvx-nF-yeT" secondAttribute="bottom" constant="-2" id="Yrl-Oh-Bzt"/>
+                        <constraint firstItem="DoS-VX-Daj" firstAttribute="leading" secondItem="Ugf-q8-Ifg" secondAttribute="leading" id="cag-U6-nLg"/>
+                        <constraint firstItem="pvx-nF-yeT" firstAttribute="leading" secondItem="Ugf-q8-Ifg" secondAttribute="leading" id="nab-7j-9Gf"/>
+                        <constraint firstAttribute="trailing" secondItem="pvx-nF-yeT" secondAttribute="trailing" id="t0q-h3-d3e"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qQQ-uT-B9M">
+                    <rect key="frame" x="0.0" y="95" width="375" height="572"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="separatorColor" red="0.82737809419999997" green="0.82749772070000005" blue="0.82735186819999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.096343081760000004" blue="0.1006172798" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="qQQ-uT-B9M" firstAttribute="top" secondItem="Ugf-q8-Ifg" secondAttribute="bottom" constant="-2" id="AvA-XQ-ZHa"/>
+                <constraint firstAttribute="bottom" secondItem="qQQ-uT-B9M" secondAttribute="bottom" id="GBu-RP-npB"/>
+                <constraint firstItem="qQQ-uT-B9M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="R6d-Tr-E8y"/>
+                <constraint firstAttribute="trailing" secondItem="qQQ-uT-B9M" secondAttribute="trailing" id="WdS-JS-6MU"/>
+                <constraint firstAttribute="trailing" secondItem="Ugf-q8-Ifg" secondAttribute="trailing" id="aKn-7D-H0q"/>
+                <constraint firstItem="Ugf-q8-Ifg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fuR-Fm-NC1"/>
+                <constraint firstItem="Ugf-q8-Ifg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vTm-PS-6In"/>
+            </constraints>
+            <connections>
+                <outlet property="contactsTableView" destination="qQQ-uT-B9M" id="jwo-ZX-qbT"/>
+                <outlet property="searchBar" destination="DoS-VX-Daj" id="hkJ-7R-PGu"/>
+                <outlet property="selectedContactsCollectionView" destination="pvx-nF-yeT" id="Xvv-8b-9Sh"/>
+                <outlet property="selectedContactsViewHeight" destination="wve-EL-gsw" id="wjl-rD-zju"/>
+            </connections>
+        </view>
+    </objects>
+</document>

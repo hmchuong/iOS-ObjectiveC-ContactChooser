@@ -38,7 +38,7 @@
     
     // Generate avatar
     if (avatar == nil) {
-        avatar = [self avatarImage];
+        avatar = [self generateAvatarImage];
     }
     
     // Store data to cache
@@ -47,15 +47,19 @@
     return self;
 }
 
+- (UIImage *)getAvatarImage {
+    return [ImageCache.sharedInstance imageFromKey:_avatarKey];
+}
 
-#pragma mark - getters
+
+#pragma mark - ContactModelDelegate
 
 /**
  Getter of fullname
 
  @return - fullname: lastname + middlename + firstname
  */
-- (NSString*)fullname {
+- (NSString*)getFullname {
     NSMutableString *showingName = [[NSMutableString alloc] init];
     
     if (_lastname != nil && [_lastname length] > 0) {
@@ -79,7 +83,7 @@
  Make image avatar
  @return - UIImage with text inside
  */
-- (UIImage *)avatarImage {
+- (UIImage *)generateAvatarImage {
     // Create label contains text
     UILabel *lblNameInitialize = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
     lblNameInitialize.textColor = [UIColor whiteColor];
@@ -107,7 +111,7 @@
 
 - (BOOL)isEqual:(id)object {
     ContactPhoneBook *compareObject = (ContactPhoneBook *)object;
-    if ([self.fullname isEqual:compareObject.fullname] && [self.avatarKey isEqual:compareObject.avatarKey]) {
+    if ([[self getFullname] isEqual:[compareObject getFullname]] && [self.avatarKey isEqual:compareObject.avatarKey]) {
         return YES;
     }
     return NO;
@@ -119,7 +123,7 @@
  @return - characters represent the contact's name
  */
 - (NSString *)getRepresentCharacters {
-    NSArray *tokensOfFullname = [self.fullname componentsSeparatedByString:@" "];
+    NSArray *tokensOfFullname = [[self getFullname] componentsSeparatedByString:@" "];
     NSString *representName;
     
     if ([tokensOfFullname count] > 1) {   // fullname has more than 1 word.

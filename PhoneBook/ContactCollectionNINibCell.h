@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "NimbusCollections.h"
-#import "ContactPhoneBook.h"
 
 #define ALPHA_OF_HIGHLIGH_COLLECTION_CELL 0.5
 

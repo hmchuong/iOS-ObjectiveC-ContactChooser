@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "NICellFactory.h"
-#import "ContactPhoneBook.h"
 #import "CheckBox.h"
 
 #define HIGHLIGHT_COLOR [UIColor colorWithRed:230.0/255 \

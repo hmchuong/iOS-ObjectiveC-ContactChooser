@@ -1,15 +1,14 @@
 //
-//  ContactChooserViewController.m
+//  ContactPicker.m
 //  PhoneBook
 //
-//  Created by chuonghm on 7/26/17.
+//  Created by chuonghm on 8/7/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ContactChooserViewController.h"
+#import "ContactPickerView.h"
 #import <Contacts/Contacts.h>
 #import "ThreadSafeMutableArray.h"
-#import "Contact.h"
 #import "MBProgressHUD.h"
 #import "NIMutableTableViewModel.h"
 #import "NICellCatalog.h"
@@ -18,7 +17,7 @@
 #import "ContactCollectionNINibCell.h"
 #import "ImageCache.h"
 
-@interface ContactChooserViewController ()
+@interface ContactPickerView()
 
 #pragma mark - Outlets
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;                               // Search bar
@@ -27,27 +26,51 @@
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;                       // Table view contains contacts
 
 #pragma mark - Contacts container
-@property (strong, nonatomic) NSArray *contacts;                                           // All contacts
+@property (retain, nonatomic) NIMutableCollectionViewModel * selectedContactsModel;
 @property (retain, nonatomic) NIMutableTableViewModel *contactsModel;
 @property (retain, nonatomic) NIMutableTableViewModel *filteredContactsModel;
-@property (retain, nonatomic) NIMutableCollectionViewModel * selectedContactsModel;
+
 
 #pragma mark - Properties
 @property BOOL isSearching;                                                                // YES - searching state, NO - non searching state
 
 @end
 
-@implementation ContactChooserViewController
+@implementation ContactPickerView
 
-#pragma mark - Life cycle
+- (void)setContacts:(NSArray *)contacts {
+    _contacts = contacts;
+    _contactsModel = [[NIMutableTableViewModel alloc] initWithSectionedArray:[_delegate sectionedArrayOfContactPicker:self] delegate:self];
+    [_contactsModel setSectionIndexType:NITableViewModelSectionIndexDynamic showsSearch:YES showsSummary:NO];
+    [self reloadAll];
+}
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
++ (instancetype)loadToView:(UIView *)superView
+  inViewController:(UIViewController<ContactPickerDelegate> *)viewController {
+    
+    ContactPickerView * contactPicker = [NSBundle.mainBundle loadNibNamed:NSStringFromClass([ContactPickerView class]) owner:viewController options:nil][0];
+    
+    if (contactPicker != nil) {
+        contactPicker.delegate = viewController;
+        [superView addSubview:contactPicker];
+        [contactPicker setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [superView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[view]-0-|" options:0 metrics:nil views:@{@"view":contactPicker}]];
+        [superView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[view]-0-|" options:0 metrics:nil views:@{@"view":contactPicker}]];
+    }
+    return contactPicker;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    _contactsTableView.delegate = self;
+    _searchBar.delegate = self;
+    _selectedContactsCollectionView.delegate = self;
     
     // Hide selected contacts view
     [_selectedContactsViewHeight setConstant:0];
     
-    [ContactPhoneBookLoader sharedInstance].delegate = self;
+    _noResultSearchingMessage = NO_DATA_MESSAGE;
     
     // Set background of section index to clear
     self.contactsTableView.sectionIndexBackgroundColor = [UIColor clearColor];
@@ -70,14 +93,14 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // Get cell at indexPath
-    NSObject *cell;
+    ContactModelObject *cellObject;
     if (_isSearching) {
-        cell = [_filteredContactsModel objectAtIndexPath:indexPath];
+        cellObject = [_filteredContactsModel objectAtIndexPath:indexPath];
     } else {
-        cell = [_contactsModel objectAtIndexPath:indexPath];
+        cellObject = [_contactsModel objectAtIndexPath:indexPath];
     }
     
-    if ([_selectedContactsModel indexPathForObject:cell]) {
+    if ([_selectedContactsModel indexPathForObject:cellObject]) {
         [cell setSelected:YES animated:YES];
         [_contactsTableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
@@ -88,7 +111,7 @@
     [self deselectAllRow];
     
     // Get selected contact
-    Contact *selectedContact;
+    ContactModelObject *selectedContact;
     if (_isSearching) {
         selectedContact = [_filteredContactsModel objectAtIndexPath:indexPath];
     } else {
@@ -110,7 +133,7 @@
         [self.selectedContactsCollectionView.collectionViewLayout prepareLayout];
     }];
     [self.selectedContactsCollectionView reloadData];
-   
+    
     // Animation for showing collection view if the first contact has been added
     if ([indexInCollectionView row] == 0) {
         [UIView animateWithDuration:0.2
@@ -119,7 +142,7 @@
                          animations:^{
                              // Change height of collection view
                              _selectedContactsViewHeight.constant = HEIGHT_OF_COLLECTION_VIEW;
-                             [self.view layoutIfNeeded];
+                             [self layoutIfNeeded];
                          }
                          completion:nil];
     }
@@ -130,7 +153,7 @@
     [self deselectAllRow];
     
     // Get deselected contact
-    Contact *deselectedContact;
+    ContactModelObject *deselectedContact;
     if (_isSearching) {
         deselectedContact = [_filteredContactsModel objectAtIndexPath:indexPath];
         [_filteredContactsModel removeObjectAtIndexPath:indexPath];
@@ -163,7 +186,7 @@
                          animations:^{
                              // Change height of collection view
                              _selectedContactsViewHeight.constant = 0;
-                             [self.view layoutIfNeeded];
+                             [self layoutIfNeeded];
                          }
                          completion:nil];
     }
@@ -204,7 +227,7 @@
     if (_isSearching) {
         [self disableSearching];
     }
-    Contact *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
+    ContactModelObject *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
     
     if (selectedContact.isHighlighted) {
         [_selectedContactsCollectionView deselectItemAtIndexPath:indexPath animated:YES];
@@ -212,7 +235,7 @@
         return;
     }
     [self changeHighlightedState:YES
-                    AtIndexPath:indexPath];
+                     AtIndexPath:indexPath];
     
     [_selectedContactsCollectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 }
@@ -242,7 +265,7 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-
+    
     if (searchText.length == 0) {       // Emty searchText --> non searching state
         _isSearching = NO;
         self.contactsTableView.dataSource = _contactsModel;
@@ -256,13 +279,13 @@
                                         searchText];
         NSArray *filteredContacts = [_contacts filteredArrayUsingPredicate:resultPredicate];
         _filteredContactsModel = [[NIMutableTableViewModel alloc] initWithListArray:filteredContacts
-                                                                    delegate:self];
+                                                                           delegate:self];
         self.contactsTableView.dataSource = _filteredContactsModel;
         
         if ([filteredContacts count] == 0) {
             UILabel *noDataLabel         = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.contactsTableView.bounds.size.width, self.contactsTableView.bounds.size.height/3)];
-            noDataLabel.text             = NO_DATA_MESSAGE;
-            noDataLabel.textColor        = TEXT_COLOR;
+            noDataLabel.text             = _noResultSearchingMessage;
+            noDataLabel.textColor        = [UIColor blackColor];
             noDataLabel.textAlignment    = NSTextAlignmentCenter;
             
             UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contactsTableView.bounds.size.width, self.contactsTableView.bounds.size.height)];
@@ -309,78 +332,7 @@
     
 }
 
-#pragma mark - ContactPhoneBookLoaderDelegate
-
-- (NSArray *)contactPhoneBookLoaderGetContactPropertiesKeys {
-    
-    return @[CNContactFamilyNameKey, CNContactGivenNameKey, CNContactMiddleNameKey, CNContactImageDataKey, CNContactIdentifierKey];
-}
-
-- (void)contactPhoneBookLoaderPermissionDenied {
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    });
-    // Request permission
-    [self showContactPermissionRequest];
-}
-
-- (void)contactPhoneBookLoaderStartUpdateContacts {
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    });
-}
-
-- (void)contactPhoneBookLoaderDoneUpdateContacts:(NSArray<CNContact *> *)cnContacts
-                                       withError:(NSError *)error {
-    
-#if DEBUG
-    NSAssert(!error, error.description);
-#endif
-    
-    // Build datasource
-    NSMutableArray *contacts = [[NSMutableArray alloc] init];
-    for (CNContact *cnContact in cnContacts) {
-        Contact *contact = [[Contact alloc] initWithCNContact:cnContact];
-        if ([contact.fullname length] == 0) {
-            continue;
-        }
-        [contacts addObject:contact];
-    }
-    self.contacts = contacts;
-    [self buildDatasource];
-    [self reloadAll];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    });
-    
-}
-
 #pragma mark - Utilities
-
-- (void)showContactPermissionRequest {
-    UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"Access phone book"
-                                                                  message:@"This application request to access phone book contact for right behavior. Click 'Setting' and turn on 'Phone book' permission"
-                                                           preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* yesButton = [UIAlertAction actionWithTitle:@"Setting"
-                                                        style:UIAlertActionStyleDefault
-                                                      handler:^(UIAlertAction * action) {
-                                                          
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-    }];
-    
-    UIAlertAction* noButton = [UIAlertAction actionWithTitle:@"Cancel"
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:nil];
-    
-    [alert addAction:yesButton];
-    [alert addAction:noButton];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self presentViewController:alert animated:YES completion:nil];
-    });
-}
 
 - (void)deselectAllRow {
     NSArray *indexPaths = [_selectedContactsCollectionView indexPathsForSelectedItems];
@@ -394,7 +346,7 @@
 - (void)changeHighlightedState:(BOOL)isHighlighted
                    AtIndexPath:(NSIndexPath *)indexPath {
     // Get selected collection cell
-    Contact *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
+    ContactModelObject *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
     
     NSIndexPath *indexPathInTableViewOfSelectedContact = [_contactsModel indexPathForObject:selectedContact];
     
@@ -415,8 +367,8 @@
     [_contactsModel insertObject:selectedContact atRow:[indexPathInTableViewOfSelectedContact row] inSection:[indexPathInTableViewOfSelectedContact section]];
     
     if (isHighlighted) {
-        [[_contactsTableView cellForRowAtIndexPath:indexPathInTableViewOfSelectedContact] setBackgroundColor: HIGHLIGHT_COLOR];
-        [_selectedContactsCollectionView cellForItemAtIndexPath:indexPath].alpha = ALPHA_OF_HIGHLIGH_COLLECTION_CELL;
+        [[_contactsTableView cellForRowAtIndexPath:indexPathInTableViewOfSelectedContact] setBackgroundColor: selectedContact.highlightedTableCellBackgroundColor];
+        [_selectedContactsCollectionView cellForItemAtIndexPath:indexPath].alpha = selectedContact.alphaOfHighlightedCollectionCell;
     } else {
         [[_contactsTableView cellForRowAtIndexPath:indexPathInTableViewOfSelectedContact] setBackgroundColor: [UIColor clearColor]];
         [_selectedContactsCollectionView cellForItemAtIndexPath:indexPath].alpha = 1;
@@ -428,37 +380,7 @@
     }
 }
 
-/**
- Group contacts to alphabetical sections
- */
-- (void)buildDatasource {
-    NSMutableArray* tableContents = [[NSMutableArray alloc] init];
-    
-    for (unichar c = 'A'; c <= 'Z'; c++) {
-        NSArray *sectionArray;
-        NSString *section = [NSString stringWithFormat:@"%c",c];
-        sectionArray = [self.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname beginswith[c] %@", section]];
-        if ([sectionArray count] > 0) {
-            [tableContents addObject:section];
-            [tableContents addObjectsFromArray:sectionArray];
-        }
-    }
-    
-    NSString *format = @"[^a-zA-Z]+.*";
-    NSArray *sectionArray;
-    sectionArray = [self.contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname MATCHES %@",format]];
-    
-    if ([sectionArray count] > 0) {
-        [tableContents addObject:@"#"];
-        [tableContents addObjectsFromArray:sectionArray];
-    }
-    _contactsModel = [[NIMutableTableViewModel alloc] initWithSectionedArray:tableContents
-                                                     delegate:self];
-    [_contactsModel setSectionIndexType:NITableViewModelSectionIndexDynamic showsSearch:YES showsSummary:NO];
-}
-
 - (void)reloadAll {
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         self.contactsTableView.dataSource = _contactsModel;
         
@@ -467,7 +389,7 @@
         [_selectedContactsModel addSectionWithTitle:@""];
         
         self.selectedContactsCollectionView.dataSource = _selectedContactsModel;
-
+        
         [self.contactsTableView reloadData];
         [self.selectedContactsCollectionView reloadData];
         _selectedContactsViewHeight.constant = 0;
