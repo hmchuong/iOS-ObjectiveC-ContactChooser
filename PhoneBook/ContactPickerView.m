@@ -6,12 +6,17 @@
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ContactPickerView.h"
 #import <Contacts/Contacts.h>
+
+#import "ContactPickerView.h"
+
+// Nimbus
 #import "NIMutableTableViewModel.h"
 #import "NICellCatalog.h"
-#import "ContactTableNINibCell.h"
 #import "NimbusCollections.h"
+
+// View cell
+#import "ContactTableNINibCell.h"
 #import "ContactCollectionNINibCell.h"
 
 @interface ContactPickerView()

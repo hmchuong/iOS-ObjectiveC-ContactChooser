@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "ContactModelObject.h"
+
+// Nimbus
 #import "NIMutableTableViewModel.h"
 #include "NIMutableCollectionViewModel.h"
-#import "ContactPhoneBookLoader.h"
 
 
 #define HEIGHT_OF_COLLECTION_VIEW 55

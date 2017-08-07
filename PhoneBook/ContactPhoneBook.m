@@ -7,8 +7,6 @@
 //
 
 #import "ContactPhoneBook.h"
-#import "ContactCollectionNINibCell.h"
-#import "ContactTableNINibCell.h"
 #import "ImageCache.h"
 
 /**

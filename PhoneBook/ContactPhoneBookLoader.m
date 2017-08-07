@@ -7,7 +7,6 @@
 //
 
 #import "ContactPhoneBookLoader.h"
-#import "ThreadSafeMutableArray.h"
 
 @interface ContactPhoneBookLoader()
 

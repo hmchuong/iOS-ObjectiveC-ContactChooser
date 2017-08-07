@@ -6,9 +6,9 @@
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ContactCollectionNINibCell.h"
-#import "ImageCache.h"
 #import "ContactModelObject.h"
+#import "ContactCollectionNINibCell.h"
+
 
 @implementation ContactCollectionNINibCell
 
