@@ -51,11 +51,11 @@
  Init Contact Picker
 
  @param view - view to load inside
- @param viewController - view controller of view
+ @param delegate - delegate
  @return - ContactPickerView after init
  */
 + (instancetype)initWithView:(UIView *)view
-            inViewController:(id<ContactPickerDelegate>)viewController;
+                withDelegate:(id<ContactPickerDelegate>)delegate;
 
 
 @end

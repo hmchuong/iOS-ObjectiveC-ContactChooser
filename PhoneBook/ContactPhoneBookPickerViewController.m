@@ -24,7 +24,7 @@
     
     [super viewDidLoad];
     
-    _contactPicker = [ContactPickerView initWithView:_contactPickerView inViewController:self];
+    _contactPicker = [ContactPickerView initWithView:_contactPickerView withDelegate:self];
     [ContactPhoneBookLoader sharedInstance].delegate = self;
 }
 

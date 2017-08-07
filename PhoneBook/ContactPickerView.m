@@ -42,21 +42,36 @@
     _contacts = contacts;
     
     // Build contacts model
-    _contactsModel = [[NIMutableTableViewModel alloc] initWithSectionedArray:[_delegate sectionedDataOfContactPicker:self withContacts:_contacts] delegate:self];
-    [_contactsModel setSectionIndexType:NITableViewModelSectionIndexDynamic showsSearch:YES showsSummary:NO];
+    NSArray *sectionedArray;
+    if ([_delegate respondsToSelector:@selector(sectionedDataOfContactPicker:withContacts:)]) {
+        sectionedArray = [_delegate sectionedDataOfContactPicker:self withContacts:_contacts];
+    } else {
+#if DEBUG
+        NSAssert(NO, @"%@ not responds to selector",NSStringFromClass([_delegate class]));
+#endif
+    }
+    
+    if (sectionedArray != nil) {
+        _contactsModel = [[NIMutableTableViewModel alloc] initWithSectionedArray:sectionedArray delegate:self];
+        [_contactsModel setSectionIndexType:NITableViewModelSectionIndexDynamic showsSearch:YES showsSummary:NO];
+    }
+#if DEBUG
+    NSAssert(sectionedArray != nil, @"Sectioned array is null");
+#endif
+    
     [self reloadAll];
 }
 
 #pragma mark - Constructors
 
 + (instancetype)initWithView:(UIView *)parentView
-            inViewController:( id<ContactPickerDelegate>)viewController {
+                withDelegate:( id<ContactPickerDelegate>)delegate {
     
     // Load nib
-    ContactPickerView * contactPicker = [NSBundle.mainBundle loadNibNamed:NSStringFromClass([ContactPickerView class]) owner:viewController options:nil][0];
+    ContactPickerView * contactPicker = [NSBundle.mainBundle loadNibNamed:NSStringFromClass([ContactPickerView class]) owner:self options:nil][0];
     
     if (contactPicker != nil) {
-        contactPicker.delegate = viewController;
+        contactPicker.delegate = delegate;
         
         // add contact picker to view
         [parentView addSubview:contactPicker];
