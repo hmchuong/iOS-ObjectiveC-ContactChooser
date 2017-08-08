@@ -42,6 +42,7 @@
 @implementation ContactPickerView
 
 - (instancetype)initWithFrame:(CGRect)frame {
+    
     if (self= [super initWithFrame:frame]) {
         if (self.subviews.count == 0) {
             [self setupView];
@@ -51,6 +52,7 @@
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    
     if (self = [super initWithCoder:aDecoder]) {
         if (self.subviews.count == 0) {
             [self setupView];
@@ -59,7 +61,11 @@
     return self;
 }
 
+/**
+ Load XIB to view
+ */
 - (void)setupView {
+    
     _subView = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([ContactPickerView class]) owner:self options:nil] firstObject];
     [_subView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self addSubview:_subView];
@@ -257,6 +263,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
     // No section view if searching
     if (_isSearching) {
         return nil;
