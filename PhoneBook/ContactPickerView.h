@@ -43,21 +43,12 @@
 /**
  Contact picker view
  */
+IB_DESIGNABLE
 @interface ContactPickerView : UIView<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) id<ContactPickerDelegate> delegate;                     // ContactPicker delegate
 @property (strong, nonatomic) NSArray<ContactModelObject *> *contacts;              // Contacts data
-@property (strong, nonatomic) NSString *noResultSearchingMessage;                   // Message show when no data appear
-
-/**
- Init Contact Picker
-
- @param view - view to load inside
- @param delegate - delegate
- @return - ContactPickerView after init
- */
-+ (instancetype)initWithView:(UIView *)view
-                withDelegate:(id<ContactPickerDelegate>)delegate;
+@property (strong, nonatomic) IBInspectable NSString *noResultSearchingMessage;                   // Message show when no data appear
 
 
 @end

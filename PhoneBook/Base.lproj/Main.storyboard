@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WuU-io-Kj5">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WuU-io-Kj5" customClass="ContactPickerView">
                                 <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -36,7 +36,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Danh bạ" id="deE-Kn-COY"/>
                     <connections>
-                        <outlet property="contactPickerView" destination="WuU-io-Kj5" id="r3O-qz-IvD"/>
+                        <outlet property="contactPicker" destination="WuU-io-Kj5" id="QmA-26-Gun"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lii-Ih-WBf" userLabel="First Responder" sceneMemberID="firstResponder"/>

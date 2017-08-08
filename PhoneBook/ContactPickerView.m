@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *selectedContactsCollectionView;     // Collection view contains selected contacts
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectedContactsViewHeight;       // Height of selected contacts view
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;                       // Table view contains contacts
+@property (unsafe_unretained, nonatomic) ContactPickerView * subView;
 
 #pragma mark - Contacts Nimbus model
 @property (retain, nonatomic) NIMutableCollectionViewModel * selectedContactsModel;        // Selected contacts collection view model
@@ -40,9 +41,51 @@
 
 @implementation ContactPickerView
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self= [super initWithFrame:frame]) {
+        if (self.subviews.count == 0) {
+            [self setupView];
+        }
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        if (self.subviews.count == 0) {
+            [self setupView];
+        }
+    }
+    return self;
+}
+
+- (void)setupView {
+    _subView = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([ContactPickerView class]) owner:self options:nil] firstObject];
+    [_subView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self addSubview:_subView];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view":_subView}]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view":_subView}]];
+}
+
+
 #pragma mark - Setters
 
+- (void)setDelegate:(id<ContactPickerDelegate>)delegate {
+    
+    if (_subView) {
+        _subView.delegate = delegate;
+        return;
+    }
+    
+    _delegate = delegate;
+}
+
 - (void)setContacts:(NSArray *)contacts {
+    
+    if (_subView) {
+        [_subView setContacts:contacts];
+        return;
+    }
     
     _contacts = contacts;
     
@@ -65,27 +108,11 @@
 #endif
     
     [self reloadAll];
+    
+    
 }
 
-#pragma mark - Constructors
-
-+ (instancetype)initWithView:(UIView *)parentView
-                withDelegate:( id<ContactPickerDelegate>)delegate {
-    
-    // Load nib
-    ContactPickerView * contactPicker = [NSBundle.mainBundle loadNibNamed:NSStringFromClass([ContactPickerView class]) owner:self options:nil][0];
-    
-    if (contactPicker != nil) {
-        contactPicker.delegate = delegate;
-        
-        // add contact picker to view
-        [parentView addSubview:contactPicker];
-        [contactPicker setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[view]-0-|" options:0 metrics:nil views:@{@"view":contactPicker}]];
-        [parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[view]-0-|" options:0 metrics:nil views:@{@"view":contactPicker}]];
-    }
-    return contactPicker;
-}
+#pragma mark - Life cycle
 
 - (void)awakeFromNib {
     

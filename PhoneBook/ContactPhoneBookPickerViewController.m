@@ -11,9 +11,7 @@
 
 @interface ContactPhoneBookPickerViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *contactPickerView;             // UIView contains ContactPickerView
-@property (strong, nonatomic) ContactPickerView *contactPicker;             // Contact picker view
-
+@property (weak, nonatomic) IBOutlet ContactPickerView *contactPicker;             //
 @end
 
 @implementation ContactPhoneBookPickerViewController
@@ -24,7 +22,8 @@
     
     [super viewDidLoad];
     
-    _contactPicker = [ContactPickerView initWithView:_contactPickerView withDelegate:self];
+    _contactPicker.delegate = self;
+    
     [ContactPhoneBookLoader sharedInstance].delegate = self;
 }
 
