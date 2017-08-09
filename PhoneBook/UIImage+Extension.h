@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage_Extension : UIImage
+@interface UIImage(RenderFromView)
+
++ (UIImage *) imageWithView:(UIView *)view;
 
 @end

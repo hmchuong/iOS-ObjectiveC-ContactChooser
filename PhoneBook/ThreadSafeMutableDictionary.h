@@ -10,4 +10,8 @@
 
 @interface ThreadSafeMutableDictionary : NSObject
 
+- (id)objectForKeyedSubscript:(id)key;
+- (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
+- (NSDictionary *)toNSDictionary;
+
 @end

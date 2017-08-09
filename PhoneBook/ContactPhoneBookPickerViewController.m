@@ -8,10 +8,13 @@
 
 #import "ContactPhoneBookPickerViewController.h"
 #import "MBProgressHUD.h"
+#import "ThreadSafeMutableArray.h"
+#import "ThreadSafeMutableDictionary.h"
 
 @interface ContactPhoneBookPickerViewController ()
 
-@property (weak, nonatomic) IBOutlet ContactPickerView *contactPicker;             //
+@property (weak, nonatomic) IBOutlet ContactPickerView *contactPicker;
+@property (strong, nonatomic) NSDate *operation;
 @end
 
 @implementation ContactPhoneBookPickerViewController
@@ -47,7 +50,7 @@
 }
 
 - (void)contactPhoneBookLoaderStartUpdateContacts {
-    
+    _operation = [NSDate date];
     // Show progress view
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -63,17 +66,17 @@
     
     // Build custom contact object
     NSMutableArray *contacts = [[NSMutableArray alloc] init];
+    
     for (CNContact *cnContact in cnContacts) {
         ContactPhoneBook *contact = [[ContactPhoneBook alloc] initWithCNContact:cnContact];
-        if ([[contact fullname] length] == 0) {
-            continue;
+        if ([[contact fullname] length] != 0) {
+            [contacts addObject:contact];
         }
-        [contacts addObject:contact];
     }
     
     // Pass contact array to contact picker
     self.contactPicker.contacts = contacts;
-    
+    NSLog(@"Time: %f", -[_operation timeIntervalSinceNow]);
     // Hide Progress view
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -84,31 +87,45 @@
 #pragma mark - ContactPickerDelegate
 
 - (NSArray *)sectionedDataOfContactPicker:(ContactPickerView *)contactPicker withContacts:(NSArray<ContactModelObject *> *)contacts {
-    NSMutableArray* tableContents = [[NSMutableArray alloc] init];
     
+    ThreadSafeMutableDictionary *tableContents = [[ThreadSafeMutableDictionary alloc] init];
+    
+    dispatch_group_t initContactGroup = dispatch_group_create();
     // Grouping alphabetically
     for (unichar c = 'A'; c <= 'Z'; c++) {
+        dispatch_group_async(initContactGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            NSArray *sectionArray;
+            NSString *section = [NSString stringWithFormat:@"%c",c];
+            sectionArray = [contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname beginswith[c] %@", section]];
+            if ([sectionArray count] > 0) {
+                tableContents[section] = sectionArray;
+            }
+        });
+    }
+    
+    dispatch_group_async(initContactGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        // Grouping another contacts to section "#"
+        NSString *format = @"[^a-zA-Z]+.*";
         NSArray *sectionArray;
-        NSString *section = [NSString stringWithFormat:@"%c",c];
-        sectionArray = [contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname beginswith[c] %@", section]];
+        sectionArray = [contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname MATCHES %@",format]];
+        
         if ([sectionArray count] > 0) {
-            [tableContents addObject:section];
-            [tableContents addObjectsFromArray:sectionArray];
+            tableContents[@"#"] = sectionArray;
         }
-    }
+    });
     
-    // Grouping another contacts to section "#"
-    NSString *format = @"[^a-zA-Z]+.*";
-    NSArray *sectionArray;
-    sectionArray = [contacts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.fullname MATCHES %@",format]];
-    
-    if ([sectionArray count] > 0) {
-        [tableContents addObject:@"#"];
-        [tableContents addObjectsFromArray:sectionArray];
-    }
+    dispatch_group_wait(initContactGroup, DISPATCH_TIME_FOREVER);
     
     // Grouping
-    return tableContents;
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    NSDictionary *sectionedContactsDict = [tableContents toNSDictionary];
+    NSArray *sortedKeys = [[sectionedContactsDict allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    for (id key in sortedKeys) {
+        [result addObject:key];
+        [result addObjectsFromArray:sectionedContactsDict[key]];
+    }
+    
+    return result;
 }
 
 #pragma mark - Utilities

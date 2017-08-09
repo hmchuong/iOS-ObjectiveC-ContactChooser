@@ -7,14 +7,33 @@
 //
 
 #import "CheckBox.h"
+#import "ImageCache.h"
+#import "UIImage+Extension.h"
+
+@interface CheckBox()
+
+@property (strong, nonatomic) UIImageView *imageView;
+
+@end
 
 @implementation CheckBox
 
 #pragma mark - Life cycle
 
 - (void) drawRect:(CGRect)rect {
-    
     [super drawRect:rect];
+    
+    if (_imageView == nil) {
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    }
+    
+    // Remove subviews
+    [_imageView removeFromSuperview];
+    
+    // Set border and corner radius of check box
+    self.layer.cornerRadius = self.frame.size.width/2;
+    [self.layer setBorderColor:UNCHECKED_COLOR.CGColor];
+    self.clipsToBounds = YES;
     
     // In checked state
     if ( self.checked ) {
@@ -32,8 +51,10 @@
 
 - (void)setChecked:(bool)checked {
     
-    _checked = checked;
-    [self setNeedsDisplay];
+    if (_checked != checked) {
+        _checked = checked;
+        [self setNeedsDisplay];
+    }
 }
 
 - (void)setCheckMarkStyle:(CheckMarkStyle)checkMarkStyle {
@@ -50,6 +71,13 @@
  @param rect - rect to draw
  */
 - (void)drawRectChecked:(CGRect)rect {
+    self.layer.borderWidth = 0;
+    UIImage *checkedImage = [ImageCache.sharedInstance imageFromKey:CHECKED_VIEW_KEY];
+    if (checkedImage) {
+        [_imageView setImage:checkedImage];
+        [self addSubview:_imageView];
+        return;
+    }
     
     // Set background of check box to checked color
     [self setBackgroundColor: CHECKED_COLOR];
@@ -57,7 +85,7 @@
     CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
     
     // Hide border of check box
-    self.layer.borderWidth = 0;
+    
     
     // Frame of checkbox
     CGRect frame = self.bounds;
@@ -77,6 +105,9 @@
     [[UIColor whiteColor] setStroke];
     bezierPath.lineWidth = CHECK_MARK_WIDTH;
     [bezierPath stroke];
+    
+    // Store image after draw
+    [ImageCache.sharedInstance storeImage:[UIImage imageWithView:self] withKey:CHECKED_VIEW_KEY];
 }
 
 /**
@@ -86,11 +117,12 @@
  */
 - (void)drawRectGrayedOut:(CGRect)rect {
     
-    // Set border and corner radius of check box
-    self.layer.cornerRadius = self.frame.size.width/2;
-    [self.layer setBorderWidth:1];
-    [self.layer setBorderColor:UNCHECKED_COLOR.CGColor];
-    self.clipsToBounds = YES;
+    UIImage *grayedOutImage = [ImageCache.sharedInstance imageFromKey:GRAYED_OUT_VIEW_KEY];
+    if (grayedOutImage) {
+        [_imageView setImage:grayedOutImage];
+        [self addSubview:_imageView];
+        return;
+    }
     
     // Set background of check box
     [self setBackgroundColor:UNCHECKED_COLOR];
@@ -115,6 +147,9 @@
     [[UIColor whiteColor] setStroke];
     bezierPath.lineWidth = CHECK_MARK_WIDTH;
     [bezierPath stroke];
+    
+    // Store image after draw
+    [ImageCache.sharedInstance storeImage:[UIImage imageWithView:self] withKey:GRAYED_OUT_VIEW_KEY];
 }
 
 /**
@@ -123,12 +158,7 @@
  @param rect - rect to draw
  */
 - (void)drawRectOpenCircle:(CGRect)rect {
-    
-    // Set border and corner radius of check box
-    self.layer.cornerRadius = self.frame.size.width/2;
     [self.layer setBorderWidth:1];
-    [self.layer setBorderColor:UNCHECKED_COLOR.CGColor];
-    self.clipsToBounds = YES;
     
     // Set background of check box
     [self setBackgroundColor:[UIColor whiteColor]];

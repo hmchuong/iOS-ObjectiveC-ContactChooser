@@ -167,7 +167,7 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
                 withKey:(NSString *)key {
     
     NSString *filePath = [self getFilePathFromKey:key];
-    NSData *imageData = UIImagePNGRepresentation(image);
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     
     // Write to file
     dispatch_async(_icIOQueue, ^{

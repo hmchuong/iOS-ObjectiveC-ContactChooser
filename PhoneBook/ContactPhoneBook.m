@@ -39,12 +39,9 @@
     
     // Generate avatar
     if (avatar == nil) {
-        avatar = [self generateAvatarImage];
+        [self generateAvatarImage];
     }
     
-    // Store data to cache
-    [ImageCache.sharedInstance storeImage:avatar
-                                  withKey:self.avatarKey];
     return self;
 }
 
@@ -93,26 +90,30 @@
 #pragma mark - Utilities
 
 /**
- Make image avatar
- @return - UIImage with text inside
+ Make image avatar and store to cache
  */
-- (UIImage *)generateAvatarImage {
+- (void)generateAvatarImage {
     
     // Create label contains text
-    UILabel *lblNameInitialize = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    lblNameInitialize.textColor = [UIColor whiteColor];
-    [lblNameInitialize setFont:[UIFont fontWithName:@"Helvetica" size:40]];
-    lblNameInitialize.text = [self getRepresentCharacters];
-    lblNameInitialize.textAlignment = NSTextAlignmentCenter;
-    lblNameInitialize.backgroundColor = UIColorFromHex(0x49BA96);
-    
-    // Render label to image
-    UIGraphicsBeginImageContext(lblNameInitialize.frame.size);
-    [lblNameInitialize.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *returnImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return returnImage;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UILabel *lblNameInitialize = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        lblNameInitialize.textColor = [UIColor whiteColor];
+        [lblNameInitialize setFont:[UIFont fontWithName:@"Helvetica" size:40]];
+        lblNameInitialize.text = [self getRepresentCharacters];
+        lblNameInitialize.textAlignment = NSTextAlignmentCenter;
+        lblNameInitialize.backgroundColor = UIColorFromHex(0x49BA96);
+        
+        // Render label to image
+        UIGraphicsBeginImageContext(lblNameInitialize.frame.size);
+        [lblNameInitialize.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *returnImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        // Store data to cache
+        [ImageCache.sharedInstance storeImage:returnImage
+                                      withKey:self.avatarKey];
+
+    });
 }
 
 /**
