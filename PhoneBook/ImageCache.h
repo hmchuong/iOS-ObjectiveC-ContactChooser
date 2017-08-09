@@ -24,6 +24,8 @@
  */
 + (id)sharedInstance;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /**
  Store image to disk
 

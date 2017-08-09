@@ -57,6 +57,8 @@
 
 + (instancetype)sharedInstance;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /**
  Load contacts for delegate
 

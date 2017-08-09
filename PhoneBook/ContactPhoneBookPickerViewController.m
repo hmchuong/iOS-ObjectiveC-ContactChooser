@@ -24,7 +24,7 @@
     
     _contactPicker.delegate = self;
     
-    [ContactPhoneBookLoader sharedInstance].delegate = self;
+    ContactPhoneBookLoader.sharedInstance.delegate = self;
 }
 
 
