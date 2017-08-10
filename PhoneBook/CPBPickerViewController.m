@@ -52,7 +52,7 @@
     });
     
     [PhoneBookContactLoader.sharedInstance getPhoneBookContactsWithCompletion: ^(BOOL granted, NSArray <PhoneBookContact *> *contacts) {
-        
+        NSLog(@"%d",[contacts count]);
         if (granted) {
             // Build custom contact cell object
             NSDate *_operation = [NSDate date];

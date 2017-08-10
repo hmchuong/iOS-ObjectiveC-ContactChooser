@@ -71,6 +71,16 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
                                                  name:UIApplicationWillTerminateNotification
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(increaseMemoryCache)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(minimizeMemoryCache)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
     return self;
 }
 
@@ -185,11 +195,12 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
  @param key - key of image
  */
 - (void)storeImage2Mem:(UIImage *)image
-               withKey:(NSString *)key {
+               withKey:(NSString *)key
+                  cost:(NSUInteger)cost{
     
     [_icMemCache setObject:image
                     forKey:key
-                      cost:icImageCost(image)];
+                      cost:cost];
 }
 
 /**
@@ -212,7 +223,8 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
     UIImage *image = [UIImage imageWithData:imageData];
     if (image) {
         [self storeImage2Mem:image
-                     withKey:key];
+                     withKey:key
+                        cost:[imageData length]];
     }
     
     return image;
@@ -320,6 +332,34 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
             
         }
     });
+}
+
+- (void) getFreeMemory {
+    mach_port_t host_port;
+    mach_msg_type_number_t host_size;
+    vm_size_t pagesize;
+    host_port = mach_host_self();
+    host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
+    host_page_size(host_port, &pagesize);
+    vm_statistics_data_t vm_stat;
+    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size) != KERN_SUCCESS) {
+        NSLog(@"Failed to fetch vm statistics");
+        return;
+    }
+    
+    /* Stats in bytes */
+    self.wired = vm_stat.wire_count * pagesize / (1024 * 1024);
+    self.active = vm_stat.active_count * pagesize / (1024 * 1024);
+    self.inactive = vm_stat.inactive_count * pagesize / (1024 * 1024);
+    self.free = vm_stat.free_count * pagesize / (1024 * 1024);
+}
+
+- (void)minimizeMemoryCache {
+    
+}
+
+- (void)increaseMemoryCache {
+    
 }
 
 @end
