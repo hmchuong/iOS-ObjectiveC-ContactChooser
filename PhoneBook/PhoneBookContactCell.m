@@ -6,7 +6,7 @@
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ContactPhoneBook.h"
+#import "PhoneBookContactCell.h"
 #import "ImageCache.h"
 
 /**
@@ -21,26 +21,25 @@
                      blue:((float)((hexValue & 0x0000FF) >>  0))/255.0 \
                     alpha:1.0]
 
-@implementation ContactPhoneBook
+@interface PhoneBookContactCell()
+
+@property (strong, nonatomic) NSString *buildFullName;
+
+@end
+
+@implementation PhoneBookContactCell
 
 #pragma mark - Constructors
 
-- (instancetype)initWithCNContact:(CNContact *)cnContact {
+- (instancetype)initWithPhoneBookContact:(PhoneBookContact *)phoneBookContact {
     
     self = [super init];
-    // init name
-    self.firstname = [cnContact givenName];
-    self.lastname = [cnContact familyName];
-    self.middlename = [cnContact middleName];
     
-    // init avatar key
-    self.avatarKey = [cnContact identifier];
-    UIImage *avatar = [UIImage imageWithData:[cnContact imageData]];
-    
-    // Generate avatar
-    if (avatar == nil) {
-        [self generateAvatarImage];
-    }
+    _firstname = phoneBookContact.firstName;
+    _middlename = phoneBookContact.middleName;
+    _lastname = phoneBookContact.lastName;
+    _avatarKey = phoneBookContact.identifier;
+    [self generateAvatarImage];
     
     return self;
 }
@@ -53,6 +52,10 @@
  @return - fullname: lastname + middlename + firstname
  */
 - (NSString *)fullname {
+    
+    if (_buildFullName != nil) {
+        return _buildFullName;
+    }
     
     NSMutableString *showingName = [[NSMutableString alloc] init];
     
@@ -68,7 +71,9 @@
     
     // Trim space and endline at beginning and ending of name
     NSCharacterSet* charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@" \n"];
-    return [showingName stringByTrimmingCharactersInSet:charsToTrim];
+    _buildFullName = [showingName stringByTrimmingCharactersInSet:charsToTrim];
+    
+    return _buildFullName;
 }
 
 #pragma mark - Override methods
@@ -80,7 +85,7 @@
 
 - (BOOL)isEqual:(id)object {
     
-    ContactPhoneBook *compareObject = (ContactPhoneBook *)object;
+    PhoneBookContactCell *compareObject = (PhoneBookContactCell *)object;
     if ([[self fullname] isEqual:[compareObject fullname]] && [self.avatarKey isEqual:compareObject.avatarKey]) {
         return YES;
     }
@@ -96,6 +101,12 @@
     
     // Create label contains text
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *avatar = [ImageCache.sharedInstance imageFromKey:_avatarKey];
+        
+        if (avatar != nil) {
+            return;
+        }
+        
         UILabel *lblNameInitialize = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
         lblNameInitialize.textColor = [UIColor whiteColor];
         [lblNameInitialize setFont:[UIFont fontWithName:@"Helvetica" size:40]];

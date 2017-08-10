@@ -165,14 +165,16 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
  */
 - (void)storeImage2Disk:(UIImage *)image
                 withKey:(NSString *)key {
-    
-    NSString *filePath = [self getFilePathFromKey:key];
-    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
-    
-    // Write to file
-    dispatch_async(_icIOQueue, ^{
-        [imageData writeToFile:filePath
-                    atomically:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSString *filePath = [self getFilePathFromKey:key];
+        NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+        
+        // Write to file
+        dispatch_async(_icIOQueue, ^{
+            
+            [imageData writeToFile:filePath
+                        atomically:YES];
+        });
     });
 }
 

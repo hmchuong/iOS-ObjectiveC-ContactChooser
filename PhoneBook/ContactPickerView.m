@@ -86,34 +86,47 @@
     _delegate = delegate;
 }
 
-- (void)setContacts:(NSArray *)contacts {
+- (void)setSectionedContacts:(NSArray *)sectionedContacts {
     
     if (_subView) {
-        [_subView setContacts:contacts];
+        [_subView setSectionedContacts:sectionedContacts];
         return;
     }
     
-    _contacts = contacts;
-    
-    // Build contacts model
-    NSArray *sectionedArray;
-    if ([_delegate respondsToSelector:@selector(sectionedDataOfContactPicker:withContacts:)]) {
-        sectionedArray = [_delegate sectionedDataOfContactPicker:self withContacts:_contacts];
-    } else {
-#if DEBUG
-        NSAssert(NO, @"%@ not responds to selector",NSStringFromClass([_delegate class]));
-#endif
+    if (sectionedContacts != nil) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _contactsModel = [[NIMutableTableViewModel alloc] initWithSectionedArray:sectionedContacts delegate:self];
+            [_contactsModel setSectionIndexType:NITableViewModelSectionIndexDynamic showsSearch:YES showsSummary:NO];
+            
+            // Reload table view
+            self.contactsTableView.dataSource = _contactsModel;
+            [self.contactsTableView reloadData];
+            
+            // Reload collection view
+            _selectedContactsModel = [[NIMutableCollectionViewModel alloc] initWithDelegate:self];
+            [_selectedContactsModel addSectionWithTitle:@""];
+            self.selectedContactsCollectionView.dataSource = _selectedContactsModel;
+            [self.selectedContactsCollectionView reloadData];
+            
+            // Hide collection view
+            _selectedContactsViewHeight.constant = 0;
+        });
+        
     }
     
-    if (sectionedArray != nil) {
-        _contactsModel = [[NIMutableTableViewModel alloc] initWithSectionedArray:sectionedArray delegate:self];
-        [_contactsModel setSectionIndexType:NITableViewModelSectionIndexDynamic showsSearch:YES showsSummary:NO];
-    }
 #if DEBUG
-    NSAssert(sectionedArray != nil, @"Sectioned array is null");
+    NSAssert(sectionedContacts != nil, @"Sectioned array is null");
 #endif
     
-    [self reloadAll];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSMutableArray *contacts = [[NSMutableArray alloc] init];
+        for (NSObject *object in sectionedContacts) {
+            if (![object isKindOfClass:[NSString class]]) {
+                [contacts addObject:object];
+            }
+        }
+        _contacts = [[NSArray alloc] initWithArray:contacts];
+    });
     
     
 }
@@ -493,29 +506,6 @@
     if (selectedContact.isHighlighted) {
         [self.contactsTableView scrollToRowAtIndexPath:indexPathInTableViewOfSelectedContact atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
-}
-
-/**
- Reload all data in collection view and table view
- */
-- (void)reloadAll {
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        // Reload table view
-        self.contactsTableView.dataSource = _contactsModel;
-        [self.contactsTableView reloadData];
-        
-        // Reload collection view
-        _selectedContactsModel = [[NIMutableCollectionViewModel alloc] initWithDelegate:self];
-        [_selectedContactsModel addSectionWithTitle:@""];
-        
-        self.selectedContactsCollectionView.dataSource = _selectedContactsModel;
-        [self.selectedContactsCollectionView reloadData];
-        
-        // Hide collection view
-        _selectedContactsViewHeight.constant = 0;
-    });
 }
 
 /**

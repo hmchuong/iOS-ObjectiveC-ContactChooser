@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#include "ContactPhoneBookLoader.h"
+#import <Foundation/Foundation.h>
+#include "PhoneBookContactLoader.h"
 #include "ContactPickerView.h"
-#include "ContactPhoneBook.h"
+#include "PhoneBookContactCell.h"
 
-@interface ContactPhoneBookPickerViewController : UIViewController<ContactPhoneBookLoaderDelegate, ContactPickerDelegate>
+@interface CPBPickerViewController : UIViewController
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 #import "ContactModelObject.h"
 
@@ -27,15 +28,6 @@
 
 @required
 
-/**
- Get sectioned data
-
- @param contactPicker - ContactPickerView want to get
- @param contacts - contacts to section
- @return - NSArray of sectioned data
- */
-- (NSArray *)sectionedDataOfContactPicker:(ContactPickerView *)contactPicker
-                              withContacts:(NSArray<ContactModelObject *> *) contacts;
 
 @end
 
@@ -46,9 +38,15 @@
 IB_DESIGNABLE
 @interface ContactPickerView : UIView<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate>
 
-@property (weak, nonatomic) id<ContactPickerDelegate> delegate;                     // ContactPicker delegate
-@property (strong, nonatomic) NSArray<ContactModelObject *> *contacts;              // Contacts data
+@property (weak, nonatomic) id delegate;                     // ContactPicker delegate
+@property (strong, readonly, nonatomic) NSArray<ContactModelObject *> *contacts;              // Contacts data
 @property (strong, nonatomic) IBInspectable NSString *noResultSearchingMessage;                   // Message show when no data appear
 
+/**
+ Set sectioned contacts
+
+ @param contacts - Array of sectioned contacts
+ */
+- (void)setSectionedContacts:(NSArray *)contacts;
 
 @end

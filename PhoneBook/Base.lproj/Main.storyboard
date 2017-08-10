@@ -12,7 +12,7 @@
         <!--Danh bạ-->
         <scene sceneID="lPF-je-FrA">
             <objects>
-                <viewController id="2IY-0w-dp4" customClass="ContactPhoneBookPickerViewController" sceneMemberID="viewController">
+                <viewController id="2IY-0w-dp4" customClass="CPBPickerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ewu-wR-eNb"/>
                         <viewControllerLayoutGuide type="bottom" id="Cco-Qh-4J7"/>
