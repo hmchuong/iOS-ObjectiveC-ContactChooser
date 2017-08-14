@@ -9,11 +9,12 @@
 #import "ImageCache.h"
 #import "NSDate+Extension.h"
 #import "SystemHelper.h"
+#import "LRUMemoryCache.h"
 
 @interface ImageCache()
 
 @property (strong, nonatomic) NSFileManager *icFileManager;     // File manager
-@property (strong, nonatomic) NSCache *icMemCache;              // Memory cache
+@property (strong, nonatomic) LRUMemoryCache *icMemCache;       // Memory cache
 @property (strong, nonatomic) dispatch_queue_t icIOQueue;       // Queue for read/write file serial
 @property (strong, nonatomic) NSString *icDirPath;              // Directory path for save file
 
@@ -26,7 +27,7 @@
 - (instancetype)init {
     
     self = [super init];
-    _icMemCache = [[NSCache alloc]init];
+    _icMemCache = [[LRUMemoryCache alloc] init];
     [self maximizeMemoryCache];
     _icIOQueue = dispatch_queue_create("com.vn.vng.zalo.ImageCache", DISPATCH_QUEUE_SERIAL);
     

@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 #define MAXIMUM_MEMORY_RATIO 0.8
-#define MINIMUM_MEMORY_RATIO 0.1
+#define MINIMUM_MEMORY_RATIO 0.05
 #define EXPIRATION_DAYS 30                  // Clear file on disk after 30 days
 
 /**

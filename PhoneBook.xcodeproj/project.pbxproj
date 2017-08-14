@@ -28,6 +28,8 @@
 		C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C85818931F3081700033577B /* ContactCollectionNINibCell.m */; };
 		C85818961F3081700033577B /* ContactCollectionNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85818941F3081700033577B /* ContactCollectionNINibCell.xib */; };
 		C85B0CCD1F413DB1001ABB04 /* SystemHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CCC1F413DB1001ABB04 /* SystemHelper.m */; };
+		C85B0CD41F414611001ABB04 /* LRUMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CD31F414611001ABB04 /* LRUMemoryCache.m */; };
+		C85B0CD71F415366001ABB04 /* LRUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CD61F415366001ABB04 /* LRUObject.m */; };
 		C85F4FD31F37FF3300B68B9F /* ContactPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FD21F37FF3300B68B9F /* ContactPickerView.m */; };
 		C85F4FD81F37FFB200B68B9F /* ContactPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85F4FD71F37FFB200B68B9F /* ContactPickerView.xib */; };
 		C85F4FDB1F38053300B68B9F /* CPBPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FDA1F38053300B68B9F /* CPBPickerViewController.m */; };
@@ -99,6 +101,10 @@
 		C85818941F3081700033577B /* ContactCollectionNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCollectionNINibCell.xib; sourceTree = "<group>"; };
 		C85B0CCB1F413DB1001ABB04 /* SystemHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemHelper.h; sourceTree = "<group>"; };
 		C85B0CCC1F413DB1001ABB04 /* SystemHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemHelper.m; sourceTree = "<group>"; };
+		C85B0CD21F414611001ABB04 /* LRUMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUMemoryCache.h; sourceTree = "<group>"; };
+		C85B0CD31F414611001ABB04 /* LRUMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUMemoryCache.m; sourceTree = "<group>"; };
+		C85B0CD51F415366001ABB04 /* LRUObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUObject.h; sourceTree = "<group>"; };
+		C85B0CD61F415366001ABB04 /* LRUObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUObject.m; sourceTree = "<group>"; };
 		C85F4FD11F37FF3300B68B9F /* ContactPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactPickerView.h; sourceTree = "<group>"; };
 		C85F4FD21F37FF3300B68B9F /* ContactPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactPickerView.m; sourceTree = "<group>"; };
 		C85F4FD71F37FFB200B68B9F /* ContactPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactPickerView.xib; sourceTree = "<group>"; };
@@ -268,6 +274,7 @@
 		C849E64C1F283BE50062C24F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C85B0CCE1F41442F001ABB04 /* LRUMemoryCache */,
 				C85B0CCA1F413D90001ABB04 /* System */,
 				C86F16A91F32C37C00CEF23F /* Extensions */,
 				C8F4B5211F31C8CA00077116 /* ImageCache */,
@@ -312,6 +319,17 @@
 				C85B0CCC1F413DB1001ABB04 /* SystemHelper.m */,
 			);
 			name = System;
+			sourceTree = "<group>";
+		};
+		C85B0CCE1F41442F001ABB04 /* LRUMemoryCache */ = {
+			isa = PBXGroup;
+			children = (
+				C85B0CD21F414611001ABB04 /* LRUMemoryCache.h */,
+				C85B0CD31F414611001ABB04 /* LRUMemoryCache.m */,
+				C85B0CD51F415366001ABB04 /* LRUObject.h */,
+				C85B0CD61F415366001ABB04 /* LRUObject.m */,
+			);
+			name = LRUMemoryCache;
 			sourceTree = "<group>";
 		};
 		C85F4FD01F37FEE300B68B9F /* Common */ = {
@@ -718,9 +736,11 @@
 				C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,
 				C85F4FD31F37FF3300B68B9F /* ContactPickerView.m in Sources */,
+				C85B0CD71F415366001ABB04 /* LRUObject.m in Sources */,
 				C85B0CCD1F413DB1001ABB04 /* SystemHelper.m in Sources */,
 				C804F03E1F3C3DA5006A468D /* NSString+Extension.m in Sources */,
 				C85F4FE11F38277300B68B9F /* ContactModelObject.m in Sources */,
+				C85B0CD41F414611001ABB04 /* LRUMemoryCache.m in Sources */,
 				C8F4B5241F31C8F200077116 /* ImageCache.m in Sources */,
 				C839C1E61F3BF3C60052C0E5 /* PhoneBookContact.m in Sources */,
 				C86F16BA1F32DF9000CEF23F /* PhoneBookContactLoader.m in Sources */,

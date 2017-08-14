@@ -14,4 +14,7 @@
 - (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
 - (NSDictionary *)toNSDictionary;
 
+- (void)removeObjectForkey:(NSString *)key;
+- (void)removeAllObjects;
+
 @end
