@@ -8,16 +8,7 @@
 
 #import "ImageCache.h"
 #import "NSDate+Extension.h"
-
-/**
- Calculate image cost
-
- @param image - image to calculate
- @return estimated cost of image
- */
-FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
-    return image.size.height * image.size.width * image.scale * image.scale;
-}
+#import "SystemHelper.h"
 
 @interface ImageCache()
 
@@ -36,7 +27,7 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
     
     self = [super init];
     _icMemCache = [[NSCache alloc]init];
-    [_icMemCache setTotalCostLimit:TOTAL_COST_LIMIT];
+    [self maximizeMemoryCache];
     _icIOQueue = dispatch_queue_create("com.vn.vng.zalo.ImageCache", DISPATCH_QUEUE_SERIAL);
     
     // I/O
@@ -71,11 +62,13 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
                                                  name:UIApplicationWillTerminateNotification
                                                object:nil];
     
+    // Maximize memory cache when application enters foreground
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(increaseMemoryCache)
+                                             selector:@selector(maximizeMemoryCache)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
     
+    // Minimize memory cache when application enters background
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(minimizeMemoryCache)
                                                  name:UIApplicationDidEnterBackgroundNotification
@@ -334,32 +327,38 @@ FOUNDATION_STATIC_INLINE NSUInteger icImageCost(UIImage *image) {
     });
 }
 
-- (void) getFreeMemory {
-    mach_port_t host_port;
-    mach_msg_type_number_t host_size;
-    vm_size_t pagesize;
-    host_port = mach_host_self();
-    host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
-    host_page_size(host_port, &pagesize);
-    vm_statistics_data_t vm_stat;
-    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size) != KERN_SUCCESS) {
-        NSLog(@"Failed to fetch vm statistics");
+/**
+ Set memory cache threshold
+
+ @param ratio - proportion of free memory to limit
+ */
+- (void)setMemoryThreshold:(float)ratio {
+    
+    unsigned long freeMemory = [SystemHelper getFreeMemory];
+    
+    if (freeMemory == 0) {  // Cannot get memory info
         return;
     }
     
-    /* Stats in bytes */
-    self.wired = vm_stat.wire_count * pagesize / (1024 * 1024);
-    self.active = vm_stat.active_count * pagesize / (1024 * 1024);
-    self.inactive = vm_stat.inactive_count * pagesize / (1024 * 1024);
-    self.free = vm_stat.free_count * pagesize / (1024 * 1024);
+    unsigned long threshold = floor(freeMemory * ratio);
+    
+    [self.icMemCache setTotalCostLimit:threshold];
 }
 
+/**
+ Minimize memory cache
+ */
 - (void)minimizeMemoryCache {
     
+    [self setMemoryThreshold:MINIMUM_MEMORY_RATIO];
 }
 
-- (void)increaseMemoryCache {
+/**
+ Maximize memory cache
+ */
+- (void)maximizeMemoryCache {
     
+    [self setMemoryThreshold:MAXIMUM_MEMORY_RATIO];
 }
 
 @end

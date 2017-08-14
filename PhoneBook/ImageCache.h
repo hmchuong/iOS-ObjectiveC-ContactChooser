@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define TOTAL_COST_LIMIT 1024*1024          // Threshold for clean memory cache
+#define MAXIMUM_MEMORY_RATIO 0.8
+#define MINIMUM_MEMORY_RATIO 0.1
 #define EXPIRATION_DAYS 30                  // Clear file on disk after 30 days
 
 /**
