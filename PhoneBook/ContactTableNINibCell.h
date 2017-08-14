@@ -15,8 +15,8 @@
  */
 @interface ContactTableNINibCell : UITableViewCell<NICell>
 
-@property (weak, nonatomic) IBOutlet CheckBox *checkBox;        // Check box view
-@property (weak, nonatomic) IBOutlet UIImageView *avatar;       // Avatar of contact
-@property (weak, nonatomic) IBOutlet UILabel *name;             // Name of contact
+@property (strong, nonatomic) CheckBox *checkBox;        // Check box view
+@property (strong, nonatomic) UIImageView *avatar;       // Avatar of contact
+@property (strong, nonatomic) UILabel *name;             // Name of contact
 
 @end

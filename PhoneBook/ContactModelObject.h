@@ -22,7 +22,7 @@
 /**
  Contact object for table and collection cell
  */
-@interface ContactModelObject : NSObject<NINibCellObject,NICollectionViewNibCellObject>
+@interface ContactModelObject : NSObject<NICellObject,NICollectionViewCellObject>
 
 @property (strong,nonatomic) NSString *fullname;                    // Name to show on the table cell
 

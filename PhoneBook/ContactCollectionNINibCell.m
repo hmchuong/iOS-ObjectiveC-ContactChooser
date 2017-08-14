@@ -12,12 +12,48 @@
 
 @implementation ContactCollectionNINibCell
 
+//- (void)drawRect:(CGRect)rect {
+//    [super drawRect:rect];
+//    
+//    CGRect frame = self.frame;
+//    frame.size.height = 55;
+//    frame.size.width = 40;
+//    
+//    self.frame = frame;
+//    
+//    _avatar = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    [_avatar.layer setCornerRadius:self.frame.size.width/2];
+//    _avatar.clipsToBounds = YES;
+//    
+//    [self addSubview:_avatar];
+//    
+//    // Add leading and trailing
+//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[avatar]|" options:0 metrics:nil views:@{@"avatar":_avatar}]];
+//    
+//    // Add height constraint
+//    [_avatar addConstraint:[NSLayoutConstraint constraintWithItem:_avatar
+//                                                        attribute:NSLayoutAttributeHeight
+//                                                        relatedBy:NSLayoutRelationEqual
+//                                                           toItem:nil
+//                                                        attribute:NSLayoutAttributeNotAnAttribute
+//                                                       multiplier:1
+//                                                         constant:40]];
+//    
+//    // Add center verical constraint
+//    [self addConstraint:[NSLayoutConstraint constraintWithItem:_avatar
+//                                                        attribute:NSLayoutAttributeCenterY
+//                                                        relatedBy:NSLayoutRelationEqual
+//                                                           toItem:self
+//                                                        attribute:NSLayoutAttributeCenterY
+//                                                       multiplier:1
+//                                                         constant:0]];
+//}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     
     // Make rounded avatar
-    [_avatar.layer setCornerRadius:self.frame.size.width/2];
-    _avatar.clipsToBounds = YES;
+    
 }
 
 - (BOOL)shouldUpdateCellWithObject:(ContactModelObject *)object {

@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ContactCollectionNINibCell">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX">
             <rect key="frame" x="0.0" y="0.0" width="40" height="55"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -31,9 +31,6 @@
                 <constraint firstItem="dQP-mO-eIB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="hrE-ME-fyi"/>
                 <constraint firstItem="dQP-mO-eIB" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="qtF-kH-kIA"/>
             </constraints>
-            <connections>
-                <outlet property="avatar" destination="dQP-mO-eIB" id="n56-va-Ryg"/>
-            </connections>
         </collectionViewCell>
     </objects>
 </document>

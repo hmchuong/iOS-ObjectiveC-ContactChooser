@@ -14,6 +14,6 @@
  */
 @interface ContactCollectionNINibCell : UICollectionViewCell<NICollectionViewCell>
 
-@property (weak, nonatomic) IBOutlet UIImageView *avatar;                   // Avatar of contact
+@property (strong, nonatomic) UIImageView *avatar;                   // Avatar of contact
 
 @end
