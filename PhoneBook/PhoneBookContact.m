@@ -35,6 +35,8 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         UIImage *avatar = [UIImage imageWithData:[cnContact imageData]];
+        
+        // if has avatar -> store to cache
         if (avatar != nil) {
             [ImageCache.sharedInstance storeImage:avatar
                                           withKey:self.identifier];
@@ -48,22 +50,27 @@
     
     self = [super init];
     
+    // Name
     CFStringRef firstName, middleName, lastName;
     firstName = ABRecordCopyValue(aBRecordRef, kABPersonFirstNameProperty);
     middleName = ABRecordCopyValue(aBRecordRef, kABPersonMiddleNameProperty);
     lastName = ABRecordCopyValue(aBRecordRef, kABPersonLastNameProperty);
+    
     _firstName = [NSString stringWithFormat:@"%@",firstName];
     _middleName = [NSString stringWithFormat:@"%@",middleName];
     _lastName = [NSString stringWithFormat:@"%@",lastName];
 
+    // ID
     ABRecordID recordID = ABRecordGetRecordID(aBRecordRef);
     _identifier = [NSString stringWithFormat:@"%d", recordID];
     
+    // Avatar
     UIImage *avatar;
     if (ABPersonHasImageData(aBRecordRef)) {
         avatar = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageData(aBRecordRef)];
     }
     
+    // Store to cache
     if (avatar != nil) {
         [ImageCache.sharedInstance storeImage:avatar
                                       withKey:_identifier];

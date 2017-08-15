@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="70" id="KGk-i7-Jjw" customClass="ContactTableNINibCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="70" id="KGk-i7-Jjw">
             <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -50,11 +50,6 @@
                 </constraints>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="115" minY="0.0" maxX="0.0" maxY="0.0"/>
-            <connections>
-                <outlet property="avatar" destination="J2t-Cl-2mn" id="sYH-GQ-eY6"/>
-                <outlet property="checkBox" destination="sG3-Dv-zcL" id="LTf-wx-8WH"/>
-                <outlet property="name" destination="qpe-4V-LKK" id="UYp-34-N6j"/>
-            </connections>
         </tableViewCell>
     </objects>
 </document>

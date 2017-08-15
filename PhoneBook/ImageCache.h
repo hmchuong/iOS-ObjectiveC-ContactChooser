@@ -40,9 +40,11 @@
  Get image from cache with key
 
  @param key - key of image
- @return image stored in cache
+ @param storeToMem - want store to memory
+ @return storedImage in cache
  */
-- (UIImage *)imageFromKey:(NSString *)key;
+- (UIImage *)imageFromKey:(NSString *)key
+               storeToMem:(BOOL)storeToMem;
 
 /**
  Remove image with key from cache

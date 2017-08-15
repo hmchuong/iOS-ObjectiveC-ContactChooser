@@ -17,19 +17,10 @@
 
 
 #define HEIGHT_OF_COLLECTION_VIEW 55
-#define NO_DATA_MESSAGE @"Không tìm thấy kết quả phù hợp"
+#define DEFAULT_NO_DATA_MESSAGE @"Không tìm thấy kết quả phù hợp"
+#define DEFAULT_SEARCH_PLACEHOLDER @"Nhập tên bạn bè"
 
 @class ContactPickerView;
-
-/**
- Contact picker delegate protocol
- */
-@protocol ContactPickerDelegate <NSObject>
-
-@required
-
-
-@end
 
 
 /**
@@ -38,9 +29,10 @@
 IB_DESIGNABLE
 @interface ContactPickerView : UIView<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate>
 
-@property (weak, nonatomic) id delegate;                     // ContactPicker delegate
-@property (strong, readonly, nonatomic) NSArray<ContactModelObject *> *contacts;              // Contacts data
-@property (strong, nonatomic) IBInspectable NSString *noResultSearchingMessage;                   // Message show when no data appear
+
+@property (strong, readonly, nonatomic) NSArray<ContactModelObject *> *contacts;    // Contacts data
+@property (strong, nonatomic) IBInspectable NSString *noResultSearchingMessage;     // Message show when no data appear
+@property (strong, nonatomic) IBInspectable NSString *searchPlaceholder;            // Placeholder for search bar
 
 /**
  Set sectioned contacts

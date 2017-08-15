@@ -6,7 +6,7 @@
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "PhoneBookContactCell.h"
+#import "CPBModelObject.h"
 #import "ImageCache.h"
 
 /**
@@ -21,13 +21,13 @@
                      blue:((float)((hexValue & 0x0000FF) >>  0))/255.0 \
                     alpha:1.0]
 
-@interface PhoneBookContactCell()
+@interface CPBModelObject()
 
 @property (strong, nonatomic) NSString *buildFullName;
 
 @end
 
-@implementation PhoneBookContactCell
+@implementation CPBModelObject
 
 #pragma mark - Constructors
 
@@ -80,12 +80,12 @@
 
 - (UIImage *)getAvatarImage {
     
-    return [ImageCache.sharedInstance imageFromKey:_avatarKey];
+    return [ImageCache.sharedInstance imageFromKey:_avatarKey storeToMem:YES];
 }
 
 - (BOOL)isEqual:(id)object {
     
-    PhoneBookContactCell *compareObject = (PhoneBookContactCell *)object;
+    CPBModelObject *compareObject = (CPBModelObject *)object;
     if ([[self fullname] isEqual:[compareObject fullname]] && [self.avatarKey isEqual:compareObject.avatarKey]) {
         return YES;
     }
@@ -101,7 +101,7 @@
     
     // Create label contains text
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *avatar = [ImageCache.sharedInstance imageFromKey:_avatarKey];
+        UIImage *avatar = [ImageCache.sharedInstance imageFromKey:_avatarKey storeToMem:NO];
         
         if (avatar != nil) {
             return;
@@ -141,7 +141,7 @@
         @try {
             // Get first characters of first and last word.
             NSString *firstToken = [tokensOfFullname objectAtIndex:0];
-            NSString *lastToken = [tokensOfFullname objectAtIndex:[tokensOfFullname count]-1];
+            NSString *lastToken = [tokensOfFullname lastObject];
             
             // Link the two characters.
             representName = [[NSString alloc] initWithFormat:@"%c%c",[firstToken characterAtIndex:0],[lastToken characterAtIndex:0]];

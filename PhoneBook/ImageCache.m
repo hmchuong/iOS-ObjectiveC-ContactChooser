@@ -27,8 +27,10 @@
 - (instancetype)init {
     
     self = [super init];
+    
     _icMemCache = [[LRUMemoryCache alloc] init];
     [self maximizeMemoryCache];
+    
     _icIOQueue = dispatch_queue_create("com.vn.vng.zalo.ImageCache", DISPATCH_QUEUE_SERIAL);
     
     // I/O
@@ -101,16 +103,17 @@
 
 - (void)storeImage:(UIImage *)image withKey:(NSString *)key {
     
-    [self storeImage2Disk:image withKey:key];
+    [self storeImageToDisk:image withKey:key];
 }
 
-- (UIImage *)imageFromKey:(NSString *)key {
+- (UIImage *)imageFromKey:(NSString *)key
+               storeToMem:(BOOL)storeToMem {
     
     UIImage *image = [self imageFromMemCacheWithKey:key];
     if (image) {
         return image;
     }
-    return [self imageFromDiskWithKey:key];
+    return [self imageFromDiskWithKey:key storeToMem:storeToMem];
 }
 
 - (void)removeImageForKey:(NSString *)key {
@@ -147,14 +150,14 @@
         NSArray *files = [_icFileManager contentsOfDirectoryAtPath:_icDirPath
                                                              error:&error];
 #if DEBUG
-        NSAssert(error, error.debugDescription);
+        NSAssert(error != nil, error.debugDescription);
 #endif
         
         for (NSString *file in files) {
             // Delete file
             BOOL success = [_icFileManager removeItemAtPath:[NSString stringWithFormat:@"%@/%@", _icDirPath, file] error:&error];
 #if DEBUG
-            NSAssert(success && !error, error.debugDescription);
+            NSAssert(success && error != nil, error.debugDescription);
 #endif
             
         }
@@ -167,8 +170,9 @@
  @param image - image to store
  @param key - key of image
  */
-- (void)storeImage2Disk:(UIImage *)image
+- (void)storeImageToDisk:(UIImage *)image
                 withKey:(NSString *)key {
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSString *filePath = [self getFilePathFromKey:key];
         NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
@@ -188,7 +192,7 @@
  @param image - image to store
  @param key - key of image
  */
-- (void)storeImage2Mem:(UIImage *)image
+- (void)storeImageToMem:(UIImage *)image
                withKey:(NSString *)key
                   cost:(NSUInteger)cost{
     
@@ -201,9 +205,11 @@
  Load image from disk
 
  @param key - key of image to load
+ @param storeToMem - want to store in memory
  @return image from disk
  */
-- (UIImage *)imageFromDiskWithKey:(NSString *)key {
+- (UIImage *)imageFromDiskWithKey:(NSString *)key
+                       storeToMem:(BOOL)storeToMem {
     
     NSString *filePath = [self getFilePathFromKey:key];
     
@@ -215,8 +221,9 @@
     
     // If has image fixed key, store image to mem cache
     UIImage *image = [UIImage imageWithData:imageData];
-    if (image) {
-        [self storeImage2Mem:image
+    if (storeToMem && image) {
+        
+        [self storeImageToMem:image
                      withKey:key
                         cost:[imageData length]];
     }

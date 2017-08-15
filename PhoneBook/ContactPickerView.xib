@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ContactPickerView">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -71,12 +71,6 @@
                 <constraint firstItem="Ugf-q8-Ifg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fuR-Fm-NC1"/>
                 <constraint firstItem="Ugf-q8-Ifg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vTm-PS-6In"/>
             </constraints>
-            <connections>
-                <outlet property="contactsTableView" destination="qQQ-uT-B9M" id="jwo-ZX-qbT"/>
-                <outlet property="searchBar" destination="DoS-VX-Daj" id="hkJ-7R-PGu"/>
-                <outlet property="selectedContactsCollectionView" destination="pvx-nF-yeT" id="Xvv-8b-9Sh"/>
-                <outlet property="selectedContactsViewHeight" destination="wve-EL-gsw" id="wjl-rD-zju"/>
-            </connections>
         </view>
     </objects>
 </document>

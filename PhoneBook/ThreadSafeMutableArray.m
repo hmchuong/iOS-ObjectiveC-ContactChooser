@@ -27,6 +27,7 @@
 }
 
 - (instancetype)initWithArray:(NSArray *)array {
+    
     self = [super init];
     if (array == nil || [array count] == 0) {
         NSLog(@"Array must be nonnull and nonempty");
@@ -40,6 +41,7 @@
 }
 
 - (void)addObject:(NSObject *)object {
+    
     // Valid input object
     if (object == nil) {
         NSLog(@"Object must be nonnull");
@@ -54,6 +56,7 @@
 
 
 - (void)addObjectsFromArray:(NSArray *)array {
+    
     // Valid input array
     if (array == nil) {
         NSLog(@"Array must be nonnull");
@@ -74,6 +77,7 @@
 
 - (void)insertObject:(NSObject *)object
              atIndex:(NSUInteger)index {
+    
     // Valid input object
     if (object == nil) {
         NSLog(@"Object must be nonnull");
@@ -94,6 +98,7 @@
 }
 
 - (void)removeObject:(NSObject *)object {
+    
     // Valid input object
     if (object == nil) {
         NSLog(@"Object must be nonnull");
@@ -107,6 +112,7 @@
 }
 
 - (void)removeObjectAtIndex:(NSUInteger)index {
+    
     // Valid input index
     NSUInteger numberOfElements = [self count];
     if (index >= numberOfElements) {
@@ -121,6 +127,7 @@
 }
 
 - (void)removeAllObjects {
+    
     // Check nonempty array
     NSUInteger numberOfElements = [self count];
     if (numberOfElements == 0) {
@@ -135,6 +142,7 @@
 }
 
 - (id)objectAtIndex:(NSUInteger)index {
+    
     // Valid input index
     NSUInteger numberOfElements = [self count];
     if (index >= numberOfElements) {
@@ -151,6 +159,7 @@
 }
 
 - (NSUInteger) count {
+    
     NSUInteger __block count;
     dispatch_sync(_tsQueue, ^{
         count = [_internalArray count];
@@ -159,6 +168,7 @@
 }
 
 - (NSArray *) filteredArrayUsingPredicate:(NSPredicate *)predicate {
+    
     NSArray __block *result;
     dispatch_sync(_tsQueue, ^{
         result = [_internalArray filteredArrayUsingPredicate:predicate];
@@ -167,6 +177,7 @@
 }
 
 - (NSInteger)indexOfObject: (NSObject *)object {
+    
     NSInteger __block result;
     dispatch_sync(_tsQueue, ^{
         result = [_internalArray indexOfObject:object];
@@ -175,6 +186,7 @@
 }
 
 - (BOOL)containsObject: (id)object {
+    
     BOOL __block result;
     dispatch_sync(_tsQueue, ^{
         result = [_internalArray containsObject:object];
@@ -183,11 +195,24 @@
 }
 
 - (NSArray *)toNSArray {
+    
     NSArray __block *array;
     dispatch_sync(_tsQueue, ^{
         array = [[NSArray alloc] initWithArray:_internalArray];
     });
     return array;
+}
+
+- (id)pop {
+    
+    id __block obj;
+    dispatch_sync(_tsQueue, ^{
+        if ([_internalArray count] > 0) {
+            obj = [_internalArray lastObject];
+            [_internalArray removeLastObject];
+        }
+    });
+    return obj;
 }
 
 @end

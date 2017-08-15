@@ -44,6 +44,7 @@
     
     CNContactStore *store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        
         NSMutableArray<PhoneBookContact *> *contacts = [[NSMutableArray alloc] init];
         if (granted) {
             
@@ -56,13 +57,12 @@
             
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
             
-            NSDate *operation = [NSDate date];
             for (CNContact *contact in cnContacts) {
                 [contacts addObject:[[PhoneBookContact alloc] initWithCNContact:contact]];
             }
-            //NSLog(@"Time: %f", -[operation timeIntervalSinceNow]);
             
         }
+        
         completion(granted,contacts);
     }];
 }
@@ -93,6 +93,7 @@
     }
     
     NSMutableArray<PhoneBookContact *> *contacts = [[NSMutableArray alloc] init];;
+    
     if (accessGranted) {
         
         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
@@ -103,6 +104,7 @@
         }
         
     }
+    
     completion(accessGranted, contacts);
 
 }

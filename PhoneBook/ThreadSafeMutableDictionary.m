@@ -18,6 +18,7 @@
 @implementation ThreadSafeMutableDictionary
 
 - (instancetype)init {
+    
     self = [super init];
     
     _internalDictionary = [[NSMutableDictionary alloc]init];
@@ -31,20 +32,20 @@
     NSObject *__block result;
     dispatch_sync(_tsQueue, ^{
         result = _internalDictionary[key];
-        //NSLog(@"Length: %d objects",[_internalDictionary count]);
     });
     
     return result;
 }
 
 - (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
+    
     dispatch_async(_tsQueue, ^{
         _internalDictionary[key] = obj;
-        //NSLog(@"Length: %d objects",[_internalDictionary count]);
     });
 }
 
 - (NSDictionary *)toNSDictionary {
+    
     NSDictionary *__block result;
     dispatch_sync(_tsQueue, ^{
         result = _internalDictionary;
@@ -54,16 +55,16 @@
 }
 
 - (void)removeObjectForkey:(NSString *)key {
+    
     dispatch_async(_tsQueue, ^{
         [_internalDictionary removeObjectForKey:key];
-        //NSLog(@"Length: %d objects",[_internalDictionary count]);
     });
 }
 
 - (void)removeAllObjects {
+    
     dispatch_async(_tsQueue, ^{
         [_internalDictionary removeAllObjects];
-        //NSLog(@"Length: %d objects",[_internalDictionary count]);
     });
 }
 

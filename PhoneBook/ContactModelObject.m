@@ -7,8 +7,8 @@
 //
 
 #import "ContactModelObject.h"
-#import "ContactCollectionNINibCell.h"
-#import "ContactTableNINibCell.h"
+#import "ContactCollectionNICell.h"
+#import "ContactTableNICell.h"
 
 
 @implementation ContactModelObject
@@ -33,18 +33,12 @@
     return [[UIImage alloc]init];
 }
 
-#pragma mark - NINibCellObject
-
-- (UINib *)cellNib {
-    
-    return [UINib nibWithNibName:NSStringFromClass([ContactTableNINibCell class]) bundle:nil];
+- (Class)cellClass {
+    return [ContactTableNICell class];
 }
 
-#pragma mark - NICollectionViewNibCellObject
-
-- (UINib *)collectionViewCellNib {
-    
-    return [UINib nibWithNibName:NSStringFromClass([ContactCollectionNINibCell class]) bundle:nil];
+- (Class)collectionViewCellClass {
+    return [ContactCollectionNICell class];
 }
 
 @end
