@@ -101,7 +101,7 @@
 
 - (void)storeImage:(UIImage *)image withKey:(NSString *)key {
     
-    [self storeImage2Disk:image withKey:key];
+    [self storeImageToDisk:image withKey:key];
 }
 
 - (UIImage *)imageFromKey:(NSString *)key {
@@ -167,7 +167,7 @@
  @param image - image to store
  @param key - key of image
  */
-- (void)storeImage2Disk:(UIImage *)image
+- (void)storeImageToDisk:(UIImage *)image
                 withKey:(NSString *)key {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSString *filePath = [self getFilePathFromKey:key];
@@ -188,7 +188,7 @@
  @param image - image to store
  @param key - key of image
  */
-- (void)storeImage2Mem:(UIImage *)image
+- (void)storeImageToMem:(UIImage *)image
                withKey:(NSString *)key
                   cost:(NSUInteger)cost{
     
@@ -216,7 +216,7 @@
     // If has image fixed key, store image to mem cache
     UIImage *image = [UIImage imageWithData:imageData];
     if (image) {
-        [self storeImage2Mem:image
+        [self storeImageToMem:image
                      withKey:key
                         cost:[imageData length]];
     }

@@ -26,8 +26,6 @@
  */
 - (void)setUpView {
     
-    [self.contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
     // Add avatar
     _avatar = [[UIImageView alloc] initWithFrame:CGRectZero];
     _avatar.contentMode = UIViewContentModeScaleToFill;
