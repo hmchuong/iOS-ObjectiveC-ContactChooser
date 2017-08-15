@@ -7,8 +7,8 @@
 //
 
 #import "ContactModelObject.h"
-#import "ContactCollectionNINibCell.h"
-#import "ContactTableNINibCell.h"
+#import "ContactCollectionNICell.h"
+#import "ContactTableNICell.h"
 
 
 @implementation ContactModelObject
@@ -48,11 +48,11 @@
 //}
 
 - (Class)cellClass {
-    return [ContactTableNINibCell class];
+    return [ContactTableNICell class];
 }
 
 - (Class)collectionViewCellClass {
-    return [ContactCollectionNINibCell class];
+    return [ContactCollectionNICell class];
 }
 
 @end

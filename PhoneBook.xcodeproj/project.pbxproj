@@ -25,8 +25,7 @@
 		C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */; };
 		C85375101F3AF12B00C524CE /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C853750F1F3AF12B00C524CE /* UIImage+Extension.m */; };
 		C85375141F3AFCCE00C524CE /* ThreadSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = C85375131F3AFCCE00C524CE /* ThreadSafeMutableDictionary.m */; };
-		C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C85818931F3081700033577B /* ContactCollectionNINibCell.m */; };
-		C85818961F3081700033577B /* ContactCollectionNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85818941F3081700033577B /* ContactCollectionNINibCell.xib */; };
+		C85818951F3081700033577B /* ContactCollectionNICell.m in Sources */ = {isa = PBXBuildFile; fileRef = C85818931F3081700033577B /* ContactCollectionNICell.m */; };
 		C85B0CCD1F413DB1001ABB04 /* SystemHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CCC1F413DB1001ABB04 /* SystemHelper.m */; };
 		C85B0CD41F414611001ABB04 /* LRUMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CD31F414611001ABB04 /* LRUMemoryCache.m */; };
 		C85B0CD71F415366001ABB04 /* LRUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CD61F415366001ABB04 /* LRUObject.m */; };
@@ -36,8 +35,7 @@
 		C85F4FE11F38277300B68B9F /* ContactModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FE01F38277300B68B9F /* ContactModelObject.m */; };
 		C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C86F16B41F32C68400CEF23F /* NSDate+Extension.m */; };
 		C86F16BA1F32DF9000CEF23F /* PhoneBookContactLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C86F16B91F32DF9000CEF23F /* PhoneBookContactLoader.m */; };
-		C87AAB161F2F26A000EEE4B6 /* ContactTableNINibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */; };
-		C87AAB171F2F26A000EEE4B6 /* ContactTableNINibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */; };
+		C87AAB161F2F26A000EEE4B6 /* ContactTableNICell.m in Sources */ = {isa = PBXBuildFile; fileRef = C87AAB141F2F26A000EEE4B6 /* ContactTableNICell.m */; };
 		C8F4B5241F31C8F200077116 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F4B5231F31C8F200077116 /* ImageCache.m */; };
 /* End PBXBuildFile section */
 
@@ -96,9 +94,8 @@
 		C853750F1F3AF12B00C524CE /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
 		C85375121F3AFCCE00C524CE /* ThreadSafeMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadSafeMutableDictionary.h; sourceTree = "<group>"; };
 		C85375131F3AFCCE00C524CE /* ThreadSafeMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadSafeMutableDictionary.m; sourceTree = "<group>"; };
-		C85818921F3081700033577B /* ContactCollectionNINibCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCollectionNINibCell.h; sourceTree = "<group>"; };
-		C85818931F3081700033577B /* ContactCollectionNINibCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCollectionNINibCell.m; sourceTree = "<group>"; };
-		C85818941F3081700033577B /* ContactCollectionNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCollectionNINibCell.xib; sourceTree = "<group>"; };
+		C85818921F3081700033577B /* ContactCollectionNICell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCollectionNICell.h; sourceTree = "<group>"; };
+		C85818931F3081700033577B /* ContactCollectionNICell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCollectionNICell.m; sourceTree = "<group>"; };
 		C85B0CCB1F413DB1001ABB04 /* SystemHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemHelper.h; sourceTree = "<group>"; };
 		C85B0CCC1F413DB1001ABB04 /* SystemHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemHelper.m; sourceTree = "<group>"; };
 		C85B0CD21F414611001ABB04 /* LRUMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUMemoryCache.h; sourceTree = "<group>"; };
@@ -116,9 +113,8 @@
 		C86F16B41F32C68400CEF23F /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		C86F16B81F32DF9000CEF23F /* PhoneBookContactLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneBookContactLoader.h; sourceTree = "<group>"; };
 		C86F16B91F32DF9000CEF23F /* PhoneBookContactLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneBookContactLoader.m; sourceTree = "<group>"; };
-		C87AAB131F2F26A000EEE4B6 /* ContactTableNINibCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactTableNINibCell.h; sourceTree = "<group>"; };
-		C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableNINibCell.m; sourceTree = "<group>"; };
-		C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableNINibCell.xib; sourceTree = "<group>"; };
+		C87AAB131F2F26A000EEE4B6 /* ContactTableNICell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactTableNICell.h; sourceTree = "<group>"; };
+		C87AAB141F2F26A000EEE4B6 /* ContactTableNICell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableNICell.m; sourceTree = "<group>"; };
 		C8F4B5221F31C8F200077116 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
 		C8F4B5231F31C8F200077116 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
 		D334FF3A1984498A2D0C80D6 /* libPods-PhoneBookTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhoneBookTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -255,8 +251,8 @@
 			isa = PBXGroup;
 			children = (
 				C86F16BB1F3334CC00CEF23F /* CheckBox */,
-				C85818911F30815B0033577B /* ContactCollectionNINibCell */,
-				C87AAB121F2F257A00EEE4B6 /* ContactTableNINibCell */,
+				C85818911F30815B0033577B /* ContactCollectionNICell */,
+				C87AAB121F2F257A00EEE4B6 /* ContactTableNICell */,
 			);
 			name = ContactCustomViews;
 			sourceTree = "<group>";
@@ -302,14 +298,13 @@
 			name = ThreadSafeMutableDictionary;
 			sourceTree = "<group>";
 		};
-		C85818911F30815B0033577B /* ContactCollectionNINibCell */ = {
+		C85818911F30815B0033577B /* ContactCollectionNICell */ = {
 			isa = PBXGroup;
 			children = (
-				C85818921F3081700033577B /* ContactCollectionNINibCell.h */,
-				C85818931F3081700033577B /* ContactCollectionNINibCell.m */,
-				C85818941F3081700033577B /* ContactCollectionNINibCell.xib */,
+				C85818921F3081700033577B /* ContactCollectionNICell.h */,
+				C85818931F3081700033577B /* ContactCollectionNICell.m */,
 			);
-			name = ContactCollectionNINibCell;
+			name = ContactCollectionNICell;
 			sourceTree = "<group>";
 		};
 		C85B0CCA1F413D90001ABB04 /* System */ = {
@@ -410,14 +405,13 @@
 			name = CheckBox;
 			sourceTree = "<group>";
 		};
-		C87AAB121F2F257A00EEE4B6 /* ContactTableNINibCell */ = {
+		C87AAB121F2F257A00EEE4B6 /* ContactTableNICell */ = {
 			isa = PBXGroup;
 			children = (
-				C87AAB131F2F26A000EEE4B6 /* ContactTableNINibCell.h */,
-				C87AAB141F2F26A000EEE4B6 /* ContactTableNINibCell.m */,
-				C87AAB151F2F26A000EEE4B6 /* ContactTableNINibCell.xib */,
+				C87AAB131F2F26A000EEE4B6 /* ContactTableNICell.h */,
+				C87AAB141F2F26A000EEE4B6 /* ContactTableNICell.m */,
 			);
-			name = ContactTableNINibCell;
+			name = ContactTableNICell;
 			sourceTree = "<group>";
 		};
 		C8F4B5201F31C8A500077116 /* ThreadSafeMutableArray */ = {
@@ -557,8 +551,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C85F4FD81F37FFB200B68B9F /* ContactPickerView.xib in Resources */,
-				C87AAB171F2F26A000EEE4B6 /* ContactTableNINibCell.xib in Resources */,
-				C85818961F3081700033577B /* ContactCollectionNINibCell.xib in Resources */,
 				C83F202B1F273F8D00A1D67A /* LaunchScreen.storyboard in Resources */,
 				C83F20281F273F8D00A1D67A /* Assets.xcassets in Resources */,
 				C83F20261F273F8D00A1D67A /* Main.storyboard in Resources */,
@@ -724,7 +716,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C87AAB161F2F26A000EEE4B6 /* ContactTableNINibCell.m in Sources */,
+				C87AAB161F2F26A000EEE4B6 /* ContactTableNICell.m in Sources */,
 				C85375101F3AF12B00C524CE /* UIImage+Extension.m in Sources */,
 				C83F20201F273F8D00A1D67A /* AppDelegate.m in Sources */,
 				C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */,
@@ -733,7 +725,7 @@
 				C83F20561F27576C00A1D67A /* CheckBox.m in Sources */,
 				C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */,
 				C849E64B1F28333B0062C24F /* PhoneBookContactCell.m in Sources */,
-				C85818951F3081700033577B /* ContactCollectionNINibCell.m in Sources */,
+				C85818951F3081700033577B /* ContactCollectionNICell.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,
 				C85F4FD31F37FF3300B68B9F /* ContactPickerView.m in Sources */,
 				C85B0CD71F415366001ABB04 /* LRUObject.m in Sources */,

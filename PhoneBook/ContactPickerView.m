@@ -16,8 +16,8 @@
 #import "NimbusCollections.h"
 
 // View cell
-#import "ContactTableNINibCell.h"
-#import "ContactCollectionNINibCell.h"
+#import "ContactTableNICell.h"
+#import "ContactCollectionNICell.h"
 
 @interface ContactPickerView()
 
@@ -219,7 +219,7 @@
     // Animation for showing collection view if the first contact has been added
     if ([indexInCollectionView row] == 0) {
         [UIView animateWithDuration:0.2
-                              delay:0.2
+                              delay:0.3
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              // Change height of collection view
