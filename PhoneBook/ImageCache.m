@@ -104,13 +104,14 @@
     [self storeImageToDisk:image withKey:key];
 }
 
-- (UIImage *)imageFromKey:(NSString *)key {
+- (UIImage *)imageFromKey:(NSString *)key
+               storeToMem:(BOOL)storeToMem {
     
     UIImage *image = [self imageFromMemCacheWithKey:key];
     if (image) {
         return image;
     }
-    return [self imageFromDiskWithKey:key];
+    return [self imageFromDiskWithKey:key storeToMem:storeToMem];
 }
 
 - (void)removeImageForKey:(NSString *)key {
@@ -201,9 +202,11 @@
  Load image from disk
 
  @param key - key of image to load
+ @param storeToMem - want to store in memory
  @return image from disk
  */
-- (UIImage *)imageFromDiskWithKey:(NSString *)key {
+- (UIImage *)imageFromDiskWithKey:(NSString *)key
+                       storeToMem:(BOOL)storeToMem {
     
     NSString *filePath = [self getFilePathFromKey:key];
     
@@ -215,7 +218,7 @@
     
     // If has image fixed key, store image to mem cache
     UIImage *image = [UIImage imageWithData:imageData];
-    if (image) {
+    if (image && storeToMem) {
         [self storeImageToMem:image
                      withKey:key
                         cost:[imageData length]];

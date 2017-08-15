@@ -22,11 +22,10 @@
 @interface ContactPickerView()
 
 #pragma mark - Outlets
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;                               // Search bar
-@property (weak, nonatomic) IBOutlet UICollectionView *selectedContactsCollectionView;     // Collection view contains selected contacts
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectedContactsViewHeight;       // Height of selected contacts view
-@property (weak, nonatomic) IBOutlet UITableView *contactsTableView;                       // Table view contains contacts
-@property (unsafe_unretained, nonatomic) ContactPickerView * subView;
+@property (strong, nonatomic) UISearchBar *searchBar;                               // Search bar
+@property (strong, nonatomic) UICollectionView *selectedContactsCollectionView;     // Collection view contains selected contacts
+@property (strong, nonatomic) NSLayoutConstraint *selectedContactsViewHeight;       // Height of selected contacts view
+@property (strong, nonatomic) UITableView *contactsTableView;                       // Table view contains contacts
 
 #pragma mark - Contacts Nimbus model
 @property (retain, nonatomic) NIMutableCollectionViewModel * selectedContactsModel;        // Selected contacts collection view model
@@ -44,9 +43,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     
     if (self= [super initWithFrame:frame]) {
-        if (self.subviews.count == 0) {
-            [self setupView];
-        }
+        [self setupView];
+        [self setUpProperties];
     }
     return self;
 }
@@ -54,9 +52,8 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     
     if (self = [super initWithCoder:aDecoder]) {
-        if (self.subviews.count == 0) {
-            [self setupView];
-        }
+        [self setupView];
+        [self setUpProperties];
     }
     return self;
 }
@@ -66,32 +63,92 @@
  */
 - (void)setupView {
     
-    _subView = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([ContactPickerView class]) owner:self options:nil] firstObject];
-    [_subView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self addSubview:_subView];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view":_subView}]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view":_subView}]];
+    [self setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    // Set up search bar
+    _searchBar = [[UISearchBar alloc] init];
+    [_searchBar setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _searchBar.barTintColor = HIGHLIGHT_COLOR;
+    _searchBar.backgroundColor = HIGHLIGHT_COLOR;
+    
+    [self addSubview:_searchBar];
+    
+    // Set up collection view
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+    flowLayout.itemSize = CGSizeMake(40, 50);
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    
+    _selectedContactsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+    [_selectedContactsCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _selectedContactsCollectionView.showsVerticalScrollIndicator = NO;
+    _selectedContactsCollectionView.showsHorizontalScrollIndicator = NO;
+    _selectedContactsCollectionView.backgroundColor = HIGHLIGHT_COLOR;
+    // Allow single selection in collection view
+    _selectedContactsCollectionView.allowsMultipleSelection = NO;
+    
+    [self addSubview:_selectedContactsCollectionView];
+    
+    // Set up table view
+    _contactsTableView = [[UITableView alloc] init];
+    [_contactsTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _contactsTableView.rowHeight = 70;
+    _contactsTableView.separatorColor = HIGHLIGHT_COLOR;
+    _contactsTableView.allowsSelection = YES;
+    _contactsTableView.allowsMultipleSelection = YES;
+    
+    UIEdgeInsets separatorInsets = [_contactsTableView separatorInset];
+    separatorInsets.left = 15;
+    separatorInsets.right = 0;
+    _contactsTableView.separatorInset = separatorInsets;
+    
+    [self addSubview:_contactsTableView];
+    
+    // Collection view
+    
+    // ----- Top
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_selectedContactsCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    
+    // ----- Height
+    _selectedContactsViewHeight = [NSLayoutConstraint constraintWithItem:_selectedContactsCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:0];
+    [_selectedContactsCollectionView addConstraint:_selectedContactsViewHeight];
+    
+    // ----- Leading and trailing
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view":_selectedContactsCollectionView}]];
+    
+    // Search bar
+    
+    // ----- Top
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_selectedContactsCollectionView attribute:NSLayoutAttributeBottom multiplier:1 constant:-2]];
+    
+    // ----- Height
+    [_searchBar addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44]];
+    
+    // ----- Leading and trailing
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view":_searchBar}]];
+    
+    // Table view
+    
+    // ----- Top
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_contactsTableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_searchBar attribute:NSLayoutAttributeBottom multiplier:1 constant:-2]];
+    
+    // ----- Bottom
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_contactsTableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    
+    // ----- Leading and trailing
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view":_contactsTableView}]];
+    
+    [self setNeedsUpdateConstraints];
 }
 
 
 #pragma mark - Setters
 
-- (void)setDelegate:(id<ContactPickerDelegate>)delegate {
-    
-    if (_subView) {
-        _subView.delegate = delegate;
-        return;
-    }
-    
-    _delegate = delegate;
+- (void)setSearchPlaceholder:(NSString *)searchPlaceholder {
+    _searchBar.placeholder = searchPlaceholder;
 }
 
 - (void)setSectionedContacts:(NSArray *)sectionedContacts {
-    
-    if (_subView) {
-        [_subView setSectionedContacts:sectionedContacts];
-        return;
-    }
     
     if (sectionedContacts != nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -133,20 +190,18 @@
 
 #pragma mark - Life cycle
 
-- (void)awakeFromNib {
-    
-    [super awakeFromNib];
+- (void)setUpProperties {
     
     // Init delegates
     _contactsTableView.delegate = self;
     _searchBar.delegate = self;
     _selectedContactsCollectionView.delegate = self;
     
-    // Hide selected contacts view
-    [_selectedContactsViewHeight setConstant:0];
-    
     // Set default no data message
-    _noResultSearchingMessage = NO_DATA_MESSAGE;
+    _noResultSearchingMessage = DEFAULT_NO_DATA_MESSAGE;
+    
+    // Set default search placeholder
+    self.searchPlaceholder = DEFAULT_SEARCH_PLACEHOLDER;
     
     // Set background of section index to clear
     self.contactsTableView.sectionIndexBackgroundColor = [UIColor clearColor];
@@ -155,9 +210,6 @@
     _selectedContactsModel = [[NIMutableCollectionViewModel alloc] initWithDelegate:self];
     [_selectedContactsModel addSectionWithTitle:@""];
     self.selectedContactsCollectionView.dataSource = _selectedContactsModel;
-    
-    // Allow single selection in collection view
-    _selectedContactsCollectionView.allowsMultipleSelection = NO;
 }
 
 #pragma mark - ScrollViewDelegate

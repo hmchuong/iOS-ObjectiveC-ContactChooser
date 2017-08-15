@@ -56,11 +56,9 @@
             
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
             
-            NSDate *operation = [NSDate date];
             for (CNContact *contact in cnContacts) {
                 [contacts addObject:[[PhoneBookContact alloc] initWithCNContact:contact]];
             }
-            //NSLog(@"Time: %f", -[operation timeIntervalSinceNow]);
             
         }
         completion(granted,contacts);

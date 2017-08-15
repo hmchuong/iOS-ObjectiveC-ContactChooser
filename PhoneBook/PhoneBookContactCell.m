@@ -80,7 +80,7 @@
 
 - (UIImage *)getAvatarImage {
     
-    return [ImageCache.sharedInstance imageFromKey:_avatarKey];
+    return [ImageCache.sharedInstance imageFromKey:_avatarKey storeToMem:YES];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -101,7 +101,7 @@
     
     // Create label contains text
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *avatar = [ImageCache.sharedInstance imageFromKey:_avatarKey];
+        UIImage *avatar = [ImageCache.sharedInstance imageFromKey:_avatarKey storeToMem:NO];
         
         if (avatar != nil) {
             return;

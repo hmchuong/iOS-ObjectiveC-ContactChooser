@@ -31,7 +31,6 @@
 		C85B0CD41F414611001ABB04 /* LRUMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CD31F414611001ABB04 /* LRUMemoryCache.m */; };
 		C85B0CD71F415366001ABB04 /* LRUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CD61F415366001ABB04 /* LRUObject.m */; };
 		C85F4FD31F37FF3300B68B9F /* ContactPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FD21F37FF3300B68B9F /* ContactPickerView.m */; };
-		C85F4FD81F37FFB200B68B9F /* ContactPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85F4FD71F37FFB200B68B9F /* ContactPickerView.xib */; };
 		C85F4FDB1F38053300B68B9F /* CPBPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FDA1F38053300B68B9F /* CPBPickerViewController.m */; };
 		C85F4FE11F38277300B68B9F /* ContactModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FE01F38277300B68B9F /* ContactModelObject.m */; };
 		C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C86F16B41F32C68400CEF23F /* NSDate+Extension.m */; };
@@ -107,7 +106,6 @@
 		C85B0CD61F415366001ABB04 /* LRUObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUObject.m; sourceTree = "<group>"; };
 		C85F4FD11F37FF3300B68B9F /* ContactPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactPickerView.h; sourceTree = "<group>"; };
 		C85F4FD21F37FF3300B68B9F /* ContactPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactPickerView.m; sourceTree = "<group>"; };
-		C85F4FD71F37FFB200B68B9F /* ContactPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactPickerView.xib; sourceTree = "<group>"; };
 		C85F4FD91F38053300B68B9F /* CPBPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPBPickerViewController.h; sourceTree = "<group>"; };
 		C85F4FDA1F38053300B68B9F /* CPBPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPBPickerViewController.m; sourceTree = "<group>"; };
 		C85F4FDF1F38277300B68B9F /* ContactModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactModelObject.h; sourceTree = "<group>"; };
@@ -354,7 +352,6 @@
 			children = (
 				C85F4FD11F37FF3300B68B9F /* ContactPickerView.h */,
 				C85F4FD21F37FF3300B68B9F /* ContactPickerView.m */,
-				C85F4FD71F37FFB200B68B9F /* ContactPickerView.xib */,
 			);
 			name = ContactPickerView;
 			sourceTree = "<group>";
@@ -563,7 +560,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C85F4FD81F37FFB200B68B9F /* ContactPickerView.xib in Resources */,
 				C83F202B1F273F8D00A1D67A /* LaunchScreen.storyboard in Resources */,
 				C83F20281F273F8D00A1D67A /* Assets.xcassets in Resources */,
 				C83F20261F273F8D00A1D67A /* Main.storyboard in Resources */,

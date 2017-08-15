@@ -72,7 +72,7 @@
  */
 - (void)drawRectChecked:(CGRect)rect {
     self.layer.borderWidth = 0;
-    UIImage *checkedImage = [ImageCache.sharedInstance imageFromKey:CHECKED_VIEW_KEY];
+    UIImage *checkedImage = [ImageCache.sharedInstance imageFromKey:CHECKED_VIEW_KEY storeToMem:YES];
     if (checkedImage) {
         [_imageView setImage:checkedImage];
         [self addSubview:_imageView];
@@ -117,7 +117,7 @@
  */
 - (void)drawRectGrayedOut:(CGRect)rect {
     
-    UIImage *grayedOutImage = [ImageCache.sharedInstance imageFromKey:GRAYED_OUT_VIEW_KEY];
+    UIImage *grayedOutImage = [ImageCache.sharedInstance imageFromKey:GRAYED_OUT_VIEW_KEY storeToMem:YES];
     if (grayedOutImage) {
         [_imageView setImage:grayedOutImage];
         [self addSubview:_imageView];

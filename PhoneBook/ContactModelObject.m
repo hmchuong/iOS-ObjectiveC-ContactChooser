@@ -33,20 +33,6 @@
     return [[UIImage alloc]init];
 }
 
-//#pragma mark - NINibCellObject
-//
-//- (UINib *)cellNib {
-//    
-//    return [UINib nibWithNibName:NSStringFromClass([ContactTableNINibCell class]) bundle:nil];
-//}
-//
-//#pragma mark - NICollectionViewNibCellObject
-//
-//- (UINib *)collectionViewCellNib {
-//    
-//    return [UINib nibWithNibName:NSStringFromClass([ContactCollectionNINibCell class]) bundle:nil];
-//}
-
 - (Class)cellClass {
     return [ContactTableNICell class];
 }
