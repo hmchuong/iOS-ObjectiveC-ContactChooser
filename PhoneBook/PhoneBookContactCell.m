@@ -141,7 +141,7 @@
         @try {
             // Get first characters of first and last word.
             NSString *firstToken = [tokensOfFullname objectAtIndex:0];
-            NSString *lastToken = [tokensOfFullname objectAtIndex:[tokensOfFullname count]-1];
+            NSString *lastToken = [tokensOfFullname lastObject];
             
             // Link the two characters.
             representName = [[NSString alloc] initWithFormat:@"%c%c",[firstToken characterAtIndex:0],[lastToken characterAtIndex:0]];

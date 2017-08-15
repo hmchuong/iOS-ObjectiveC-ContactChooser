@@ -1,5 +1,5 @@
 //
-//  ContactRowNINibCell.m
+//  ContactRowNICell.m
 //  PhoneBook
 //
 //  Created by chuonghm on 7/31/17.

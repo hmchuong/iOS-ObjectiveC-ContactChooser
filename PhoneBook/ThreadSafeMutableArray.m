@@ -190,4 +190,15 @@
     return array;
 }
 
+- (id)pop {
+    id __block obj;
+    dispatch_sync(_tsQueue, ^{
+        if ([_internalArray count] > 0) {
+            obj = [_internalArray lastObject];
+            [_internalArray removeLastObject];
+        }
+    });
+    return obj;
+}
+
 @end

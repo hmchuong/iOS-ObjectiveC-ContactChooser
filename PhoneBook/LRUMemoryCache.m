@@ -138,11 +138,7 @@
 - (void)removeLRUObject {
     
     // Get last key in LRU array
-    NSString *lruObjectKey = nil;
-    NSUInteger noObjects = [_lruObjectKeys count];
-    if (noObjects > 0) {
-        lruObjectKey = [_lruObjectKeys objectAtIndex:noObjects-1];
-    }
+    NSString *lruObjectKey = [_lruObjectKeys pop];
     
     if (lruObjectKey == nil) {
         return;

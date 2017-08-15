@@ -1,5 +1,5 @@
 //
-//  ContactTableNINibCell.h
+//  ContactTableNICell.h
 //  PhoneBook
 //
 //  Created by chuonghm on 7/31/17.

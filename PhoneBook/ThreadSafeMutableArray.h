@@ -71,6 +71,13 @@
 - (void)removeAllObjects;
 
 /**
+ Pop the last object of array
+
+ @return last object - nil if array is empty
+ */
+- (id)pop;
+
+/**
  Get object at index in array
 
  @param index - index of object to get.
