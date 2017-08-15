@@ -13,9 +13,9 @@
  */
 @interface LRUObject : NSObject
 
-@property (strong, nonatomic, readonly) NSString *key;
-@property (strong, nonatomic, readonly) id value;
-@property NSUInteger cost;                              // cost of object
+@property (strong, nonatomic, readonly) NSString *key;      // key of object
+@property (strong, nonatomic, readonly) id value;           // Value of object
+@property NSUInteger cost;                                  // cost of object
 
 - (instancetype) init NS_UNAVAILABLE;
 

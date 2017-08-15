@@ -14,7 +14,7 @@
 /**
  Contact cell object - store data of each phone book contact cell
  */
-@interface PhoneBookContactCell : ContactModelObject
+@interface CPBModelObject : ContactModelObject
 
 @property (strong, nonatomic) NSString *avatarKey;      // Key storing image in cache
 @property (strong, nonatomic) NSString *firstname;      // first name of contact

@@ -15,6 +15,7 @@
 @implementation SystemHelper
 
 + (unsigned long)getFreeMemory {
+    
     mach_port_t host_port;
     mach_msg_type_number_t host_size;
     vm_size_t pagesize;

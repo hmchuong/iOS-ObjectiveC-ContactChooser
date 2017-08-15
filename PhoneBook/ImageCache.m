@@ -27,8 +27,10 @@
 - (instancetype)init {
     
     self = [super init];
+    
     _icMemCache = [[LRUMemoryCache alloc] init];
     [self maximizeMemoryCache];
+    
     _icIOQueue = dispatch_queue_create("com.vn.vng.zalo.ImageCache", DISPATCH_QUEUE_SERIAL);
     
     // I/O
@@ -148,14 +150,14 @@
         NSArray *files = [_icFileManager contentsOfDirectoryAtPath:_icDirPath
                                                              error:&error];
 #if DEBUG
-        NSAssert(error, error.debugDescription);
+        NSAssert(error != nil, error.debugDescription);
 #endif
         
         for (NSString *file in files) {
             // Delete file
             BOOL success = [_icFileManager removeItemAtPath:[NSString stringWithFormat:@"%@/%@", _icDirPath, file] error:&error];
 #if DEBUG
-            NSAssert(success && !error, error.debugDescription);
+            NSAssert(success && error != nil, error.debugDescription);
 #endif
             
         }
@@ -170,6 +172,7 @@
  */
 - (void)storeImageToDisk:(UIImage *)image
                 withKey:(NSString *)key {
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSString *filePath = [self getFilePathFromKey:key];
         NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
@@ -218,7 +221,8 @@
     
     // If has image fixed key, store image to mem cache
     UIImage *image = [UIImage imageWithData:imageData];
-    if (image && storeToMem) {
+    if (storeToMem && image) {
+        
         [self storeImageToMem:image
                      withKey:key
                         cost:[imageData length]];

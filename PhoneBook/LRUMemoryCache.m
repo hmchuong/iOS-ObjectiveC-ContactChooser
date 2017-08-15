@@ -72,6 +72,8 @@
     LRUObject *lruObject = _storedObjects[key];
     
     if (lruObject != nil) {
+        
+        // Put object to head of LRU list
         [_lruList removeObjectEqualTo:lruObject];
         [_lruList pushFront:lruObject];
     }
@@ -92,8 +94,12 @@
     LRUObject *lruObject = _storedObjects[key];
     
     NSUInteger oldCost = 0;
+    
     if (lruObject != nil) {
+        
         oldCost = lruObject.cost;
+        
+        // remove old object in LRU List
         [_lruList removeObjectEqualTo:lruObject];
     }
     
@@ -108,7 +114,9 @@
                                            cost:cost];
     _storedObjects[key] = newNode;
     
-    [_lruList addObject:newNode];
+    
+    // Add object to head of LRU list
+    [_lruList pushFront:newNode];
 }
 
 #pragma mark - Remove object
@@ -124,7 +132,6 @@
     _currentTotalCost -= lruObject.cost;
     
     [_storedObjects removeObjectForkey:key];
-    
     [_lruList removeObjectEqualTo:lruObject];
 }
 
@@ -142,7 +149,7 @@
  */
 - (void)removeLRUObject {
     
-    // Remove last node
+    // Remove last object (Least-recently-used)
     if ([_lruList size] > 0) {
         LRUObject *lastObject = _lruList.lastObject;
         [self removeObjectForKey:lastObject.key];

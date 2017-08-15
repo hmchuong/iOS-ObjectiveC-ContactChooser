@@ -26,11 +26,11 @@
  */
 - (void)setUpView {
     
-    // Add avatar
+    // Set up avatar
     _avatar = [[UIImageView alloc] initWithFrame:CGRectZero];
     _avatar.contentMode = UIViewContentModeScaleToFill;
-    [_avatar setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_avatar.layer setCornerRadius:20];
+    _avatar.translatesAutoresizingMaskIntoConstraints = NO;
+    _avatar.layer.cornerRadius = AVATAR_SMALL_SIZE/2;
     _avatar.clipsToBounds = YES;
     [self.contentView addSubview:_avatar];
     
@@ -38,7 +38,7 @@
     NSString *vfHorizontalConstraint = [NSString stringWithFormat:@"H:|[avatar(%f)]",AVATAR_SMALL_SIZE];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vfHorizontalConstraint options:0 metrics:nil views:@{@"avatar":_avatar}]];
     
-    // Add height constraint
+    // Avatar height constraint
     [_avatar addConstraint:[NSLayoutConstraint constraintWithItem:_avatar
                                                         attribute:NSLayoutAttributeHeight
                                                         relatedBy:NSLayoutRelationEqual
@@ -47,7 +47,7 @@
                                                        multiplier:1
                                                          constant:AVATAR_SMALL_SIZE]];
     
-    // Add center verical constraint
+    // Avatar center verical constraint
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_avatar
                                                         attribute:NSLayoutAttributeCenterY
                                                         relatedBy:NSLayoutRelationEqual

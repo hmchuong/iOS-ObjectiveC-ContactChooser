@@ -44,6 +44,7 @@
     
     CNContactStore *store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        
         NSMutableArray<PhoneBookContact *> *contacts = [[NSMutableArray alloc] init];
         if (granted) {
             
@@ -61,6 +62,7 @@
             }
             
         }
+        
         completion(granted,contacts);
     }];
 }
@@ -91,6 +93,7 @@
     }
     
     NSMutableArray<PhoneBookContact *> *contacts = [[NSMutableArray alloc] init];;
+    
     if (accessGranted) {
         
         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
@@ -101,6 +104,7 @@
         }
         
     }
+    
     completion(accessGranted, contacts);
 
 }

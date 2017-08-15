@@ -6,7 +6,7 @@
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "PhoneBookContactCell.h"
+#import "CPBModelObject.h"
 #import "ImageCache.h"
 
 /**
@@ -21,13 +21,13 @@
                      blue:((float)((hexValue & 0x0000FF) >>  0))/255.0 \
                     alpha:1.0]
 
-@interface PhoneBookContactCell()
+@interface CPBModelObject()
 
 @property (strong, nonatomic) NSString *buildFullName;
 
 @end
 
-@implementation PhoneBookContactCell
+@implementation CPBModelObject
 
 #pragma mark - Constructors
 
@@ -85,7 +85,7 @@
 
 - (BOOL)isEqual:(id)object {
     
-    PhoneBookContactCell *compareObject = (PhoneBookContactCell *)object;
+    CPBModelObject *compareObject = (CPBModelObject *)object;
     if ([[self fullname] isEqual:[compareObject fullname]] && [self.avatarKey isEqual:compareObject.avatarKey]) {
         return YES;
     }

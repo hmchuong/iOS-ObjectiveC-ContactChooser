@@ -26,7 +26,6 @@
     
     [super viewDidLoad];
     
-    _contactPicker.delegate = self;
     [self updateContactData];
     
     // Listen when contacts change
@@ -36,8 +35,6 @@
                                                object:nil];
 }
 
-#pragma mark - ContactPickerDelegate
-
 #pragma mark - Utilities
 
 /**
@@ -45,65 +42,91 @@
  */
 - (void)updateContactData {
     
-    
     // Show progress view
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     });
     
     [PhoneBookContactLoader.sharedInstance getPhoneBookContactsWithCompletion: ^(BOOL granted, NSArray <PhoneBookContact *> *contacts) {
+        
         NSLog(@"No. loaded contacts: %lu",(unsigned long)[contacts count]);
-        if (granted) {
-            // Build custom contact cell object
-            NSDate *_operation = [NSDate date];
-            NSMutableDictionary *tableContents = [[NSMutableDictionary alloc] init];
-            for (PhoneBookContact *contact in contacts) {
-                PhoneBookContactCell *contactCell = [[PhoneBookContactCell alloc] initWithPhoneBookContact: contact];
-                if ([[contactCell fullname] length] == 0) {
-                    continue;
-                }
-                
-                unichar firstChar = [[contactCell.fullname uppercaseString] characterAtIndex:0];
-                if (!(firstChar >= 'A' && firstChar <= 'Z')
-                    && !(firstChar >= '0' && firstChar <= '9')) {
-                    firstChar = [[[contactCell.fullname uppercaseString] toANSCI] characterAtIndex:0];
-                }
-                if (!(firstChar >= 'A' && firstChar <= 'Z')) {
-                    firstChar = '#';
-                }
-                NSString *section = [NSString stringWithFormat:@"%c",firstChar];
-                
-                NSMutableArray *sectionArray = tableContents[section];
-                if (sectionArray == nil) {
-                    sectionArray = [[NSMutableArray alloc] init];
-                }
-                [sectionArray addObject:contactCell];
-                tableContents[section] = sectionArray;
-            }
+        
+        if (!granted) {
+            // Hide progress view
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
             
-            
-            NSMutableArray *sectionedContacts = [[NSMutableArray alloc] init];
-            NSArray *sortedKeys = [[tableContents allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-            for (id key in sortedKeys) {
-                [sectionedContacts addObject:key];
-                [sectionedContacts addObjectsFromArray:tableContents[key]];
-            }
-            
-            [self.contactPicker setSectionedContacts:sectionedContacts];
-            NSLog(@"Loading contacts time: %.3f s", -[_operation timeIntervalSinceNow]);
-            
+            // Request permission
+            [self showContactPermissionRequest];
         }
+        
+        NSDate *_operation = [NSDate date];
+
+        // Set sectioned contacts for contact picker
+        [self.contactPicker setSectionedContacts:[self sectionedArrayFromContacts:contacts]];
         
         // Hide progress view
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         });
         
-        if (!granted) {
-            // Request permission
-            [self showContactPermissionRequest];
-        }
+        NSLog(@"Loading contacts time: %.3f s", -[_operation timeIntervalSinceNow]);
     }];
+}
+
+/**
+ Get sectioned contacts array
+
+ @param contacts - PhoneBookContact array to get
+ @return - sectioned contacts array to pass to ContactPicker
+ */
+- (NSArray *)sectionedArrayFromContacts:(NSArray<PhoneBookContact *> *) contacts {
+    
+    // Group contacts in sections
+    NSDictionary *tableContents = [self groupPhoneBookContacts:contacts];
+    
+    // Build array from sections
+    NSMutableArray *sectionedContacts = [[NSMutableArray alloc] init];
+    NSArray *sortedKeys = [[tableContents allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    for (id key in sortedKeys) {
+        [sectionedContacts addObject:key];
+        [sectionedContacts addObjectsFromArray:tableContents[key]];
+    }
+    
+    return sectionedContacts;
+}
+
+/**
+ Group contacts to sections
+
+ @param contacts - PhoneBookContact array
+ @return - dictionary includes sections, each section contains contacts
+ */
+- (NSDictionary *)groupPhoneBookContacts:(NSArray<PhoneBookContact *> *) contacts {
+    
+    NSMutableDictionary *tableContents = [[NSMutableDictionary alloc] init];
+    
+    for (PhoneBookContact *contact in contacts) {
+        
+        // Init contact cell from contact
+        CPBModelObject *contactCell = [[CPBModelObject alloc] initWithPhoneBookContact: contact];
+        if ([[contactCell fullname] length] == 0) {
+            continue;
+        }
+        
+        NSString *section = [contactCell.fullname getFirstChar];
+        
+        // Add contact to section
+        NSMutableArray *sectionArray = tableContents[section];
+        if (sectionArray == nil) {
+            sectionArray = [[NSMutableArray alloc] init];
+        }
+        [sectionArray addObject:contactCell];
+        tableContents[section] = sectionArray;
+    }
+    
+    return tableContents;
 }
 
 /**

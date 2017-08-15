@@ -12,7 +12,7 @@
 
 @interface CheckBox()
 
-@property (strong, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) UIImageView *imageView;       // Show captured checkbox
 
 @end
 
@@ -21,8 +21,10 @@
 #pragma mark - Life cycle
 
 - (void) drawRect:(CGRect)rect {
+    
     [super drawRect:rect];
     
+    // Init image view
     if (_imageView == nil) {
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     }
@@ -71,7 +73,11 @@
  @param rect - rect to draw
  */
 - (void)drawRectChecked:(CGRect)rect {
+    
+    // Hide border
     self.layer.borderWidth = 0;
+    
+    // Check captured checkbox is stored
     UIImage *checkedImage = [ImageCache.sharedInstance imageFromKey:CHECKED_VIEW_KEY storeToMem:YES];
     if (checkedImage) {
         [_imageView setImage:checkedImage];
@@ -106,7 +112,7 @@
     bezierPath.lineWidth = CHECK_MARK_WIDTH;
     [bezierPath stroke];
     
-    // Store image after draw
+    // Store captured checkbox
     [ImageCache.sharedInstance storeImage:[UIImage imageWithView:self] withKey:CHECKED_VIEW_KEY];
 }
 
@@ -117,6 +123,7 @@
  */
 - (void)drawRectGrayedOut:(CGRect)rect {
     
+    // Check captured checkbox is stored
     UIImage *grayedOutImage = [ImageCache.sharedInstance imageFromKey:GRAYED_OUT_VIEW_KEY storeToMem:YES];
     if (grayedOutImage) {
         [_imageView setImage:grayedOutImage];
@@ -148,7 +155,7 @@
     bezierPath.lineWidth = CHECK_MARK_WIDTH;
     [bezierPath stroke];
     
-    // Store image after draw
+    // Store captured checkbox
     [ImageCache.sharedInstance storeImage:[UIImage imageWithView:self] withKey:GRAYED_OUT_VIEW_KEY];
 }
 
@@ -158,6 +165,8 @@
  @param rect - rect to draw
  */
 - (void)drawRectOpenCircle:(CGRect)rect {
+    
+    // Show border width
     [self.layer setBorderWidth:1];
     
     // Set background of check box

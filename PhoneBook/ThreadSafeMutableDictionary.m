@@ -18,6 +18,7 @@
 @implementation ThreadSafeMutableDictionary
 
 - (instancetype)init {
+    
     self = [super init];
     
     _internalDictionary = [[NSMutableDictionary alloc]init];
@@ -37,12 +38,14 @@
 }
 
 - (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
+    
     dispatch_async(_tsQueue, ^{
         _internalDictionary[key] = obj;
     });
 }
 
 - (NSDictionary *)toNSDictionary {
+    
     NSDictionary *__block result;
     dispatch_sync(_tsQueue, ^{
         result = _internalDictionary;
@@ -52,12 +55,14 @@
 }
 
 - (void)removeObjectForkey:(NSString *)key {
+    
     dispatch_async(_tsQueue, ^{
         [_internalDictionary removeObjectForKey:key];
     });
 }
 
 - (void)removeAllObjects {
+    
     dispatch_async(_tsQueue, ^{
         [_internalDictionary removeAllObjects];
     });

@@ -29,10 +29,10 @@
 IB_DESIGNABLE
 @interface ContactPickerView : UIView<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate>
 
-@property (weak, nonatomic) id delegate;                     // ContactPicker delegate
-@property (strong, readonly, nonatomic) NSArray<ContactModelObject *> *contacts;              // Contacts data
-@property (strong, nonatomic) IBInspectable NSString *noResultSearchingMessage;                   // Message show when no data appear
-@property (strong, nonatomic) IBInspectable NSString *searchPlaceholder;    // Placeholder for search bar
+
+@property (strong, readonly, nonatomic) NSArray<ContactModelObject *> *contacts;    // Contacts data
+@property (strong, nonatomic) IBInspectable NSString *noResultSearchingMessage;     // Message show when no data appear
+@property (strong, nonatomic) IBInspectable NSString *searchPlaceholder;            // Placeholder for search bar
 
 /**
  Set sectioned contacts

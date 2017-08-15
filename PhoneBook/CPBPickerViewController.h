@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #include "PhoneBookContactLoader.h"
 #include "ContactPickerView.h"
-#include "PhoneBookContactCell.h"
+#include "CPBModelObject.h"
 
 @interface CPBPickerViewController : UIViewController
 
