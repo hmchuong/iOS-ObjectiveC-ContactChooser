@@ -10,22 +10,13 @@
 
 @implementation LRUObject
 
-- (instancetype)init {
-    
+- (instancetype)initWithKey:(NSString *)key
+                      value:(id)value
+                       cost:(NSUInteger)cost {
     self = [super init];
     
-    _object = [[NSObject alloc] init];
-    _cost = 0;
-    
-    return self;
-}
-
-- (instancetype)initWithObject:(id)object
-                          cost:(NSUInteger)cost {
-    
-    self = [super init];
-    
-    _object = object;
+    _key = key;
+    _value = value;
     _cost = cost;
     
     return self;

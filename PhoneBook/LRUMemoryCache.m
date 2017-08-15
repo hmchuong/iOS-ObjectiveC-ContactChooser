@@ -10,6 +10,7 @@
 #import "ThreadSafeMutableArray.h"
 #import "ThreadSafeMutableDictionary.h"
 #import "LRUObject.h"
+#import "LinkedList.h"
 
 @interface LRUMemoryCache()
 
@@ -17,11 +18,7 @@
  Dictionary to store objects
  */
 @property (strong, nonatomic) ThreadSafeMutableDictionary *storedObjects;
-
-/**
- Array stores keys in less-recently-used order
- */
-@property (strong, nonatomic) ThreadSafeMutableArray *lruObjectKeys;
+@property (strong, nonatomic) LinkedList *lruList;
 
 @property NSUInteger currentTotalCost;               // Total cost of all stored object
 @property NSUInteger totalCostThreshold;             // Threshold of total cost
@@ -37,10 +34,10 @@
     self = [super init];
     
     _storedObjects = [[ThreadSafeMutableDictionary alloc] init];
-    _lruObjectKeys = [[ThreadSafeMutableArray alloc] init];
     
     _totalCostThreshold = NSUIntegerMax;
     _currentTotalCost = 0;
+    _lruList = [[LinkedList alloc] init];
     
     return self;
 }
@@ -70,13 +67,16 @@
 
 - (id)objectForKey:(NSString *)key {
     
+    NSAssert(key!=nil && ![key isEqualToString:@""], @"Key must be non nil and non empty");
+    
     LRUObject *lruObject = _storedObjects[key];
     
     if (lruObject != nil) {
-        [self useObjectWithKey:key];
+        [_lruList removeObjectEqualTo:lruObject];
+        [_lruList pushFront:lruObject];
     }
     
-    return lruObject.object;
+    return lruObject.value;
 }
 
 #pragma mark - Set object
@@ -85,12 +85,16 @@
            forKey:(NSString *)key
              cost:(NSUInteger)cost {
     
+    NSAssert(object!=nil, @"Object must be non nil");
+    NSAssert(key!=nil && ![key isEqualToString:@""], @"Key must be non nil and non empty");
+    
     // if key exist --> Get old cost and calculate changed cost
     LRUObject *lruObject = _storedObjects[key];
     
     NSUInteger oldCost = 0;
     if (lruObject != nil) {
         oldCost = lruObject.cost;
+        [_lruList removeObjectEqualTo:lruObject];
     }
     
     NSUInteger changedCost = cost - oldCost;
@@ -99,11 +103,12 @@
     [self changeTotalCurrentCost:changedCost];
     
     // Store object
-    _storedObjects[key] = [[LRUObject alloc] initWithObject:object
-                                                       cost:cost];
+    LRUObject *newNode = [[LRUObject alloc] initWithKey:key
+                                          value:object
+                                           cost:cost];
+    _storedObjects[key] = newNode;
     
-    // Notify just use object
-    [self useObjectWithKey:key];
+    [_lruList addObject:newNode];
 }
 
 #pragma mark - Remove object
@@ -119,15 +124,15 @@
     _currentTotalCost -= lruObject.cost;
     
     [_storedObjects removeObjectForkey:key];
-    [_lruObjectKeys removeObject:key];
     
+    [_lruList removeObjectEqualTo:lruObject];
 }
 
 - (void)removeAllObjects {
     
     _currentTotalCost = 0;
     [_storedObjects removeAllObjects];
-    [_lruObjectKeys removeAllObjects];
+    [_lruList removeAllObjects];
 }
 
 #pragma mark - LRU algorithm
@@ -137,37 +142,11 @@
  */
 - (void)removeLRUObject {
     
-    // Get last key in LRU array
-    NSString *lruObjectKey = [_lruObjectKeys pop];
-    
-    if (lruObjectKey == nil) {
-        return;
+    // Remove last node
+    if ([_lruList size] > 0) {
+        LRUObject *lastObject = _lruList.lastObject;
+        [self removeObjectForKey:lastObject.key];
     }
-    
-    // Remove object with last key
-    [self removeObjectForKey:lruObjectKey];
-}
-
-/**
- Notify using/creating object to adjust keys array order
-
- @param key - key representing object
- */
-- (void)useObjectWithKey:(NSString *)key {
-    
-    // Find key in array
-    NSInteger indexOfKey = [_lruObjectKeys indexOfObject:key];
-    
-    // Insert to head of array
-    [_lruObjectKeys insertObject:key atIndex:0];
-    
-    // Done if key is not existed
-    if (indexOfKey == NSNotFound) {
-        return;
-    }
-    
-    // Remove old key
-    [_lruObjectKeys removeObjectAtIndex:indexOfKey];
 }
 
 /**

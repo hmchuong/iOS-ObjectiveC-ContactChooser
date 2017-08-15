@@ -13,19 +13,14 @@
  */
 @interface LRUObject : NSObject
 
-@property (strong, nonatomic) id object;
+@property (strong, nonatomic, readonly) NSString *key;
+@property (strong, nonatomic, readonly) id value;
 @property NSUInteger cost;                              // cost of object
 
-- (instancetype) init;
+- (instancetype) init NS_UNAVAILABLE;
 
-/**
- Init with object and cost
-
- @param object - NSObject
- @param cost - Cost of object
- @return - LRUObject
- */
-- (instancetype) initWithObject:(id)object
-                           cost:(NSUInteger)cost;
+- (instancetype) initWithKey:(NSString *)key
+                       value:(id)value
+                        cost:(NSUInteger)cost;
 
 @end

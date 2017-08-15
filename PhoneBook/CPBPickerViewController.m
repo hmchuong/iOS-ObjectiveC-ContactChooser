@@ -52,7 +52,7 @@
     });
     
     [PhoneBookContactLoader.sharedInstance getPhoneBookContactsWithCompletion: ^(BOOL granted, NSArray <PhoneBookContact *> *contacts) {
-        NSLog(@"%d",[contacts count]);
+        NSLog(@"No. loaded contacts: %lu",(unsigned long)[contacts count]);
         if (granted) {
             // Build custom contact cell object
             NSDate *_operation = [NSDate date];
@@ -90,7 +90,7 @@
             }
             
             [self.contactPicker setSectionedContacts:sectionedContacts];
-            NSLog(@"Time: %f", -[_operation timeIntervalSinceNow]);
+            NSLog(@"Loading contacts time: %.3f s", -[_operation timeIntervalSinceNow]);
             
         }
         
