@@ -10,9 +10,14 @@
 #import "NimbusCollections.h"
 
 /**
+ * UI Constants
+ */
+#define AVATAR_SMALL_SIZE 40.0
+
+/**
  Nimbus collection cell for contact picker 
  */
-@interface ContactCollectionNINibCell : UICollectionViewCell<NICollectionViewCell>
+@interface ContactCollectionNICell : UICollectionViewCell<NICollectionViewCell>
 
 @property (strong, nonatomic) UIImageView *avatar;                   // Avatar of contact
 

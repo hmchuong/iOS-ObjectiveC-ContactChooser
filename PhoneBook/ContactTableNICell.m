@@ -6,56 +6,72 @@
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ContactTableNINibCell.h"
+#import "ContactTableNICell.h"
 #import "ContactModelObject.h"
 
-@interface ContactTableNINibCell()
+@interface ContactTableNICell()
 
 @property BOOL isDraw;
 
 @end
 
-@implementation ContactTableNINibCell
+@implementation ContactTableNICell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    _avatar = [[UIImageView alloc] init];
-    _avatar.contentMode = UIViewContentModeScaleToFill;
-    
-    [_avatar setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    _checkBox = [[CheckBox alloc] init];
-    [_checkBox setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    _name = [[UILabel alloc] init];
-    [_name setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    [self.contentView addSubview:_avatar];
-    [self.contentView addSubview:_checkBox];
-    [self.contentView addSubview:_name];
     [self setUpView];
     
     return self;
 }
 
+/**
+ Setup UI of view
+ */
 - (void)setUpView {
     
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    // Separator insets
+    UIEdgeInsets separatorInsets = self.separatorInset;
+    separatorInsets.left = LEFT_INSET;
+    self.separatorInset = separatorInsets;
+    
+    // Add avatar
+    _avatar = [[UIImageView alloc] init];
+    _avatar.contentMode = UIViewContentModeScaleToFill;
+    [_avatar setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_avatar.layer setCornerRadius:AVATAR_SIZE/2];
+    _avatar.clipsToBounds = YES;
+    [self.contentView addSubview:_avatar];
+    
+    // Add checkbox
+    _checkBox = [[CheckBox alloc] init];
+    [_checkBox setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addSubview:_checkBox];
+    
+    // Add name
+    _name = [[UILabel alloc] init];
+    [_name setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addSubview:_name];
+    
+    // ----- Setup constraints -----
     // Horizontal layout
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[checkBox(25)]-20-[avatar(50)]-10-[name]" options:0 metrics:nil views:@{@"avatar":_avatar,@"checkBox":_checkBox,@"name":_name}]];
+    NSString *vfHorizontalContraint = [NSString stringWithFormat:@"H:|-%f-[checkBox(%f)]-%f-[avatar(%f)]-%f-[name]",CONTENTVIEW_CHECKBOX,CHECKBOX_SIZE,CHECKBOX_AVATAR,AVATAR_SIZE,AVATAR_NAME];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vfHorizontalContraint options:0 metrics:nil views:@{@"avatar":_avatar,@"checkBox":_checkBox,@"name":_name}]];
     
     // Checkbox
-    
+    // Height
     [_checkBox addConstraint:[NSLayoutConstraint constraintWithItem:_checkBox
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationEqual toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1
-                                                           constant:25]];
+                                                           constant:CHECKBOX_SIZE]];
     
+    // Center vertical alignment
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_checkBox
                                                      attribute:NSLayoutAttributeCenterY
                                                      relatedBy:NSLayoutRelationEqual toItem:self
@@ -64,14 +80,15 @@
                                                       constant:0]];
     
     // Avatar
-    
+    // Height
     [_avatar addConstraint:[NSLayoutConstraint constraintWithItem:_avatar
                                                         attribute:NSLayoutAttributeHeight
                                                         relatedBy:NSLayoutRelationEqual toItem:nil
                                                         attribute:NSLayoutAttributeNotAnAttribute
                                                        multiplier:1
-                                                         constant:50]];
-
+                                                         constant:AVATAR_SIZE]];
+    
+    // Center vertical alignment
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_avatar
                                                      attribute:NSLayoutAttributeCenterY
                                                      relatedBy:NSLayoutRelationEqual toItem:self
@@ -79,8 +96,9 @@
                                                     multiplier:1
                                                       constant:0]];
     
-    // Name
     
+    // Name
+    // Center vertical alignment
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_name
                                                      attribute:NSLayoutAttributeCenterY
                                                      relatedBy:NSLayoutRelationEqual toItem:self
@@ -89,11 +107,6 @@
                                                       constant:0]];
     
     [self setNeedsUpdateConstraints];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    _avatar.clipsToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -108,8 +121,6 @@
     
     // Set avatar
     [_avatar setImage:[object getAvatarImage]];
-    [_avatar.layer setCornerRadius:_avatar.frame.size.width/2];
-    _avatar.clipsToBounds = YES;
     
     // Set text
     [_name setText:[object fullname]];
