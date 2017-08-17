@@ -1,12 +1,12 @@
 //
-//  ContactPhoneBook.m
+//  PBCModelObject.m
 //  PhoneBook
 //
 //  Created by chuonghm on 7/26/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "CPBModelObject.h"
+#import "PBCModelObject.h"
 #import "ImageCache.h"
 
 /**
@@ -21,13 +21,13 @@
                      blue:((float)((hexValue & 0x0000FF) >>  0))/255.0 \
                     alpha:1.0]
 
-@interface CPBModelObject()
+@interface PBCModelObject()
 
 @property (strong, nonatomic) NSString *buildFullName;
 
 @end
 
-@implementation CPBModelObject
+@implementation PBCModelObject
 
 #pragma mark - Constructors
 
@@ -85,7 +85,7 @@
 
 - (BOOL)isEqual:(id)object {
     
-    CPBModelObject *compareObject = (CPBModelObject *)object;
+    PBCModelObject *compareObject = (PBCModelObject *)object;
     if ([[self fullname] isEqual:[compareObject fullname]] && [self.avatarKey isEqual:compareObject.avatarKey]) {
         return YES;
     }

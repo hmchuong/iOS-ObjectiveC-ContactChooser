@@ -1,5 +1,5 @@
 //
-//  ContactPhoneBookCell.h
+//  PBCModelObject.h
 //  PhoneBook
 //
 //  Created by chuonghm on 7/26/17.
@@ -14,7 +14,7 @@
 /**
  Contact cell object - store data of each phone book contact cell
  */
-@interface CPBModelObject : ContactModelObject
+@interface PBCModelObject : ContactModelObject
 
 @property (strong, nonatomic) NSString *avatarKey;      // Key storing image in cache
 @property (strong, nonatomic) NSString *firstname;      // first name of contact

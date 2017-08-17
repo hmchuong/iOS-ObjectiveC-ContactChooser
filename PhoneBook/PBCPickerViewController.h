@@ -1,5 +1,5 @@
 //
-//  ContactPhoneBookPickerViewController.h
+//  PBCPickerViewController.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
@@ -10,8 +10,8 @@
 #import <Foundation/Foundation.h>
 #include "PhoneBookContactLoader.h"
 #include "ContactPickerView.h"
-#include "CPBModelObject.h"
+#include "PBCModelObject.h"
 
-@interface CPBPickerViewController : UIViewController
+@interface PBCPickerViewController : UIViewController
 
 @end

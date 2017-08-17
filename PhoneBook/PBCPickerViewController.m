@@ -1,24 +1,24 @@
 //
-//  ContactPhoneBookPickerViewController.m
+//  PBCPickerViewController.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "CPBPickerViewController.h"
+#import "PBCPickerViewController.h"
 #import "MBProgressHUD.h"
 #import "ThreadSafeMutableArray.h"
 #import "ThreadSafeMutableDictionary.h"
 #import "NSString+Extension.h"
 
-@interface CPBPickerViewController ()
+@interface PBCPickerViewController ()
 
 @property (weak, nonatomic) IBOutlet ContactPickerView *contactPicker;
 
 @end
 
-@implementation CPBPickerViewController
+@implementation PBCPickerViewController
 
 #pragma mark - Life cycle
 
@@ -110,7 +110,7 @@
     for (PhoneBookContact *contact in contacts) {
         
         // Init contact cell from contact
-        CPBModelObject *contactCell = [[CPBModelObject alloc] initWithPhoneBookContact: contact];
+        PBCModelObject *contactCell = [[PBCModelObject alloc] initWithPhoneBookContact: contact];
         if ([[contactCell fullname] length] == 0) {
             continue;
         }

@@ -22,7 +22,7 @@
 		C83F20501F2740CE00A1D67A /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C83F204F1F2740CE00A1D67A /* Contacts.framework */; };
 		C83F20561F27576C00A1D67A /* CheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20551F27576C00A1D67A /* CheckBox.m */; };
 		C8494AFD1F42C8EE001D9EC4 /* LinkedList.m in Sources */ = {isa = PBXBuildFile; fileRef = C8494AFC1F42C8EE001D9EC4 /* LinkedList.m */; };
-		C849E64B1F28333B0062C24F /* CPBModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64A1F28333B0062C24F /* CPBModelObject.m */; };
+		C849E64B1F28333B0062C24F /* PBCModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64A1F28333B0062C24F /* PBCModelObject.m */; };
 		C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */; };
 		C85375101F3AF12B00C524CE /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C853750F1F3AF12B00C524CE /* UIImage+Extension.m */; };
 		C85375141F3AFCCE00C524CE /* ThreadSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = C85375131F3AFCCE00C524CE /* ThreadSafeMutableDictionary.m */; };
@@ -31,7 +31,7 @@
 		C85B0CD41F414611001ABB04 /* LRUMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CD31F414611001ABB04 /* LRUMemoryCache.m */; };
 		C85B0CD71F415366001ABB04 /* LRUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CD61F415366001ABB04 /* LRUObject.m */; };
 		C85F4FD31F37FF3300B68B9F /* ContactPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FD21F37FF3300B68B9F /* ContactPickerView.m */; };
-		C85F4FDB1F38053300B68B9F /* CPBPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FDA1F38053300B68B9F /* CPBPickerViewController.m */; };
+		C85F4FDB1F38053300B68B9F /* PBCPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FDA1F38053300B68B9F /* PBCPickerViewController.m */; };
 		C85F4FE11F38277300B68B9F /* ContactModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F4FE01F38277300B68B9F /* ContactModelObject.m */; };
 		C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C86F16B41F32C68400CEF23F /* NSDate+Extension.m */; };
 		C86F16BA1F32DF9000CEF23F /* PhoneBookContactLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = C86F16B91F32DF9000CEF23F /* PhoneBookContactLoader.m */; };
@@ -88,8 +88,8 @@
 		C83F20551F27576C00A1D67A /* CheckBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckBox.m; sourceTree = "<group>"; };
 		C8494AFB1F42C8EE001D9EC4 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		C8494AFC1F42C8EE001D9EC4 /* LinkedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkedList.m; sourceTree = "<group>"; };
-		C849E6491F28333B0062C24F /* CPBModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPBModelObject.h; sourceTree = "<group>"; };
-		C849E64A1F28333B0062C24F /* CPBModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPBModelObject.m; sourceTree = "<group>"; };
+		C849E6491F28333B0062C24F /* PBCModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBCModelObject.h; sourceTree = "<group>"; };
+		C849E64A1F28333B0062C24F /* PBCModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBCModelObject.m; sourceTree = "<group>"; };
 		C849E64D1F283C160062C24F /* ThreadSafeMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadSafeMutableArray.h; sourceTree = "<group>"; };
 		C849E64E1F283C160062C24F /* ThreadSafeMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadSafeMutableArray.m; sourceTree = "<group>"; };
 		C853750E1F3AF12B00C524CE /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
@@ -106,8 +106,8 @@
 		C85B0CD61F415366001ABB04 /* LRUObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRUObject.m; sourceTree = "<group>"; };
 		C85F4FD11F37FF3300B68B9F /* ContactPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactPickerView.h; sourceTree = "<group>"; };
 		C85F4FD21F37FF3300B68B9F /* ContactPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactPickerView.m; sourceTree = "<group>"; };
-		C85F4FD91F38053300B68B9F /* CPBPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPBPickerViewController.h; sourceTree = "<group>"; };
-		C85F4FDA1F38053300B68B9F /* CPBPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPBPickerViewController.m; sourceTree = "<group>"; };
+		C85F4FD91F38053300B68B9F /* PBCPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBCPickerViewController.h; sourceTree = "<group>"; };
+		C85F4FDA1F38053300B68B9F /* PBCPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBCPickerViewController.m; sourceTree = "<group>"; };
 		C85F4FDF1F38277300B68B9F /* ContactModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactModelObject.h; sourceTree = "<group>"; };
 		C85F4FE01F38277300B68B9F /* ContactModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactModelObject.m; sourceTree = "<group>"; };
 		C86F16B31F32C68400CEF23F /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
@@ -271,7 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				C839C1E31F3BF37A0052C0E5 /* PhoneBookContact */,
-				C86F16B71F32DF5700CEF23F /* CPBModelObject */,
+				C86F16B71F32DF5700CEF23F /* PBCModelObject */,
 				C86F16B61F32DF3B00CEF23F /* PhoneBookContactLoader */,
 			);
 			name = Models;
@@ -294,8 +294,8 @@
 		C849E6501F283E8C0062C24F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				C85F4FD91F38053300B68B9F /* CPBPickerViewController.h */,
-				C85F4FDA1F38053300B68B9F /* CPBPickerViewController.m */,
+				C85F4FD91F38053300B68B9F /* PBCPickerViewController.h */,
+				C85F4FDA1F38053300B68B9F /* PBCPickerViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -397,13 +397,13 @@
 			name = PhoneBookContactLoader;
 			sourceTree = "<group>";
 		};
-		C86F16B71F32DF5700CEF23F /* CPBModelObject */ = {
+		C86F16B71F32DF5700CEF23F /* PBCModelObject */ = {
 			isa = PBXGroup;
 			children = (
-				C849E6491F28333B0062C24F /* CPBModelObject.h */,
-				C849E64A1F28333B0062C24F /* CPBModelObject.m */,
+				C849E6491F28333B0062C24F /* PBCModelObject.h */,
+				C849E64A1F28333B0062C24F /* PBCModelObject.m */,
 			);
-			name = CPBModelObject;
+			name = PBCModelObject;
 			sourceTree = "<group>";
 		};
 		C86F16BB1F3334CC00CEF23F /* CheckBox */ = {
@@ -729,11 +729,11 @@
 				C85375101F3AF12B00C524CE /* UIImage+Extension.m in Sources */,
 				C83F20201F273F8D00A1D67A /* AppDelegate.m in Sources */,
 				C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */,
-				C85F4FDB1F38053300B68B9F /* CPBPickerViewController.m in Sources */,
+				C85F4FDB1F38053300B68B9F /* PBCPickerViewController.m in Sources */,
 				C85375141F3AFCCE00C524CE /* ThreadSafeMutableDictionary.m in Sources */,
 				C83F20561F27576C00A1D67A /* CheckBox.m in Sources */,
 				C849E64F1F283C160062C24F /* ThreadSafeMutableArray.m in Sources */,
-				C849E64B1F28333B0062C24F /* CPBModelObject.m in Sources */,
+				C849E64B1F28333B0062C24F /* PBCModelObject.m in Sources */,
 				C85818951F3081700033577B /* ContactCollectionNICell.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,
 				C85F4FD31F37FF3300B68B9F /* ContactPickerView.m in Sources */,
