@@ -1,4 +1,4 @@
-# iOS-ObjectiveC-ContactChooser
+# iOS-ObjectiveC-ContactPicker
 
 - Load contacts from phone book and show on screen as a table view.  
 - Contacts are alphabetical grouped in sections.  
