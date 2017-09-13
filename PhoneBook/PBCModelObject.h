@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "ContactModelObject.h"
-#import "PhoneBookContact.h"
+#import "PhoneBookContact+CoreDataProperties.h"
 
 /**
  Contact cell object - store data of each phone book contact cell

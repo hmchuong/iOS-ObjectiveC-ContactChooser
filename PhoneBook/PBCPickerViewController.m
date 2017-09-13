@@ -47,8 +47,8 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     });
     
-    [PhoneBookContactLoader.sharedInstance getPhoneBookContactsWithCompletion: ^(BOOL granted, NSArray <PhoneBookContact *> *contacts) {
-        
+    [PhoneBookContactLoader.sharedInstance getPhoneBookContactsWithCompletion: ^(BOOL granted) {
+        NSArray<PhoneBookContact *> *contacts = [PhoneBookContact getAllRecords];
         NSLog(@"No. loaded contacts: %lu",(unsigned long)[contacts count]);
         
         if (!granted) {

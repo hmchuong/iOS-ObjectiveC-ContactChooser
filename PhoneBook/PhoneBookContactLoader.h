@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <Contacts/Contacts.h>
-#import "PhoneBookContact.h"
+#import "PhoneBookContact+CoreDataProperties.h"
 
-typedef void (^PhoneBookContactLoaderCompletion) (BOOL granted, NSArray <PhoneBookContact *> *contacts);
+typedef void (^PhoneBookContactLoaderCompletion) (BOOL granted);
 
 /**
  Object for load contact from phone book

@@ -8,6 +8,7 @@
 
 #import "PhoneBookContactLoader.h"
 #import "UIKit/UIKit.h"
+#import "AppDelegate.h"
 
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -45,7 +46,6 @@
     CNContactStore *store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
         
-        NSMutableArray<PhoneBookContact *> *contacts = [[NSMutableArray alloc] init];
         if (granted) {
             
             //keys with fetching properties
@@ -57,13 +57,17 @@
             
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
             
+            [PhoneBookContact deleteAllRecords];
+            
             for (CNContact *contact in cnContacts) {
-                [contacts addObject:[[PhoneBookContact alloc] initWithCNContact:contact]];
+                
+                [PhoneBookContact insertWithCNContact:contact];
+                
             }
             
         }
         
-        completion(granted,contacts);
+        completion(granted);
     }];
 }
 
@@ -92,20 +96,18 @@
         accessGranted = YES;
     }
     
-    NSMutableArray<PhoneBookContact *> *contacts = [[NSMutableArray alloc] init];;
-    
     if (accessGranted) {
         
         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
         CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
         for (int i = 0; i < nPeople; i ++) {
             ABRecordRef ref = CFArrayGetValueAtIndex(allPeople,i);
-            [contacts addObject:[[PhoneBookContact alloc] initWithABRecordRef:ref]];
+            [PhoneBookContact insertWithABRecordRef:ref];
         }
         
     }
     
-    completion(accessGranted, contacts);
+    completion(accessGranted);
 
 }
 
