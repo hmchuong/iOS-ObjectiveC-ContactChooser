@@ -12,7 +12,6 @@
 #import "AppDelegate.h"
 
 #define ENTITY_NAME @"Contacts"
-#define kBgQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 
 @implementation PhoneBookContact (CoreDataProperties)
 
@@ -21,12 +20,87 @@
 @dynamic lastName;
 @dynamic middleName;
 
+#pragma mark - Private static
+
+/**
+ Get coredata interaction queue
+
+ @return serial queue
+ */
++ (dispatch_queue_t)getQueue {
+    
+    static dispatch_queue_t queue;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        queue = dispatch_queue_create("com.vn.vng.zalo.phonebook.coredata", DISPATCH_QUEUE_SERIAL);
+    });
+    return queue;
+}
+
+/**
+ Get persistent store coordinator
+
+ @return persistent store coordinator
+ */
++ (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+    
+    id delegate = [[UIApplication sharedApplication] delegate];
+    NSPersistentStoreCoordinator *coordinator = nil;
+    
+    if ([delegate respondsToSelector:@selector(persistentStoreCoordinator)]) {
+        coordinator = [delegate persistentStoreCoordinator];
+    }
+    return coordinator;
+}
+
+/**
+ Get private (background) managed object context
+
+ @return background object context
+ */
++ (NSManagedObjectContext *)privateManagedObjectContext {
+    
+    NSManagedObjectContext *context;
+    id delegate = [[UIApplication sharedApplication] delegate];
+    if ([delegate respondsToSelector:@selector(managedObjectContext)]) {
+        context = [delegate managedObjectContext];
+    }
+    return context;
+}
+
+/**
+ Save context to core data
+ */
++ (void)saveContext {
+    
+    NSError *error = nil;
+    if ([[PhoneBookContact privateManagedObjectContext] hasChanges] && ![[PhoneBookContact privateManagedObjectContext]save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+        abort();
+    }
+    
+}
+
+/**
+ Construct a default PhoneBookContact object
+
+ @return default object to store in database
+ */
++ (instancetype)defaultObject {
+    
+    PhoneBookContact *contact = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME inManagedObjectContext:[PhoneBookContact privateManagedObjectContext]];
+    
+    return contact;
+}
+
+#pragma mark - Public static
+
 + (NSArray<PhoneBookContact *> *)getAllRecords {
     
     NSError *__block error = nil;
     NSArray *__block contacts = nil;
 
-    dispatch_sync(kBgQueue, ^{
+    dispatch_sync([PhoneBookContact getQueue], ^{
         contacts = [[PhoneBookContact privateManagedObjectContext] executeFetchRequest:[PhoneBookContact fetchRequest]
                                                                                  error:&error];
     });
@@ -43,7 +117,7 @@
     
     NSError *__block deleteError = nil;
     
-    dispatch_sync(kBgQueue, ^{
+    dispatch_sync([PhoneBookContact getQueue], ^{
         [[PhoneBookContact persistentStoreCoordinator] executeRequest:delete
                                                           withContext:[PhoneBookContact privateManagedObjectContext]
                                                                 error:&deleteError];
@@ -57,51 +131,12 @@
 	return [[NSFetchRequest alloc] initWithEntityName: ENTITY_NAME];
 }
 
-+ (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    
-    id delegate = [[UIApplication sharedApplication] delegate];
-    NSPersistentStoreCoordinator *coordinator = nil;
-    
-    if ([delegate respondsToSelector:@selector(persistentStoreCoordinator)]) {
-        coordinator = [delegate persistentStoreCoordinator];
-    }
-    return coordinator;
-}
-
-+ (NSManagedObjectContext *)privateManagedObjectContext {
-    
-    NSManagedObjectContext *context;
-    id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate respondsToSelector:@selector(managedObjectContext)]) {
-        context = [delegate managedObjectContext];
-    }
-    return context;
-}
-
-+ (void)saveContext {
-    NSError *error = nil;
-    if ([[PhoneBookContact privateManagedObjectContext] hasChanges] && ![[PhoneBookContact privateManagedObjectContext]save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-        abort();
-    }
-
-}
-
-+ (instancetype)init {
-    
-    PhoneBookContact *contact = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME inManagedObjectContext:[PhoneBookContact privateManagedObjectContext]];
-    
-    return contact;
-}
-
 + (instancetype)insertWithCNContact:(CNContact *)cnContact {
     
     PhoneBookContact *__block contact = nil;
     
-    dispatch_sync(kBgQueue, ^{
-        contact = [PhoneBookContact init];
+    dispatch_sync([PhoneBookContact getQueue], ^{
+        contact = [PhoneBookContact defaultObject];
         
         contact.firstName = cnContact.givenName;
         contact.middleName = cnContact.middleName;
@@ -126,8 +161,8 @@
 + (instancetype)insertWithABRecordRef:(ABRecordRef)aBRecordRef {
     
     PhoneBookContact *__block contact;
-    dispatch_sync(kBgQueue, ^{
-        contact = [PhoneBookContact init];
+    dispatch_sync([PhoneBookContact getQueue], ^{
+        contact = [PhoneBookContact defaultObject];
         
         // Name
         CFStringRef firstName, middleName, lastName;

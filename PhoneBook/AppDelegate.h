@@ -15,7 +15,18 @@
 
 @property (readonly, strong) NSPersistentContainer *persistentContainer;
 
+/**
+ Get persistent store coordinator
+
+ @return persistent store coordinator
+ */
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
+
+/**
+ Get background managed object context
+
+ @return background managed object context
+ */
 - (NSManagedObjectContext *)managedObjectContext;
 
 @end

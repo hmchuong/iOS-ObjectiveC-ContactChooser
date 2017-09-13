@@ -16,12 +16,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSFetchRequest<PhoneBookContact *> *)fetchRequest;
 
-@property (nullable, nonatomic, copy) NSString *firstName;
-@property (nullable, nonatomic, copy) NSString *identifier;
-@property (nullable, nonatomic, copy) NSString *lastName;
-@property (nullable, nonatomic, copy) NSString *middleName;
+@property (nullable, nonatomic, copy) NSString *firstName;                      // first name of contact
+@property (nullable, nonatomic, copy) NSString *identifier;                     // id of contact
+@property (nullable, nonatomic, copy) NSString *lastName;                       // last name of contact
+@property (nullable, nonatomic, copy) NSString *middleName;                     // middle name of contact
 
+/**
+ Delete all records in core data
+ */
 + (void)deleteAllRecords;
+
+/**
+ Get all records in core data
+
+ @return array of PhoneBookContact object
+ */
 + (NSArray<PhoneBookContact *> *)getAllRecords;
 
 /**
