@@ -72,7 +72,7 @@
         });
         
         NSLog(@"Loading contacts time: %.3f s", -[_operation timeIntervalSinceNow]);
-    }];
+    } callbackQueue:[NSOperationQueue currentQueue]];
 }
 
 /**

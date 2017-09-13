@@ -39,8 +39,10 @@
  Load phone book contacts with CNContact
 
  @param completion - block to return result after load
+ @param queue callback queue
  */
-- (void)loadPhoneBookContactsByCNContacts:(PhoneBookContactLoaderCompletion)completion {
+- (void)loadPhoneBookContactsByCNContacts:(PhoneBookContactLoaderCompletion)completion
+                            callbackQueue:(NSOperationQueue *)queue {
     
     
     CNContactStore *store = [[CNContactStore alloc] init];
@@ -66,8 +68,9 @@
             }
             
         }
-        
-        completion(granted);
+        [queue addOperationWithBlock:^{
+            completion(granted);
+        }];
     }];
 }
 
@@ -75,8 +78,10 @@
  Load phone book contacts with AddressBook
 
  @param completion - block to return result after load
+ @param queue callback queue
  */
-- (void)loadPhoneBookContactsByAddressBook:(PhoneBookContactLoaderCompletion)completion {
+- (void)loadPhoneBookContactsByAddressBook:(PhoneBookContactLoaderCompletion)completion
+                             callbackQueue:(NSOperationQueue *)queue {
     
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
     
@@ -106,20 +111,22 @@
         }
         
     }
-    
-    completion(accessGranted);
+    [queue addOperationWithBlock:^{
+        completion(accessGranted);
+    }];
 
 }
 
 
 #pragma mark - Public methods
 
-- (void)getPhoneBookContactsWithCompletion:(PhoneBookContactLoaderCompletion)completion {
+- (void)getPhoneBookContactsWithCompletion:(PhoneBookContactLoaderCompletion)completion
+                             callbackQueue:(NSOperationQueue *)queue{
     
     if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
-        [self loadPhoneBookContactsByAddressBook:completion];
+        [self loadPhoneBookContactsByAddressBook:completion callbackQueue:queue];
     } else {
-        [self loadPhoneBookContactsByCNContacts:completion];
+        [self loadPhoneBookContactsByCNContacts:completion callbackQueue:queue];
     }
 }
 

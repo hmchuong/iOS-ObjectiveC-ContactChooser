@@ -25,7 +25,9 @@ typedef void (^PhoneBookContactLoaderCompletion) (BOOL granted);
  Get phone book contacts 
 
  @param completion - return result after completion
+ @param queue call back queue
  */
-- (void)getPhoneBookContactsWithCompletion:(PhoneBookContactLoaderCompletion) completion;
+- (void)getPhoneBookContactsWithCompletion:(PhoneBookContactLoaderCompletion) completion
+                             callbackQueue:(NSOperationQueue *)queue;
 
 @end
