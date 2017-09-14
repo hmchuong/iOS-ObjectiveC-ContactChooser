@@ -23,21 +23,6 @@
 #pragma mark - Private static
 
 /**
- Get coredata interaction queue
-
- @return serial queue
- */
-+ (dispatch_queue_t)getQueue {
-    
-    static dispatch_queue_t queue;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        queue = dispatch_queue_create("com.vn.vng.zalo.phonebook.coredata", DISPATCH_QUEUE_SERIAL);
-    });
-    return queue;
-}
-
-/**
  Get persistent store coordinator
 
  @return persistent store coordinator
@@ -73,12 +58,14 @@
  */
 + (void)saveContext {
     
-    NSError *error = nil;
-    if ([[ZLMPhoneBookContactMO privateManagedObjectContext] hasChanges] && ![[ZLMPhoneBookContactMO privateManagedObjectContext]save:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-        abort();
-    }
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
     
+    [context performBlock:^{
+        NSError *error = nil;
+        if ([context hasChanges] && ![context save:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+        }
+    }];
 }
 
 /**
@@ -88,7 +75,13 @@
  */
 + (instancetype)defaultObject {
     
-    ZLMPhoneBookContactMO *contact = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME inManagedObjectContext:[ZLMPhoneBookContactMO privateManagedObjectContext]];
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
+    ZLMPhoneBookContactMO *__block contact = nil;
+    
+    [context performBlockAndWait:^{
+        contact = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME
+                                                inManagedObjectContext:context];
+    }];
     
     return contact;
 }
@@ -97,34 +90,42 @@
 
 + (NSArray<ZLMPhoneBookContactMO *> *)getAllRecords {
     
-    NSError *__block error = nil;
-    NSArray *__block contacts = nil;
-
-    dispatch_sync([ZLMPhoneBookContactMO getQueue], ^{
-        contacts = [[ZLMPhoneBookContactMO privateManagedObjectContext] executeFetchRequest:[ZLMPhoneBookContactMO fetchRequest]
-                                                                                 error:&error];
-    });
     
-    if (error != nil) {
-        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-    }
+    NSArray *__block contacts = nil;
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
+    
+    [context performBlockAndWait:^{
+        
+        NSError *error = nil;
+        contacts = [context executeFetchRequest:[ZLMPhoneBookContactMO fetchRequest]
+                                          error:&error];
+        if (error != nil) {
+            NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+        }
+    }];
+    
+    
+    
     return contacts;
 }
 
 + (void)deleteAllRecords {
     
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
     NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:[ZLMPhoneBookContactMO fetchRequest]];
     
-    NSError *__block deleteError = nil;
-    
-    dispatch_sync([ZLMPhoneBookContactMO getQueue], ^{
+    [context performBlock:^{
+        NSError *deleteError = nil;
         [[ZLMPhoneBookContactMO persistentStoreCoordinator] executeRequest:delete
-                                                          withContext:[ZLMPhoneBookContactMO privateManagedObjectContext]
-                                                                error:&deleteError];
-    });
-    if (deleteError != nil) {
-        NSLog(@"Unresolved error %@, %@", deleteError, deleteError.userInfo);
-    }
+                                                               withContext:context
+                                                                     error:&deleteError];
+        if (deleteError != nil) {
+            NSLog(@"Unresolved error %@, %@", deleteError, deleteError.userInfo);
+        }
+    }];
+    
+    [ZLMPhoneBookContactMO saveContext];
+    
 }
 
 + (NSFetchRequest<ZLMPhoneBookContactMO *> *)fetchRequest {
@@ -133,65 +134,64 @@
 
 + (instancetype)insertWithCNContact:(CNContact *)cnContact {
     
-    ZLMPhoneBookContactMO *__block contact = nil;
+    ZLMPhoneBookContactMO *__block contact = [ZLMPhoneBookContactMO defaultObject];
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
     
-    dispatch_sync([ZLMPhoneBookContactMO getQueue], ^{
-        contact = [ZLMPhoneBookContactMO defaultObject];
+    [context performBlockAndWait:^{
         
         contact.firstName = cnContact.givenName;
         contact.middleName = cnContact.middleName;
         contact.lastName = cnContact.familyName;
         contact.identifier = cnContact.identifier;
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            UIImage *avatar = [UIImage imageWithData:[cnContact imageData]];
-            
-            // if has avatar -> store to cache
-            if (avatar != nil) {
-                [ZLMImageCache.sharedInstance storeImage:avatar
-                                              withKey:contact.identifier];
-            }
-        });
-        [ZLMPhoneBookContactMO saveContext];
-    });
+    }];
+    
+    UIImage *avatar = [UIImage imageWithData:[cnContact imageData]];
+    
+    // if has avatar -> store to cache
+    if (avatar != nil) {
+        [ZLMImageCache.sharedInstance storeImage:avatar
+                                         withKey:contact.identifier];
+    }
+    
+    [ZLMPhoneBookContactMO saveContext];
     
     return contact;
 }
 
 + (instancetype)insertWithABRecordRef:(ABRecordRef)aBRecordRef {
     
-    ZLMPhoneBookContactMO *__block contact;
-    dispatch_sync([ZLMPhoneBookContactMO getQueue], ^{
-        contact = [ZLMPhoneBookContactMO defaultObject];
-        
-        // Name
-        CFStringRef firstName, middleName, lastName;
-        firstName = ABRecordCopyValue(aBRecordRef, kABPersonFirstNameProperty);
-        middleName = ABRecordCopyValue(aBRecordRef, kABPersonMiddleNameProperty);
-        lastName = ABRecordCopyValue(aBRecordRef, kABPersonLastNameProperty);
+    ZLMPhoneBookContactMO *__block contact = [ZLMPhoneBookContactMO defaultObject];
+    
+    // Name
+    CFStringRef firstName, middleName, lastName;
+    firstName = ABRecordCopyValue(aBRecordRef, kABPersonFirstNameProperty);
+    middleName = ABRecordCopyValue(aBRecordRef, kABPersonMiddleNameProperty);
+    lastName = ABRecordCopyValue(aBRecordRef, kABPersonLastNameProperty);
+    
+    // ID
+    ABRecordID recordID = ABRecordGetRecordID(aBRecordRef);
+    
+    // Avatar
+    UIImage *avatar;
+    if (ABPersonHasImageData(aBRecordRef)) {
+        avatar = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageData(aBRecordRef)];
+    }
+    
+    [[ZLMPhoneBookContactMO privateManagedObjectContext] performBlockAndWait:^{
         
         contact.firstName = [NSString stringWithFormat:@"%@",firstName];
         contact.middleName = [NSString stringWithFormat:@"%@",middleName];
         contact.lastName = [NSString stringWithFormat:@"%@",lastName];
-        
-        // ID
-        ABRecordID recordID = ABRecordGetRecordID(aBRecordRef);
         contact.identifier = [NSString stringWithFormat:@"%d", recordID];
-        
-        // Avatar
-        UIImage *avatar;
-        if (ABPersonHasImageData(aBRecordRef)) {
-            avatar = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageData(aBRecordRef)];
-        }
-        
-        // Store to cache
-        if (avatar != nil) {
-            [ZLMImageCache.sharedInstance storeImage:avatar
-                                          withKey:contact.identifier];
-        }
-        
-        [ZLMPhoneBookContactMO saveContext];
-    });
+    }];
+    
+    [ZLMPhoneBookContactMO saveContext];
+    
+    // Store to cache
+    if (avatar != nil) {
+        [ZLMImageCache.sharedInstance storeImage:avatar
+                                         withKey:contact.identifier];
+    }
     
     return contact;
 }
