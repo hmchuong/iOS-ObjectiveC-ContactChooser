@@ -11,23 +11,22 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
-
-@property (readonly, strong) NSPersistentContainer *persistentContainer;
-
-/**
- Get persistent store coordinator
-
- @return persistent store coordinator
- */
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
+@property (strong, nonatomic)           UIWindow                        *window;
+@property (readonly, strong, nonatomic) NSManagedObjectContext          *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel            *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
+@property (readonly, strong)            NSPersistentContainer           *persistentContainer;
 
 /**
- Get background managed object context
-
- @return background managed object context
+ Save Core Data context
  */
-- (NSManagedObjectContext *)managedObjectContext;
+- (void)saveContext;
 
+/**
+ Get document directory
+
+ @return document directory url
+ */
+- (NSURL *)applicationDocumentsDirectory;
 @end
 

@@ -58,14 +58,10 @@
  */
 + (void)saveContext {
     
-    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
-    
-    [context performBlock:^{
-        NSError *error = nil;
-        if ([context hasChanges] && ![context save:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-        }
-    }];
+    id delegate = [[UIApplication sharedApplication] delegate];
+    if ([delegate respondsToSelector:@selector(saveContext)]) {
+        [delegate saveContext];
+    }
 }
 
 /**

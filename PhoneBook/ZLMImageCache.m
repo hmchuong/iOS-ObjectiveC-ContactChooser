@@ -173,17 +173,16 @@
 - (void)storeImageToDisk:(UIImage *)image
                 withKey:(NSString *)key {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSString *filePath = [self getFilePathFromKey:key];
-        NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    NSString *filePath = [self getFilePathFromKey:key];
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    
+    // Write to file
+    dispatch_async(_icIOQueue, ^{
         
-        // Write to file
-        dispatch_async(_icIOQueue, ^{
-            
-            [imageData writeToFile:filePath
-                        atomically:YES];
-        });
+        [imageData writeToFile:filePath
+                    atomically:YES];
     });
+
 }
 
 /**
