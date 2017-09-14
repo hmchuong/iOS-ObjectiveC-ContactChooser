@@ -1,5 +1,5 @@
 //
-//  PBCPickerViewController.h
+//  ZLMPBContactPickerVC.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#include "PhoneBookContactLoader.h"
-#include "ContactPickerView.h"
-#include "PBCModelObject.h"
+#include "ZLMPhoneBookContactLoader.h"
+#include "ZLMContactPickerView.h"
+#include "ZLMPhoneBookContactNIO.h"
 
-@interface PBCPickerViewController : UIViewController
+@interface ZLMPBContactPickerVC : UIViewController
 
 @end

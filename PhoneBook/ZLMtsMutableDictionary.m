@@ -1,28 +1,28 @@
 //
-//  ThreadSafeMutableDictionary.m
+//  ZLMtsMutableDictionary.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/9/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ThreadSafeMutableDictionary.h"
+#import "ZLMtsMutableDictionary.h"
 
-@interface ThreadSafeMutableDictionary()
+@interface ZLMtsMutableDictionary()
 
 @property (strong,nonatomic) NSMutableDictionary *internalDictionary;
 @property (strong,nonatomic) dispatch_queue_t tsQueue;
 
 @end
 
-@implementation ThreadSafeMutableDictionary
+@implementation ZLMtsMutableDictionary
 
 - (instancetype)init {
     
     self = [super init];
     
     _internalDictionary = [[NSMutableDictionary alloc]init];
-    _tsQueue = dispatch_queue_create("com.vn.vng.zalo.ThreadSafeMutableDictionary", NULL);
+    _tsQueue = dispatch_queue_create("com.vn.vng.zalo.ZLMtsMutableDictionary", NULL);
     
     return self;
 }

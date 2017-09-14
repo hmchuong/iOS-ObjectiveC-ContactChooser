@@ -1,22 +1,22 @@
 //
-//  CheckBox.m
+//  ZLMCheckBox.m
 //  PhoneBook
 //
 //  Created by chuonghm on 7/25/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "CheckBox.h"
-#import "ImageCache.h"
+#import "ZLMCheckBox.h"
+#import "ZLMImageCache.h"
 #import "UIImage+Extension.h"
 
-@interface CheckBox()
+@interface ZLMCheckBox()
 
 @property (strong, nonatomic) UIImageView *imageView;       // Show captured checkbox
 
 @end
 
-@implementation CheckBox
+@implementation ZLMCheckBox
 
 #pragma mark - Life cycle
 
@@ -41,9 +41,9 @@
     if ( self.checked ) {
         [self drawRectChecked:rect];
     } else {    // In unchecked state
-        if ( self.checkMarkStyle == CheckMarkStyleOpenCircle )
+        if ( self.checkMarkStyle == ZLMCheckMarkStyleOpenCircle )
             [self drawRectOpenCircle:rect];
-        else if ( self.checkMarkStyle == CheckMarkStyleGrayedOut )
+        else if ( self.checkMarkStyle == ZLMCheckMarkStyleGrayedOut )
             [self drawRectGrayedOut:rect];
     }
     
@@ -59,7 +59,7 @@
     }
 }
 
-- (void)setCheckMarkStyle:(CheckMarkStyle)checkMarkStyle {
+- (void)setCheckMarkStyle:(ZLMCheckMarkStyle)checkMarkStyle {
     
     _checkMarkStyle = checkMarkStyle;
     [self setNeedsDisplay];
@@ -78,7 +78,7 @@
     self.layer.borderWidth = 0;
     
     // Check captured checkbox is stored
-    UIImage *checkedImage = [ImageCache.sharedInstance imageFromKey:CHECKED_VIEW_KEY storeToMem:YES];
+    UIImage *checkedImage = [ZLMImageCache.sharedInstance imageFromKey:CHECKED_VIEW_KEY storeToMem:YES];
     if (checkedImage) {
         [_imageView setImage:checkedImage];
         [self addSubview:_imageView];
@@ -113,18 +113,18 @@
     [bezierPath stroke];
     
     // Store captured checkbox
-    [ImageCache.sharedInstance storeImage:[UIImage imageWithView:self] withKey:CHECKED_VIEW_KEY];
+    [ZLMImageCache.sharedInstance storeImage:[UIImage imageWithView:self] withKey:CHECKED_VIEW_KEY];
 }
 
 /**
- Draw unchecked state in CheckMarkStyleGrayedOut
+ Draw unchecked state in ZLMCheckMarkStyleGrayedOut
 
  @param rect - rect to draw
  */
 - (void)drawRectGrayedOut:(CGRect)rect {
     
     // Check captured checkbox is stored
-    UIImage *grayedOutImage = [ImageCache.sharedInstance imageFromKey:GRAYED_OUT_VIEW_KEY storeToMem:YES];
+    UIImage *grayedOutImage = [ZLMImageCache.sharedInstance imageFromKey:GRAYED_OUT_VIEW_KEY storeToMem:YES];
     if (grayedOutImage) {
         [_imageView setImage:grayedOutImage];
         [self addSubview:_imageView];
@@ -156,11 +156,11 @@
     [bezierPath stroke];
     
     // Store captured checkbox
-    [ImageCache.sharedInstance storeImage:[UIImage imageWithView:self] withKey:GRAYED_OUT_VIEW_KEY];
+    [ZLMImageCache.sharedInstance storeImage:[UIImage imageWithView:self] withKey:GRAYED_OUT_VIEW_KEY];
 }
 
 /**
- Draw unchecked state in CheckMarkStyleOpenCircle
+ Draw unchecked state in ZLMCheckMarkStyleOpenCircle
 
  @param rect - rect to draw
  */

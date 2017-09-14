@@ -1,16 +1,16 @@
 //
-//  ContactCollectionNICell.m
+//  ZLMContactCollectionNICell.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/1/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ContactModelObject.h"
-#import "ContactCollectionNICell.h"
+#import "ZLMContactNIO.h"
+#import "ZLMContactCollectionNICell.h"
 
 
-@implementation ContactCollectionNICell
+@implementation ZLMContactCollectionNICell
 
 - (instancetype)initWithFrame:(CGRect)frame {
     
@@ -59,7 +59,7 @@
     [self setNeedsUpdateConstraints];
 }
 
-- (BOOL)shouldUpdateCellWithObject:(ContactModelObject *)object {
+- (BOOL)shouldUpdateCellWithObject:(ZLMContactNIO *)object {
     
     // Update image of cell
     [_avatar setImage:[object getAvatarImage]];

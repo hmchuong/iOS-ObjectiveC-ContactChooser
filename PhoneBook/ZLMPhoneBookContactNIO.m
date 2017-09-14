@@ -1,13 +1,13 @@
 //
-//  PBCModelObject.m
+//  ZLMPhoneBookContactNIO.m
 //  PhoneBook
 //
 //  Created by chuonghm on 7/26/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "PBCModelObject.h"
-#import "ImageCache.h"
+#import "ZLMPhoneBookContactNIO.h"
+#import "ZLMImageCache.h"
 
 /**
  Macro for get UIColor from hex value
@@ -21,17 +21,17 @@
                      blue:((float)((hexValue & 0x0000FF) >>  0))/255.0 \
                     alpha:1.0]
 
-@interface PBCModelObject()
+@interface ZLMPhoneBookContactNIO()
 
 @property (strong, nonatomic) NSString *buildFullName;
 
 @end
 
-@implementation PBCModelObject
+@implementation ZLMPhoneBookContactNIO
 
 #pragma mark - Constructors
 
-- (instancetype)initWithPhoneBookContact:(PhoneBookContact *)phoneBookContact {
+- (instancetype)initWithPhoneBookContact:(ZLMPhoneBookContactMO *)phoneBookContact {
     
     self = [super init];
     
@@ -80,12 +80,12 @@
 
 - (UIImage *)getAvatarImage {
     
-    return [ImageCache.sharedInstance imageFromKey:_avatarKey storeToMem:YES];
+    return [ZLMImageCache.sharedInstance imageFromKey:_avatarKey storeToMem:YES];
 }
 
 - (BOOL)isEqual:(id)object {
     
-    PBCModelObject *compareObject = (PBCModelObject *)object;
+    ZLMPhoneBookContactNIO *compareObject = (ZLMPhoneBookContactNIO *)object;
     if ([[self fullname] isEqual:[compareObject fullname]] && [self.avatarKey isEqual:compareObject.avatarKey]) {
         return YES;
     }
@@ -101,7 +101,7 @@
     
     // Create label contains text
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *avatar = [ImageCache.sharedInstance imageFromKey:_avatarKey storeToMem:NO];
+        UIImage *avatar = [ZLMImageCache.sharedInstance imageFromKey:_avatarKey storeToMem:NO];
         
         if (avatar != nil) {
             return;
@@ -121,7 +121,7 @@
         UIGraphicsEndImageContext();
         
         // Store data to cache
-        [ImageCache.sharedInstance storeImage:returnImage
+        [ZLMImageCache.sharedInstance storeImage:returnImage
                                       withKey:self.avatarKey];
 
     });

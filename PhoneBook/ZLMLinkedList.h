@@ -1,5 +1,5 @@
 //
-//  LinkedList.h
+//  ZLMLinkedList.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/14/17.
@@ -16,7 +16,7 @@ struct LNode {
     LNode *prev;
 };
 
-@interface LinkedList : NSObject {
+@interface ZLMLinkedList : NSObject {
 
     LNode *first;
     LNode *last;

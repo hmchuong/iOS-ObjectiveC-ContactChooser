@@ -1,5 +1,5 @@
 //
-//  ImageCache.h
+//  ZLMImageCache.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/2/17.
@@ -14,14 +14,14 @@
 #define EXPIRATION_DAYS 30                  // Clear file on disk after 30 days
 
 /**
- ImageCache utility - support caching equally between disk and memory
+ ZLMImageCache utility - support caching equally between disk and memory
  */
-@interface ImageCache : NSObject
+@interface ZLMImageCache : NSObject
 
 /**
  Singleton instance
 
- @return ImageCache instance
+ @return ZLMImageCache instance
  */
 + (id)sharedInstance;
 

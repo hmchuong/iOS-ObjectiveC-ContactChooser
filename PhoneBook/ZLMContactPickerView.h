@@ -1,5 +1,5 @@
 //
-//  ContactPickerView.h
+//  ZLMContactPickerView.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-#import "ContactModelObject.h"
+#import "ZLMContactNIO.h"
 
 // Nimbus
 #import "NIMutableTableViewModel.h"
@@ -20,17 +20,17 @@
 #define DEFAULT_NO_DATA_MESSAGE @"Không tìm thấy kết quả phù hợp"
 #define DEFAULT_SEARCH_PLACEHOLDER @"Nhập tên bạn bè"
 
-@class ContactPickerView;
+@class ZLMContactPickerView;
 
 
 /**
  Contact picker view
  */
 IB_DESIGNABLE
-@interface ContactPickerView : UIView<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate>
+@interface ZLMContactPickerView : UIView<NIMutableTableViewModelDelegate, UITableViewDelegate, NICollectionViewModelDelegate, UICollectionViewDelegate, UISearchBarDelegate>
 
 
-@property (strong, readonly, nonatomic) NSArray<ContactModelObject *> *contacts;    // Contacts data
+@property (strong, readonly, nonatomic) NSArray<ZLMContactNIO *> *contacts;    // Contacts data
 @property (strong, nonatomic) IBInspectable NSString *noResultSearchingMessage;     // Message show when no data appear
 @property (strong, nonatomic) IBInspectable NSString *searchPlaceholder;            // Placeholder for search bar
 

@@ -1,20 +1,20 @@
 //
-//  PhoneBookContact+CoreDataProperties.h
+//  ZLMPhoneBookContactMO+CDP.h
 //  
 //
 //  Created by chuonghm on 9/13/17.
 //
 //
 
-#import "PhoneBookContact+CoreDataClass.h"
+#import "ZLMPhoneBookContactMO+CDC.h"
 #import <AddressBook/AddressBook.h>
 #import <Contacts/Contacts.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PhoneBookContact (CoreDataProperties)
+@interface ZLMPhoneBookContactMO (CoreDataProperties)
 
-+ (NSFetchRequest<PhoneBookContact *> *)fetchRequest;
++ (NSFetchRequest<ZLMPhoneBookContactMO *> *)fetchRequest;
 
 @property (nullable, nonatomic, copy) NSString *firstName;                      // first name of contact
 @property (nullable, nonatomic, copy) NSString *identifier;                     // id of contact
@@ -29,15 +29,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Get all records in core data
 
- @return array of PhoneBookContact object
+ @return array of ZLMPhoneBookContactMO object
  */
-+ (NSArray<PhoneBookContact *> *)getAllRecords;
++ (NSArray<ZLMPhoneBookContactMO *> *)getAllRecords;
 
 /**
  Init with CNContact object
  
  @param cnContact - CNContact to init
- @return PhoneBookContact object
+ @return ZLMPhoneBookContactMO object
  */
 + (instancetype)insertWithCNContact:(CNContact *)cnContact;
 
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  Init with AddressBookContact
  
  @param aBRecordRef - Contact to init
- @return PhoneBookContact object
+ @return ZLMPhoneBookContactMO object
  */
 + (instancetype)insertWithABRecordRef:(ABRecordRef)aBRecordRef;
 

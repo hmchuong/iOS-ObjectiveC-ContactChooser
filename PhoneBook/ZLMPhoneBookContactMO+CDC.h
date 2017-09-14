@@ -1,5 +1,5 @@
 //
-//  PhoneBookContact+CoreDataClass.h
+//  ZLMPhoneBookContactMO+CDC.h
 //  
 //
 //  Created by chuonghm on 9/13/17.
@@ -11,10 +11,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PhoneBookContact : NSManagedObject
+@interface ZLMPhoneBookContactMO : NSManagedObject
 
 @end
 
 NS_ASSUME_NONNULL_END
 
-//#import "PhoneBookContact+CoreDataProperties.h"
+//#import "ZLMPhoneBookContactMO+CDP.h"

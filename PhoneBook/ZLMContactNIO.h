@@ -1,5 +1,5 @@
 //
-//  ContactModelObject.h
+//  ZLMContactNIO.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
@@ -22,7 +22,7 @@
 /**
  Contact object for table and collection cell
  */
-@interface ContactModelObject : NSObject<NICellObject,NICollectionViewCellObject>
+@interface ZLMContactNIO : NSObject<NICellObject,NICollectionViewCellObject>
 
 @property (strong,nonatomic) NSString *fullname;                    // Name to show on the table cell
 

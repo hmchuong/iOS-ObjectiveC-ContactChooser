@@ -1,5 +1,5 @@
 //
-//  PBCModelObject.h
+//  ZLMPhoneBookContactNIO.h
 //  PhoneBook
 //
 //  Created by chuonghm on 7/26/17.
@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "ContactModelObject.h"
-#import "PhoneBookContact+CoreDataProperties.h"
+#import "ZLMContactNIO.h"
+#import "ZLMPhoneBookContactMO+CDP.h"
 
 /**
  Contact cell object - store data of each phone book contact cell
  */
-@interface PBCModelObject : ContactModelObject
+@interface ZLMPhoneBookContactNIO : ZLMContactNIO
 
 @property (strong, nonatomic) NSString *avatarKey;      // Key storing image in cache
 @property (strong, nonatomic) NSString *firstname;      // first name of contact
@@ -22,11 +22,11 @@
 @property (strong, nonatomic) NSString *lastname;       // last name of contact
 
 /**
- Init with PhoneBookContact
+ Init with ZLMPhoneBookContactMO
 
  @param phoneBookContact - contact to init
  @return PhoneBookContactCell object
  */
-- (instancetype)initWithPhoneBookContact:(PhoneBookContact *)phoneBookContact;
+- (instancetype)initWithPhoneBookContact:(ZLMPhoneBookContactMO *)phoneBookContact;
 
 @end

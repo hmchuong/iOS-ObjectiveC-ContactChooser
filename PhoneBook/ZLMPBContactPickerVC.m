@@ -1,24 +1,24 @@
 //
-//  PBCPickerViewController.m
+//  ZLMPBContactPickerVC.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "PBCPickerViewController.h"
+#import "ZLMPBContactPickerVC.h"
 #import "MBProgressHUD.h"
-#import "ThreadSafeMutableArray.h"
-#import "ThreadSafeMutableDictionary.h"
+#import "ZLMtsMutableArray.h"
+#import "ZLMtsMutableDictionary.h"
 #import "NSString+Extension.h"
 
-@interface PBCPickerViewController ()
+@interface ZLMPBContactPickerVC ()
 
-@property (weak, nonatomic) IBOutlet ContactPickerView *contactPicker;
+@property (weak, nonatomic) IBOutlet ZLMContactPickerView *contactPicker;
 
 @end
 
-@implementation PBCPickerViewController
+@implementation ZLMPBContactPickerVC
 
 #pragma mark - Life cycle
 
@@ -47,8 +47,8 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     });
     
-    [PhoneBookContactLoader.sharedInstance getPhoneBookContactsWithCompletion: ^(BOOL granted) {
-        NSArray<PhoneBookContact *> *contacts = [PhoneBookContact getAllRecords];
+    [ZLMPhoneBookContactLoader.sharedInstance getPhoneBookContactsWithCompletion: ^(BOOL granted) {
+        NSArray<ZLMPhoneBookContactMO *> *contacts = [ZLMPhoneBookContactMO getAllRecords];
         NSLog(@"No. loaded contacts: %lu",(unsigned long)[contacts count]);
         
         if (!granted) {
@@ -78,10 +78,10 @@
 /**
  Get sectioned contacts array
 
- @param contacts - PhoneBookContact array to get
+ @param contacts - ZLMPhoneBookContactMO array to get
  @return - sectioned contacts array to pass to ContactPicker
  */
-- (NSArray *)sectionedArrayFromContacts:(NSArray<PhoneBookContact *> *) contacts {
+- (NSArray *)sectionedArrayFromContacts:(NSArray<ZLMPhoneBookContactMO *> *) contacts {
     
     // Group contacts in sections
     NSDictionary *tableContents = [self groupPhoneBookContacts:contacts];
@@ -100,17 +100,17 @@
 /**
  Group contacts to sections
 
- @param contacts - PhoneBookContact array
+ @param contacts - ZLMPhoneBookContactMO array
  @return - dictionary includes sections, each section contains contacts
  */
-- (NSDictionary *)groupPhoneBookContacts:(NSArray<PhoneBookContact *> *) contacts {
+- (NSDictionary *)groupPhoneBookContacts:(NSArray<ZLMPhoneBookContactMO *> *) contacts {
     
     NSMutableDictionary *tableContents = [[NSMutableDictionary alloc] init];
     
-    for (PhoneBookContact *contact in contacts) {
+    for (ZLMPhoneBookContactMO *contact in contacts) {
         
         // Init contact cell from contact
-        PBCModelObject *contactCell = [[PBCModelObject alloc] initWithPhoneBookContact: contact];
+        ZLMPhoneBookContactNIO *contactCell = [[ZLMPhoneBookContactNIO alloc] initWithPhoneBookContact: contact];
         if ([[contactCell fullname] length] == 0) {
             continue;
         }

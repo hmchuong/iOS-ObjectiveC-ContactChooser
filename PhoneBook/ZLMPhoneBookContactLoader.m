@@ -1,18 +1,18 @@
 //
-//  PhoneBookContactLoader.m
+//  ZLMPhoneBookContactLoader.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/3/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "PhoneBookContactLoader.h"
+#import "ZLMPhoneBookContactLoader.h"
 #import "UIKit/UIKit.h"
 #import "AppDelegate.h"
 
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
-@implementation PhoneBookContactLoader
+@implementation ZLMPhoneBookContactLoader
 
 #pragma mark - Constructors
 
@@ -25,7 +25,7 @@
 
 + (instancetype)sharedInstance {
     
-    static PhoneBookContactLoader *sharedImageCache;
+    static ZLMPhoneBookContactLoader *sharedImageCache;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedImageCache = [[self alloc] init];
@@ -41,7 +41,7 @@
  @param completion - block to return result after load
  @param queue callback queue
  */
-- (void)loadPhoneBookContactsByCNContacts:(PhoneBookContactLoaderCompletion)completion
+- (void)loadPhoneBookContactsByCNContacts:(ZLMPBCLCompletionBlock)completion
                             callbackQueue:(NSOperationQueue *)queue {
     
     
@@ -59,11 +59,11 @@
             
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
             
-            [PhoneBookContact deleteAllRecords];
+            [ZLMPhoneBookContactMO deleteAllRecords];
             
             for (CNContact *contact in cnContacts) {
                 
-                [PhoneBookContact insertWithCNContact:contact];
+                [ZLMPhoneBookContactMO insertWithCNContact:contact];
                 
             }
             
@@ -80,7 +80,7 @@
  @param completion - block to return result after load
  @param queue callback queue
  */
-- (void)loadPhoneBookContactsByAddressBook:(PhoneBookContactLoaderCompletion)completion
+- (void)loadPhoneBookContactsByAddressBook:(ZLMPBCLCompletionBlock)completion
                              callbackQueue:(NSOperationQueue *)queue {
     
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
@@ -107,7 +107,7 @@
         CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
         for (int i = 0; i < nPeople; i ++) {
             ABRecordRef ref = CFArrayGetValueAtIndex(allPeople,i);
-            [PhoneBookContact insertWithABRecordRef:ref];
+            [ZLMPhoneBookContactMO insertWithABRecordRef:ref];
         }
         
     }
@@ -120,7 +120,7 @@
 
 #pragma mark - Public methods
 
-- (void)getPhoneBookContactsWithCompletion:(PhoneBookContactLoaderCompletion)completion
+- (void)getPhoneBookContactsWithCompletion:(ZLMPBCLCompletionBlock)completion
                              callbackQueue:(NSOperationQueue *)queue{
     
     if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {

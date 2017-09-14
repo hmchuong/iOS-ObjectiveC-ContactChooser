@@ -1,18 +1,18 @@
 //
-//  SystemHelper.m
+//  ZLMSystemHelper.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/14/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "SystemHelper.h"
+#import "ZLMSystemHelper.h"
 #import <mach/host_info.h>
 #import <mach/mach_host.h>
 #import <mach/task_info.h>
 #import <mach/task.h>
 
-@implementation SystemHelper
+@implementation ZLMSystemHelper
 
 + (unsigned long)getFreeMemory {
     

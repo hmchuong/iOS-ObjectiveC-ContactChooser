@@ -6,16 +6,16 @@
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ContactTableNICell.h"
-#import "ContactModelObject.h"
+#import "ZLMContactTableNICell.h"
+#import "ZLMContactNIO.h"
 
-@interface ContactTableNICell()
+@interface ZLMContactTableNICell()
 
 @property BOOL isDraw;
 
 @end
 
-@implementation ContactTableNICell
+@implementation ZLMContactTableNICell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -52,7 +52,7 @@
     
     
     // Checkbox
-    _checkBox = [[CheckBox alloc] init];
+    _checkBox = [[ZLMCheckBox alloc] init];
     _checkBox.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_checkBox];
     
@@ -141,7 +141,7 @@
     [_checkBox setChecked:selected];
 }
 
-- (BOOL)shouldUpdateCellWithObject:(ContactModelObject *)object {
+- (BOOL)shouldUpdateCellWithObject:(ZLMContactNIO *)object {
     
     // Set avatar
     [_avatar setImage:[object getAvatarImage]];

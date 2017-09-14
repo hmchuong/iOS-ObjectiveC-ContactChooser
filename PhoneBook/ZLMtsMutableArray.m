@@ -1,27 +1,27 @@
 //
-//  ThreadSafeMutableArray.m
-//  ThreadSafeMutableArray
+//  ZLMtsMutableArray.m
+//  ZLMtsMutableArray
 //
 //  Created by chuonghm on 7/24/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ThreadSafeMutableArray.h"
+#import "ZLMtsMutableArray.h"
 
-@interface ThreadSafeMutableArray()
+@interface ZLMtsMutableArray()
 
 @property (strong,nonatomic) NSMutableArray *internalArray;
 @property (strong,nonatomic) dispatch_queue_t tsQueue;
 
 @end
 
-@implementation ThreadSafeMutableArray
+@implementation ZLMtsMutableArray
 
 - (instancetype)init {
     self = [super init];
     
     _internalArray = [[NSMutableArray alloc]init];
-    _tsQueue = dispatch_queue_create("com.vn.vng.zalo.ThreadSafeMutableArray", NULL);
+    _tsQueue = dispatch_queue_create("com.vn.vng.zalo.ZLMtsMutableArray", NULL);
     
     return self;
 }
@@ -35,7 +35,7 @@
     } else {
         _internalArray = [[NSMutableArray alloc] initWithArray:array copyItems:NO];
     }
-    _tsQueue = dispatch_queue_create("com.vn.vng.zalo.ThreadSafeMutableArray", NULL);
+    _tsQueue = dispatch_queue_create("com.vn.vng.zalo.ZLMtsMutableArray", NULL);
     
     return self;
 }

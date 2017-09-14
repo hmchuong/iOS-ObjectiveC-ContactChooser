@@ -1,5 +1,5 @@
 //
-//  ContactPickerView.m
+//  ZLMContactPickerView.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
@@ -8,7 +8,7 @@
 
 #import <Contacts/Contacts.h>
 
-#import "ContactPickerView.h"
+#import "ZLMContactPickerView.h"
 
 // Nimbus
 #import "NIMutableTableViewModel.h"
@@ -16,10 +16,10 @@
 #import "NimbusCollections.h"
 
 // View cell
-#import "ContactTableNICell.h"
-#import "ContactCollectionNICell.h"
+#import "ZLMContactTableNICell.h"
+#import "ZLMContactCollectionNICell.h"
 
-@interface ContactPickerView()
+@interface ZLMContactPickerView()
 
 #pragma mark - Outlets
 
@@ -41,7 +41,7 @@
 
 @end
 
-@implementation ContactPickerView
+@implementation ZLMContactPickerView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     
@@ -251,7 +251,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // Get cell at indexPath
-    ContactModelObject *cellObject;
+    ZLMContactNIO *cellObject;
     if (_isSearching) {
         cellObject = [_filteredContactsModel objectAtIndexPath:indexPath];
     } else {
@@ -271,7 +271,7 @@
     [self deselectAllRow];
     
     // Get selected contact
-    ContactModelObject *selectedContact;
+    ZLMContactNIO *selectedContact;
     if (_isSearching) {
         selectedContact = [_filteredContactsModel objectAtIndexPath:indexPath];
     } else {
@@ -312,7 +312,7 @@
     
     [self deselectAllRow];
     
-    ContactModelObject *deselectedContact;
+    ZLMContactNIO *deselectedContact;
     
     // Update table UI of deselected contact
     if (_isSearching) {
@@ -395,7 +395,7 @@
     }
     
     // Get selected contact
-    ContactModelObject *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
+    ZLMContactNIO *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
     
     // If contact is selected --> Deselect contact
     if (selectedContact.isHighlighted) {
@@ -552,7 +552,7 @@
                    AtIndexPath:(NSIndexPath *)indexPath {
     
     // Get selected collection cell
-    ContactModelObject *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
+    ZLMContactNIO *selectedContact = [_selectedContactsModel objectAtIndexPath:indexPath];
     
     NSIndexPath *indexPathInTableViewOfSelectedContact = [_contactsModel indexPathForObject:selectedContact];
     
