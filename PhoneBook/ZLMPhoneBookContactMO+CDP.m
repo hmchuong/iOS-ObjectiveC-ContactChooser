@@ -132,13 +132,14 @@
 	return [[NSFetchRequest alloc] initWithEntityName: ENTITY_NAME];
 }
 
-+ (instancetype)insertWithCNContact:(CNContact *)cnContact {
++ (void)insertWithCNContact:(CNContact *)cnContact {
     
-    ZLMPhoneBookContactMO *__block contact = [ZLMPhoneBookContactMO defaultObject];
+    
     NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
     
-    [context performBlockAndWait:^{
+    [context performBlock:^{
         
+        ZLMPhoneBookContactMO *contact = [ZLMPhoneBookContactMO defaultObject];
         contact.firstName = cnContact.givenName;
         contact.middleName = cnContact.middleName;
         contact.lastName = cnContact.familyName;
@@ -150,17 +151,13 @@
     // if has avatar -> store to cache
     if (avatar != nil) {
         [ZLMImageCache.sharedInstance storeImage:avatar
-                                         withKey:contact.identifier];
+                                         withKey:cnContact.identifier];
     }
     
     [ZLMPhoneBookContactMO saveContext];
-    
-    return contact;
 }
 
-+ (instancetype)insertWithABRecordRef:(ABRecordRef)aBRecordRef {
-    
-    ZLMPhoneBookContactMO *__block contact = [ZLMPhoneBookContactMO defaultObject];
++ (void)insertWithABRecordRef:(ABRecordRef)aBRecordRef {
     
     // Name
     CFStringRef firstName, middleName, lastName;
@@ -177,8 +174,9 @@
         avatar = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageData(aBRecordRef)];
     }
     
-    [[ZLMPhoneBookContactMO privateManagedObjectContext] performBlockAndWait:^{
+    [[ZLMPhoneBookContactMO privateManagedObjectContext] performBlock:^{
         
+        ZLMPhoneBookContactMO *contact = [ZLMPhoneBookContactMO defaultObject];
         contact.firstName = [NSString stringWithFormat:@"%@",firstName];
         contact.middleName = [NSString stringWithFormat:@"%@",middleName];
         contact.lastName = [NSString stringWithFormat:@"%@",lastName];
@@ -190,10 +188,8 @@
     // Store to cache
     if (avatar != nil) {
         [ZLMImageCache.sharedInstance storeImage:avatar
-                                         withKey:contact.identifier];
+                                         withKey:[NSString stringWithFormat:@"%d", recordID]];
     }
-    
-    return contact;
 }
 
 @end

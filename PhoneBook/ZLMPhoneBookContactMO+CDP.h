@@ -34,20 +34,18 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<ZLMPhoneBookContactMO *> *)getAllRecords;
 
 /**
- Init with CNContact object
+ Insert with CNContact object
  
  @param cnContact - CNContact to init
- @return ZLMPhoneBookContactMO object
  */
-+ (instancetype)insertWithCNContact:(CNContact *)cnContact;
++ (void)insertWithCNContact:(CNContact *)cnContact;
 
 /**
- Init with AddressBookContact
+ Insert with AddressBookContact
  
  @param aBRecordRef - Contact to init
- @return ZLMPhoneBookContactMO object
  */
-+ (instancetype)insertWithABRecordRef:(ABRecordRef)aBRecordRef;
++ (void)insertWithABRecordRef:(ABRecordRef)aBRecordRef;
 
 
 @end
