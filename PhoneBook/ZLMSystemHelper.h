@@ -1,5 +1,5 @@
 //
-//  SystemHelper.h
+//  ZLMSystemHelper.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/14/17.
@@ -11,7 +11,7 @@
 /**
  Utilities for reading system information
  */
-@interface SystemHelper : NSObject
+@interface ZLMSystemHelper : NSObject
 
 /**
  Get free RAM memory at current time

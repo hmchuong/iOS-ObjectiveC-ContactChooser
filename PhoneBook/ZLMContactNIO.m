@@ -1,17 +1,17 @@
 //
-//  ContactModelObject.m
+//  ZLMContactNIO.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/7/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ContactModelObject.h"
-#import "ContactCollectionNICell.h"
-#import "ContactTableNICell.h"
+#import "ZLMContactNIO.h"
+#import "ZLMContactCollectionNICell.h"
+#import "ZLMContactTableNICell.h"
 
 
-@implementation ContactModelObject
+@implementation ZLMContactNIO
 
 #pragma mark - Constructors
 
@@ -34,11 +34,11 @@
 }
 
 - (Class)cellClass {
-    return [ContactTableNICell class];
+    return [ZLMContactTableNICell class];
 }
 
 - (Class)collectionViewCellClass {
-    return [ContactCollectionNICell class];
+    return [ZLMContactCollectionNICell class];
 }
 
 @end

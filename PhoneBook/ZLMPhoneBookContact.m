@@ -7,10 +7,10 @@
 //
 
 @import UIKit;
-#import "PhoneBookContact.h"
-#import "ImageCache.h"
+#import "ZLMPhoneBookContact.h"
+#import "ZLMImageCache.h"
 
-@implementation PhoneBookContact
+@implementation ZLMPhoneBookContact
 
 - (instancetype)init {
     
@@ -38,7 +38,7 @@
         
         // if has avatar -> store to cache
         if (avatar != nil) {
-            [ImageCache.sharedInstance storeImage:avatar
+            [ZLMImageCache.sharedInstance storeImage:avatar
                                           withKey:self.identifier];
         }
     });
@@ -72,7 +72,7 @@
     
     // Store to cache
     if (avatar != nil) {
-        [ImageCache.sharedInstance storeImage:avatar
+        [ZLMImageCache.sharedInstance storeImage:avatar
                                       withKey:_identifier];
     }
     

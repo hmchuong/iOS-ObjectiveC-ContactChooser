@@ -1,5 +1,5 @@
 //
-//  CheckBox.h
+//  ZLMCheckBox.h
 //  PhoneBook
 //
 //  Created by chuonghm on 7/25/17.
@@ -19,17 +19,17 @@
 /**
  Checkbox style
 
- - CheckMarkStyleOpenCircle: empty circle in unchecked state
- - CheckMarkStyleGrayedOut: grayout check mark in unchecked state
+ - ZLMCheckMarkStyleOpenCircle: empty circle in unchecked state
+ - ZLMCheckMarkStyleGrayedOut: grayout check mark in unchecked state
  */
-typedef NS_ENUM( NSUInteger, CheckMarkStyle) {
-    CheckMarkStyleOpenCircle,
-    CheckMarkStyleGrayedOut
+typedef NS_ENUM( NSUInteger, ZLMCheckMarkStyle) {
+    ZLMCheckMarkStyleOpenCircle,
+    ZLMCheckMarkStyleGrayedOut
 };
 
-@interface CheckBox : UIView
+@interface ZLMCheckBox : UIView
 
 @property (readwrite, nonatomic) bool checked;                      // checked state
-@property (readwrite, nonatomic) CheckMarkStyle checkMarkStyle;     // style of check box
+@property (readwrite, nonatomic) ZLMCheckMarkStyle checkMarkStyle;     // style of check box
 
 @end

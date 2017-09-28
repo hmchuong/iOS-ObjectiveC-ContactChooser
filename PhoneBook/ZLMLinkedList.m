@@ -1,5 +1,5 @@
 //
-//  LinkedList.m
+//  ZLMLinkedList.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/14/17.
@@ -7,7 +7,7 @@
 //
 
 
-#import "LinkedList.h"
+#import "ZLMLinkedList.h"
 
 // 100% Support for both ARC and non-ARC projects
 #if __has_feature(objc_arc)
@@ -33,7 +33,7 @@
 #endif
 
 
-@implementation LinkedList
+@implementation ZLMLinkedList
 @synthesize first, last;
 
 
@@ -49,7 +49,7 @@
 
 
 + (id)listWithObject:(id)anObject {
-    LinkedList *n = [[LinkedList alloc] initWithObject:anObject];
+    ZLMLinkedList *n = [[ZLMLinkedList alloc] initWithObject:anObject];
     return SAFE_ARC_AUTORELEASE(n);
 }
 
@@ -395,7 +395,7 @@
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"LinkedList with %d objects", size];
+    return [NSString stringWithFormat:@"ZLMLinkedList with %d objects", size];
 }
 
 

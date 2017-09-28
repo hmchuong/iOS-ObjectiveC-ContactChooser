@@ -1,17 +1,17 @@
 //
-//  ImageCache.m
+//  ZLMImageCache.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/2/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "ImageCache.h"
+#import "ZLMImageCache.h"
 #import "NSDate+Extension.h"
-#import "SystemHelper.h"
+#import "ZLMSystemHelper.h"
 #import "LRUMemoryCache.h"
 
-@interface ImageCache()
+@interface ZLMImageCache()
 
 @property (strong, nonatomic) NSFileManager *icFileManager;     // File manager
 @property (strong, nonatomic) LRUMemoryCache *icMemCache;       // Memory cache
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation ImageCache
+@implementation ZLMImageCache
 
 #pragma mark - Contructors
 
@@ -31,7 +31,7 @@
     _icMemCache = [[LRUMemoryCache alloc] init];
     [self maximizeMemoryCache];
     
-    _icIOQueue = dispatch_queue_create("com.vn.vng.zalo.ImageCache", DISPATCH_QUEUE_SERIAL);
+    _icIOQueue = dispatch_queue_create("com.vn.vng.zalo.ZLMImageCache", DISPATCH_QUEUE_SERIAL);
     
     // I/O
     dispatch_async(_icIOQueue, ^{
@@ -41,7 +41,7 @@
         // Create directory path
         NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docsPath = [dirPaths objectAtIndex:0];
-        _icDirPath = [docsPath stringByAppendingString:@"/com.vn.vng.zalo.ImageCache"];
+        _icDirPath = [docsPath stringByAppendingString:@"/com.vn.vng.zalo.ZLMImageCache"];
         
         // Create directory if not exist
         if (![_icFileManager fileExistsAtPath:_icDirPath]) {
@@ -91,7 +91,7 @@
 
 + (id)sharedInstance {
     
-    static ImageCache *sharedImageCache;
+    static ZLMImageCache *sharedImageCache;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedImageCache = [[self alloc] init];
@@ -173,17 +173,16 @@
 - (void)storeImageToDisk:(UIImage *)image
                 withKey:(NSString *)key {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSString *filePath = [self getFilePathFromKey:key];
-        NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    NSString *filePath = [self getFilePathFromKey:key];
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    
+    // Write to file
+    dispatch_async(_icIOQueue, ^{
         
-        // Write to file
-        dispatch_async(_icIOQueue, ^{
-            
-            [imageData writeToFile:filePath
-                        atomically:YES];
-        });
+        [imageData writeToFile:filePath
+                    atomically:YES];
     });
+
 }
 
 /**
@@ -342,7 +341,7 @@
  */
 - (void)setMemoryThreshold:(float)ratio {
     
-    unsigned long freeMemory = [SystemHelper getFreeMemory];
+    unsigned long freeMemory = [ZLMSystemHelper getFreeMemory];
     
     if (freeMemory == 0) {  // Cannot get memory info
         return;

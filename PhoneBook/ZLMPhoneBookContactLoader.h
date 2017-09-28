@@ -1,5 +1,5 @@
 //
-//  PhoneBookContactLoader.h
+//  ZLMPhoneBookContactLoader.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/3/17.
@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <Contacts/Contacts.h>
-#import "PhoneBookContact.h"
+#import "ZLMPhoneBookContactMO+CDP.h"
 
-typedef void (^PhoneBookContactLoaderCompletion) (BOOL granted, NSArray <PhoneBookContact *> *contacts);
+typedef void (^ZLMPBCLCompletionBlock) (BOOL granted, NSArray<ZLMPhoneBookContact *> *);
 
 /**
  Object for load contact from phone book
  */
-@interface PhoneBookContactLoader : NSObject
+@interface ZLMPhoneBookContactLoader : NSObject
 
 + (instancetype)sharedInstance;
 
@@ -25,7 +25,9 @@ typedef void (^PhoneBookContactLoaderCompletion) (BOOL granted, NSArray <PhoneBo
  Get phone book contacts 
 
  @param completion - return result after completion
+ @param queue call back queue
  */
-- (void)getPhoneBookContactsWithCompletion:(PhoneBookContactLoaderCompletion) completion;
+- (void)getPhoneBookContactsWithCompletion:(ZLMPBCLCompletionBlock) completion
+                             callbackQueue:(NSOperationQueue *)queue;
 
 @end

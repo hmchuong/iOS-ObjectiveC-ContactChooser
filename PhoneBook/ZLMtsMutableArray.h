@@ -1,6 +1,6 @@
 //
-//  ThreadSafeMutableArray.h
-//  ThreadSafeMutableArray
+//  ZLMtsMutableArray.h
+//  ZLMtsMutableArray
 //
 //  Created by chuonghm on 7/24/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
@@ -11,20 +11,20 @@
 /**
  Mutable array thread safe
  */
-@interface ThreadSafeMutableArray : NSObject
+@interface ZLMtsMutableArray : NSObject
 
 /**
  Init a new empty array
 
- @return - new ThreadSafeMutableArray
+ @return - new ZLMtsMutableArray
  */
 - (instancetype)init;
 
 /**
- Init a new ThreadSafeMutableArray from a NSArray
+ Init a new ZLMtsMutableArray from a NSArray
 
  @param array - NSArray to init
- @return - new ThreadSafeMutableArray contains array's elements
+ @return - new ZLMtsMutableArray contains array's elements
  */
 - (instancetype)initWithArray:(NSArray *)array;
 

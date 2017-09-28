@@ -1,5 +1,5 @@
 //
-//  ContactTableNICell.h
+//  ZLMContactTableNICell.h
 //  PhoneBook
 //
 //  Created by chuonghm on 7/31/17.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NICellFactory.h"
-#import "CheckBox.h"
+#import "ZLMCheckBox.h"
 
 /**
  * UI constants
@@ -23,9 +23,9 @@
 /**
  Nimbus table cell for contact picker
  */
-@interface ContactTableNICell : UITableViewCell<NICell>
+@interface ZLMContactTableNICell : UITableViewCell<NICell>
 
-@property (strong, nonatomic) CheckBox *checkBox;        // Check box view
+@property (strong, nonatomic) ZLMCheckBox *checkBox;        // Check box view
 @property (strong, nonatomic) UIImageView *avatar;       // Avatar of contact
 @property (strong, nonatomic) UILabel *name;             // Name of contact
 

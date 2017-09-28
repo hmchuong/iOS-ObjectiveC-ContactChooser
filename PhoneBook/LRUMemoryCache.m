@@ -7,18 +7,18 @@
 //
 
 #import "LRUMemoryCache.h"
-#import "ThreadSafeMutableArray.h"
-#import "ThreadSafeMutableDictionary.h"
+#import "ZLMtsMutableArray.h"
+#import "ZLMtsMutableDictionary.h"
 #import "LRUObject.h"
-#import "LinkedList.h"
+#import "ZLMLinkedList.h"
 
 @interface LRUMemoryCache()
 
 /**
  Dictionary to store objects
  */
-@property (strong, nonatomic) ThreadSafeMutableDictionary *storedObjects;
-@property (strong, nonatomic) LinkedList *lruList;
+@property (strong, nonatomic) ZLMtsMutableDictionary *storedObjects;
+@property (strong, nonatomic) ZLMLinkedList *lruList;
 
 @property NSUInteger currentTotalCost;               // Total cost of all stored object
 @property NSUInteger totalCostThreshold;             // Threshold of total cost
@@ -33,11 +33,11 @@
     
     self = [super init];
     
-    _storedObjects = [[ThreadSafeMutableDictionary alloc] init];
+    _storedObjects = [[ZLMtsMutableDictionary alloc] init];
     
     _totalCostThreshold = NSUIntegerMax;
     _currentTotalCost = 0;
-    _lruList = [[LinkedList alloc] init];
+    _lruList = [[ZLMLinkedList alloc] init];
     
     return self;
 }

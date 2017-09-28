@@ -1,17 +1,18 @@
 //
-//  PhoneBookContactLoader.m
+//  ZLMPhoneBookContactLoader.m
 //  PhoneBook
 //
 //  Created by chuonghm on 8/3/17.
 //  Copyright © 2017 VNG Corp., Zalo Group. All rights reserved.
 //
 
-#import "PhoneBookContactLoader.h"
+#import "ZLMPhoneBookContactLoader.h"
 #import "UIKit/UIKit.h"
+#import "AppDelegate.h"
 
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
-@implementation PhoneBookContactLoader
+@implementation ZLMPhoneBookContactLoader
 
 #pragma mark - Constructors
 
@@ -24,7 +25,7 @@
 
 + (instancetype)sharedInstance {
     
-    static PhoneBookContactLoader *sharedImageCache;
+    static ZLMPhoneBookContactLoader *sharedImageCache;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedImageCache = [[self alloc] init];
@@ -38,14 +39,16 @@
  Load phone book contacts with CNContact
 
  @param completion - block to return result after load
+ @param queue callback queue
  */
-- (void)loadPhoneBookContactsByCNContacts:(PhoneBookContactLoaderCompletion)completion {
+- (void)loadPhoneBookContactsByCNContacts:(ZLMPBCLCompletionBlock)completion
+                            callbackQueue:(NSOperationQueue *)queue {
     
     
     CNContactStore *store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
         
-        NSMutableArray<PhoneBookContact *> *contacts = [[NSMutableArray alloc] init];
+        NSMutableArray *contacts = [[NSMutableArray alloc] init];
         if (granted) {
             
             //keys with fetching properties
@@ -58,12 +61,23 @@
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
             
             for (CNContact *contact in cnContacts) {
-                [contacts addObject:[[PhoneBookContact alloc] initWithCNContact:contact]];
+                
+                [contacts addObject:[[ZLMPhoneBookContact alloc] initWithCNContact:contact]];
+                
             }
             
+            // Delete all contacts in DB
+            [ZLMPhoneBookContactMO deleteAllRecords];
+            
+            // Add to DB
+            [ZLMPhoneBookContactMO insertContacts:contacts];
+        } else {
+            [contacts addObjectsFromArray:[ZLMPhoneBookContactMO getAllRecords]];
         }
         
-        completion(granted,contacts);
+        [queue addOperationWithBlock:^{
+            completion(granted, contacts);
+        }];
     }];
 }
 
@@ -71,8 +85,10 @@
  Load phone book contacts with AddressBook
 
  @param completion - block to return result after load
+ @param queue callback queue
  */
-- (void)loadPhoneBookContactsByAddressBook:(PhoneBookContactLoaderCompletion)completion {
+- (void)loadPhoneBookContactsByAddressBook:(ZLMPBCLCompletionBlock)completion
+                             callbackQueue:(NSOperationQueue *)queue {
     
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
     
@@ -91,33 +107,41 @@
     } else {        // iOS 5
         accessGranted = YES;
     }
-    
-    NSMutableArray<PhoneBookContact *> *contacts = [[NSMutableArray alloc] init];;
-    
+    NSMutableArray *contacts = [[NSMutableArray alloc] init];
     if (accessGranted) {
         
         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
         CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
+        
         for (int i = 0; i < nPeople; i ++) {
             ABRecordRef ref = CFArrayGetValueAtIndex(allPeople,i);
-            [contacts addObject:[[PhoneBookContact alloc] initWithABRecordRef:ref]];
+            [contacts addObject:[[ZLMPhoneBookContact alloc] initWithABRecordRef:ref]];
         }
         
+        // Delete all contacts in DB
+        [ZLMPhoneBookContactMO deleteAllRecords];
+        
+        // Add to DB
+        [ZLMPhoneBookContactMO insertContacts:contacts];
+    } else {
+        [contacts addObjectsFromArray:[ZLMPhoneBookContactMO getAllRecords]];
     }
-    
-    completion(accessGranted, contacts);
+    [queue addOperationWithBlock:^{
+        completion(accessGranted, contacts);
+    }];
 
 }
 
 
 #pragma mark - Public methods
 
-- (void)getPhoneBookContactsWithCompletion:(PhoneBookContactLoaderCompletion)completion {
+- (void)getPhoneBookContactsWithCompletion:(ZLMPBCLCompletionBlock)completion
+                             callbackQueue:(NSOperationQueue *)queue{
     
     if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
-        [self loadPhoneBookContactsByAddressBook:completion];
+        [self loadPhoneBookContactsByAddressBook:completion callbackQueue:queue];
     } else {
-        [self loadPhoneBookContactsByCNContacts:completion];
+        [self loadPhoneBookContactsByCNContacts:completion callbackQueue:queue];
     }
 }
 

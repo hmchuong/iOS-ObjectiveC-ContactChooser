@@ -1,5 +1,5 @@
 //
-//  ThreadSafeMutableDictionary.h
+//  ZLMtsMutableDictionary.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/9/17.
@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 /**
- ThreadSafeMutableDictionary
+ ZLMtsMutableDictionary
  */
-@interface ThreadSafeMutableDictionary : NSObject
+@interface ZLMtsMutableDictionary : NSObject
 
 // For supscript
 - (id)objectForKeyedSubscript:(id)key;

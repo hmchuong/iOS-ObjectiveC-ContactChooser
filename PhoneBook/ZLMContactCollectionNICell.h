@@ -1,5 +1,5 @@
 //
-//  ContactCollectionNICell.h
+//  ZLMContactCollectionNICell.h
 //  PhoneBook
 //
 //  Created by chuonghm on 8/1/17.
@@ -17,7 +17,7 @@
 /**
  Nimbus collection cell for contact picker 
  */
-@interface ContactCollectionNICell : UICollectionViewCell<NICollectionViewCell>
+@interface ZLMContactCollectionNICell : UICollectionViewCell<NICollectionViewCell>
 
 @property (strong, nonatomic) UIImageView *avatar;                   // Avatar of contact
 

@@ -13,7 +13,7 @@
 /**
  Wrapper for both AddressBookContact and CNContact
  */
-@interface PhoneBookContact : NSObject
+@interface ZLMPhoneBookContact : NSObject
 
 @property (strong, nonatomic) NSString *firstName;      // First name
 @property (strong, nonatomic) NSString *lastName;       // Last name
