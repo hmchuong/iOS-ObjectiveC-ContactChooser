@@ -7,3 +7,4 @@
 - Image caching for contacts.  
 - Auto update when contacts change.  
 - Can reuse for different model.  
+- Support storing to core data when contact access denied
