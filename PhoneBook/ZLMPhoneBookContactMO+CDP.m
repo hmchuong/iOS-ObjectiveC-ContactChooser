@@ -153,6 +153,8 @@
     [ZLMPhoneBookContactMO saveContext];
 }
 
++ (void)insertWithCNContacts
+
 + (void)insertWithABRecordRef:(ABRecordRef)aBRecordRef {
     
     // Name
