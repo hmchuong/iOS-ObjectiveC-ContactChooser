@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *lastName;                       // last name of contact
 @property (nullable, nonatomic, copy) NSString *middleName;                     // middle name of contact
 
+
 /**
  Delete all records in core data
  */

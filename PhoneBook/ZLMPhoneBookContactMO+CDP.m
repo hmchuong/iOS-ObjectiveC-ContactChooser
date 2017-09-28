@@ -20,50 +20,6 @@
 @dynamic lastName;
 @dynamic middleName;
 
-#pragma mark - Private static
-
-/**
- Get persistent store coordinator
-
- @return persistent store coordinator
- */
-+ (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    
-    id delegate = [[UIApplication sharedApplication] delegate];
-    NSPersistentStoreCoordinator *coordinator = nil;
-    
-    if ([delegate respondsToSelector:@selector(persistentStoreCoordinator)]) {
-        coordinator = [delegate persistentStoreCoordinator];
-    }
-    return coordinator;
-}
-
-/**
- Get private (background) managed object context
-
- @return background object context
- */
-+ (NSManagedObjectContext *)privateManagedObjectContext {
-    
-    NSManagedObjectContext *context;
-    id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate respondsToSelector:@selector(managedObjectContext)]) {
-        context = [delegate managedObjectContext];
-    }
-    return context;
-}
-
-/**
- Save context to core data
- */
-+ (void)saveContext {
-    
-    id delegate = [[UIApplication sharedApplication] delegate];
-    if ([delegate respondsToSelector:@selector(saveContext)]) {
-        [delegate saveContext];
-    }
-}
-
 /**
  Construct a default ZLMPhoneBookContactMO object
 
@@ -71,7 +27,7 @@
  */
 + (instancetype)defaultObject {
     
-    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO managedObjectContext];
     ZLMPhoneBookContactMO *__block contact = nil;
     
     [context performBlockAndWait:^{
@@ -88,7 +44,7 @@
     
     
     NSArray *__block fetchResult = nil;
-    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO managedObjectContext];
     
     [context performBlockAndWait:^{
         
@@ -120,7 +76,7 @@
 
 + (void)deleteAllRecords {
     
-    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO managedObjectContext];
     NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:[ZLMPhoneBookContactMO fetchRequest]];
     
     [context performBlock:^{
@@ -144,7 +100,7 @@
 + (void)insert:(ZLMPhoneBookContact *)contact {
     
     
-    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO managedObjectContext];
     
     [context performBlock:^{
         
@@ -160,7 +116,7 @@
 
 + (void)insertContacts:(NSArray<ZLMPhoneBookContact *> *)contacts {
     
-    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO managedObjectContext];
     
     [context performBlock:^{
         for (ZLMPhoneBookContact *contact in contacts) {
@@ -173,8 +129,108 @@
         
         [ZLMPhoneBookContactMO saveContext];
     }];
+}
+
+#pragma mark - CoreData
+
+/**
+ Get persistent store coordinator
+ 
+ @return persistent store coordinator
+ */
++ (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
     
+    // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it.
+    static NSPersistentStoreCoordinator *persistentStoreCoordinator;
+    if (persistentStoreCoordinator != nil) {
+        return persistentStoreCoordinator;
+    }
     
+    // Create the coordinator and store
+    
+    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    NSURL *storeURL = [[ZLMPhoneBookContactMO applicationDocumentsDirectory] URLByAppendingPathComponent:@"PhoneBook.sqlite"];
+    NSError *error = nil;
+    NSString *failureReason = @"There was an error creating or loading the application's saved data.";
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+        // Report any error we got.
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
+        dict[NSLocalizedFailureReasonErrorKey] = failureReason;
+        dict[NSUnderlyingErrorKey] = error;
+        error = [NSError errorWithDomain:@"com.vn.vng.zalo.contact.error" code:9999 userInfo:dict];
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    return persistentStoreCoordinator;
+}
+
+/**
+ Get managed object model
+
+ @return managed object model
+ */
++ (NSManagedObjectModel *)managedObjectModel {
+    
+    // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
+    static NSManagedObjectModel *managedObjectModel;
+    if (managedObjectModel != nil) {
+        return managedObjectModel;
+    }
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"PhoneBook" withExtension:@"momd"];
+    managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
+    return managedObjectModel;
+}
+
+/**
+ Get current managed object content
+
+ @return manage object context
+ */
++ (NSManagedObjectContext *)managedObjectContext {
+    
+    // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
+    static NSManagedObjectContext *managedObjectContext;
+    if (managedObjectContext != nil) {
+        return managedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [ZLMPhoneBookContactMO persistentStoreCoordinator];
+    if (!coordinator) {
+        return nil;
+    }
+    managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [managedObjectContext setPersistentStoreCoordinator:coordinator];
+    return managedObjectContext;
+}
+
+/**
+ Save context to core data
+ */
++ (void)saveContext {
+    
+    NSManagedObjectContext *managedObjectContext = [ZLMPhoneBookContactMO managedObjectContext];
+    if (managedObjectContext != nil) {
+        NSError *error = nil;
+        BOOL hasChanges = [managedObjectContext hasChanges];
+        if (hasChanges && ![managedObjectContext save:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
+}
+
+/**
+ Get documents directory
+
+ @return url of application document directory
+ */
++ (NSURL *)applicationDocumentsDirectory {
+    
+    // The directory the application uses to store the Core Data store file. This code uses a directory named "Your Bundle Indentifier" in the application's documents directory.
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 @end
