@@ -48,6 +48,7 @@
     CNContactStore *store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
         
+        NSMutableArray *contacts = [[NSMutableArray alloc] init];
         if (granted) {
             
             //keys with fetching properties
@@ -59,17 +60,23 @@
             
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
             
-            [ZLMPhoneBookContactMO deleteAllRecords];
-            
             for (CNContact *contact in cnContacts) {
                 
-                [ZLMPhoneBookContactMO insertWithCNContact:contact];
+                [contacts addObject:[[ZLMPhoneBookContact alloc] initWithCNContact:contact]];
                 
             }
             
+            // Delete all contacts in DB
+            [ZLMPhoneBookContactMO deleteAllRecords];
+            
+            // Add to DB
+            [ZLMPhoneBookContactMO insertContacts:contacts];
+        } else {
+            [contacts addObjectsFromArray:[ZLMPhoneBookContactMO getAllRecords]];
         }
+        
         [queue addOperationWithBlock:^{
-            completion(granted);
+            completion(granted, contacts);
         }];
     }];
 }
@@ -100,19 +107,27 @@
     } else {        // iOS 5
         accessGranted = YES;
     }
-    
+    NSMutableArray *contacts = [[NSMutableArray alloc] init];
     if (accessGranted) {
         
         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
         CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
+        
         for (int i = 0; i < nPeople; i ++) {
             ABRecordRef ref = CFArrayGetValueAtIndex(allPeople,i);
-            [ZLMPhoneBookContactMO insertWithABRecordRef:ref];
+            [contacts addObject:[[ZLMPhoneBookContact alloc] initWithABRecordRef:ref]];
         }
         
+        // Delete all contacts in DB
+        [ZLMPhoneBookContactMO deleteAllRecords];
+        
+        // Add to DB
+        [ZLMPhoneBookContactMO insertContacts:contacts];
+    } else {
+        [contacts addObjectsFromArray:[ZLMPhoneBookContactMO getAllRecords]];
     }
     [queue addOperationWithBlock:^{
-        completion(accessGranted);
+        completion(accessGranted, contacts);
     }];
 
 }

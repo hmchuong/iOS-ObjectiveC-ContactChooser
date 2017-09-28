@@ -84,23 +84,36 @@
 
 #pragma mark - Public static
 
-+ (NSArray<ZLMPhoneBookContactMO *> *)getAllRecords {
++ (NSArray<ZLMPhoneBookContact *> *)getAllRecords {
     
     
-    NSArray *__block contacts = nil;
+    NSArray *__block fetchResult = nil;
     NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
     
     [context performBlockAndWait:^{
         
         NSError *error = nil;
-        contacts = [context executeFetchRequest:[ZLMPhoneBookContactMO fetchRequest]
+        fetchResult = [context executeFetchRequest:[ZLMPhoneBookContactMO fetchRequest]
                                           error:&error];
         if (error != nil) {
             NSLog(@"Unresolved error %@, %@", error, error.userInfo);
         }
     }];
     
+    NSMutableArray *contacts = [[NSMutableArray alloc] init];
     
+    if (fetchResult != nil) {
+        for (ZLMPhoneBookContactMO *record in fetchResult) {
+            
+            ZLMPhoneBookContact *contact = [[ZLMPhoneBookContact alloc] init];
+            contact.firstName = record.firstName;
+            contact.lastName = record.lastName;
+            contact.middleName = record.middleName;
+            contact.identifier = record.identifier;
+            
+            [contacts addObject:contact];
+        }
+    }
     
     return contacts;
 }
@@ -128,66 +141,40 @@
 	return [[NSFetchRequest alloc] initWithEntityName: ENTITY_NAME];
 }
 
-+ (void)insertWithCNContact:(CNContact *)cnContact {
++ (void)insert:(ZLMPhoneBookContact *)contact {
     
     
     NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
     
     [context performBlock:^{
         
-        ZLMPhoneBookContactMO *contact = [ZLMPhoneBookContactMO defaultObject];
-        contact.firstName = cnContact.givenName;
-        contact.middleName = cnContact.middleName;
-        contact.lastName = cnContact.familyName;
-        contact.identifier = cnContact.identifier;
+        ZLMPhoneBookContactMO *contactMO = [ZLMPhoneBookContactMO defaultObject];
+        contactMO.firstName = contact.firstName;
+        contactMO.middleName = contact.middleName;
+        contactMO.lastName = contact.lastName;
+        contactMO.identifier = contact.identifier;
     }];
-    
-    UIImage *avatar = [UIImage imageWithData:[cnContact imageData]];
-    
-    // if has avatar -> store to cache
-    if (avatar != nil) {
-        [ZLMImageCache.sharedInstance storeImage:avatar
-                                         withKey:cnContact.identifier];
-    }
     
     [ZLMPhoneBookContactMO saveContext];
 }
 
-+ (void)insertWithCNContacts
-
-+ (void)insertWithABRecordRef:(ABRecordRef)aBRecordRef {
++ (void)insertContacts:(NSArray<ZLMPhoneBookContact *> *)contacts {
     
-    // Name
-    CFStringRef firstName, middleName, lastName;
-    firstName = ABRecordCopyValue(aBRecordRef, kABPersonFirstNameProperty);
-    middleName = ABRecordCopyValue(aBRecordRef, kABPersonMiddleNameProperty);
-    lastName = ABRecordCopyValue(aBRecordRef, kABPersonLastNameProperty);
+    NSManagedObjectContext *context = [ZLMPhoneBookContactMO privateManagedObjectContext];
     
-    // ID
-    ABRecordID recordID = ABRecordGetRecordID(aBRecordRef);
-    
-    // Avatar
-    UIImage *avatar;
-    if (ABPersonHasImageData(aBRecordRef)) {
-        avatar = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageData(aBRecordRef)];
-    }
-    
-    [[ZLMPhoneBookContactMO privateManagedObjectContext] performBlock:^{
+    [context performBlock:^{
+        for (ZLMPhoneBookContact *contact in contacts) {
+            ZLMPhoneBookContactMO *contactMO = [ZLMPhoneBookContactMO defaultObject];
+            contactMO.firstName = contact.firstName;
+            contactMO.middleName = contact.middleName;
+            contactMO.lastName = contact.lastName;
+            contactMO.identifier = contact.identifier;
+        }
         
-        ZLMPhoneBookContactMO *contact = [ZLMPhoneBookContactMO defaultObject];
-        contact.firstName = [NSString stringWithFormat:@"%@",firstName];
-        contact.middleName = [NSString stringWithFormat:@"%@",middleName];
-        contact.lastName = [NSString stringWithFormat:@"%@",lastName];
-        contact.identifier = [NSString stringWithFormat:@"%d", recordID];
+        [ZLMPhoneBookContactMO saveContext];
     }];
     
-    [ZLMPhoneBookContactMO saveContext];
     
-    // Store to cache
-    if (avatar != nil) {
-        [ZLMImageCache.sharedInstance storeImage:avatar
-                                         withKey:[NSString stringWithFormat:@"%d", recordID]];
-    }
 }
 
 @end

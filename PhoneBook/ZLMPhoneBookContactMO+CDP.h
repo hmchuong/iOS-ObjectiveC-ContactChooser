@@ -9,6 +9,7 @@
 #import "ZLMPhoneBookContactMO+CDC.h"
 #import <AddressBook/AddressBook.h>
 #import <Contacts/Contacts.h>
+#import "ZLMPhoneBookContact.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,22 +32,21 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return array of ZLMPhoneBookContactMO object
  */
-+ (NSArray<ZLMPhoneBookContactMO *> *)getAllRecords;
++ (NSArray<ZLMPhoneBookContact *> *)getAllRecords;
 
 /**
- Insert with CNContact object
+ Insert object
  
- @param cnContact - CNContact to init
+ @param contact - contact to insert
  */
-+ (void)insertWithCNContact:(CNContact *)cnContact;
++ (void)insert:(ZLMPhoneBookContact *)contact;
 
 /**
- Insert with AddressBookContact
- 
- @param aBRecordRef - Contact to init
- */
-+ (void)insertWithABRecordRef:(ABRecordRef)aBRecordRef;
+ Insert multiple objects
 
+ @param contacts array of contacts
+ */
++ (void)insertContacts:(NSArray<ZLMPhoneBookContact *> *)contacts;
 
 @end
 

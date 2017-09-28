@@ -86,6 +86,7 @@
     }
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"PhoneBook" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
     return _managedObjectModel;
 }
 
@@ -130,7 +131,7 @@
     if (!coordinator) {
         return nil;
     }
-    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     return _managedObjectContext;
 }
@@ -139,28 +140,16 @@
 
 - (void)saveContext {
     
-    //Check current version.
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0){
-        
-        NSManagedObjectContext *context =_persistentContainer.viewContext;
-        
-        if (context != nil) {
-            NSError *error = nil;
-            if ([context hasChanges] && ![context save:&error]) {
-                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                abort();
-            }
-        }
-    }else{
-        NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-        if (managedObjectContext != nil) {
-            NSError *error = nil;
-            if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                abort();
-            }
+    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    if (managedObjectContext != nil) {
+        NSError *error = nil;
+        BOOL hasChanges = [managedObjectContext hasChanges];
+        if (hasChanges && ![managedObjectContext save:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
         }
     }
+    
 }
 
 @end

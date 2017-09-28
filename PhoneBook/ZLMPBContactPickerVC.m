@@ -47,11 +47,11 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     });
     
-    [ZLMPhoneBookContactLoader.sharedInstance getPhoneBookContactsWithCompletion: ^(BOOL granted) {
-        NSArray<ZLMPhoneBookContactMO *> *contacts = [ZLMPhoneBookContactMO getAllRecords];
+    [ZLMPhoneBookContactLoader.sharedInstance getPhoneBookContactsWithCompletion: ^(BOOL granted, NSArray *contacts) {
+        
         NSLog(@"No. loaded contacts: %lu",(unsigned long)[contacts count]);
         
-        if (!granted) {
+        if (!granted && [contacts count] == 0) {
             // Hide progress view
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -78,10 +78,10 @@
 /**
  Get sectioned contacts array
 
- @param contacts - ZLMPhoneBookContactMO array to get
+ @param contacts - ZLMPhoneBookContact array to get
  @return - sectioned contacts array to pass to ContactPicker
  */
-- (NSArray *)sectionedArrayFromContacts:(NSArray<ZLMPhoneBookContactMO *> *) contacts {
+- (NSArray *)sectionedArrayFromContacts:(NSArray<ZLMPhoneBookContact *> *) contacts {
     
     // Group contacts in sections
     NSDictionary *tableContents = [self groupPhoneBookContacts:contacts];
@@ -100,14 +100,14 @@
 /**
  Group contacts to sections
 
- @param contacts - ZLMPhoneBookContactMO array
+ @param contacts - ZLMPhoneBookContact array
  @return - dictionary includes sections, each section contains contacts
  */
-- (NSDictionary *)groupPhoneBookContacts:(NSArray<ZLMPhoneBookContactMO *> *) contacts {
+- (NSDictionary *)groupPhoneBookContacts:(NSArray<ZLMPhoneBookContact *> *) contacts {
     
     NSMutableDictionary *tableContents = [[NSMutableDictionary alloc] init];
     
-    for (ZLMPhoneBookContactMO *contact in contacts) {
+    for (ZLMPhoneBookContact *contact in contacts) {
         
         // Init contact cell from contact
         ZLMPhoneBookContactNIO *contactCell = [[ZLMPhoneBookContactNIO alloc] initWithPhoneBookContact: contact];

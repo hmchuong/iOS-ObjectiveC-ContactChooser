@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "ZLMContactNIO.h"
-#import "ZLMPhoneBookContactMO+CDP.h"
+#import "ZLMPhoneBookContact.h"
 
 /**
  Contact cell object - store data of each phone book contact cell
@@ -22,11 +22,11 @@
 @property (strong, nonatomic) NSString *lastname;       // last name of contact
 
 /**
- Init with ZLMPhoneBookContactMO
+ Init with ZLMPhoneBookContact
 
  @param phoneBookContact - contact to init
  @return PhoneBookContactCell object
  */
-- (instancetype)initWithPhoneBookContact:(ZLMPhoneBookContactMO *)phoneBookContact;
+- (instancetype)initWithPhoneBookContact:(ZLMPhoneBookContact *)phoneBookContact;
 
 @end

@@ -10,7 +10,7 @@
 #import <Contacts/Contacts.h>
 #import "ZLMPhoneBookContactMO+CDP.h"
 
-typedef void (^ZLMPBCLCompletionBlock) (BOOL granted);
+typedef void (^ZLMPBCLCompletionBlock) (BOOL granted, NSArray<ZLMPhoneBookContact *> *);
 
 /**
  Object for load contact from phone book

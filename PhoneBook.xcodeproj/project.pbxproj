@@ -11,6 +11,7 @@
 		4EA0DD2352DEB4FDBB6B51F0 /* libPods-PhoneBookUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0C9A4E079A07D9BA3F588E /* libPods-PhoneBookUITests.a */; };
 		789A9B5FAF7DE5E0FA009407 /* libPods-PhoneBookTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D334FF3A1984498A2D0C80D6 /* libPods-PhoneBookTests.a */; };
 		C804F03E1F3C3DA5006A468D /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C804F03D1F3C3DA5006A468D /* NSString+Extension.m */; };
+		C80FF1121F7CB57B004F9686 /* ZLMPhoneBookContact.m in Sources */ = {isa = PBXBuildFile; fileRef = C80FF1111F7CB57B004F9686 /* ZLMPhoneBookContact.m */; };
 		C83F201D1F273F8D00A1D67A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F201C1F273F8D00A1D67A /* main.m */; };
 		C83F20201F273F8D00A1D67A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F201F1F273F8D00A1D67A /* AppDelegate.m */; };
 		C83F20261F273F8D00A1D67A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C83F20241F273F8D00A1D67A /* Main.storyboard */; };
@@ -68,10 +69,12 @@
 		9923D378F863E08E7C25AD4E /* Pods-PhoneBookUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneBookUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneBookUITests/Pods-PhoneBookUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C804F03C1F3C3DA5006A468D /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
 		C804F03D1F3C3DA5006A468D /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
+		C80FF1101F7CB57B004F9686 /* ZLMPhoneBookContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLMPhoneBookContact.h; sourceTree = "<group>"; };
+		C80FF1111F7CB57B004F9686 /* ZLMPhoneBookContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLMPhoneBookContact.m; sourceTree = "<group>"; };
 		C83F20181F273F8D00A1D67A /* PhoneBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C83F201C1F273F8D00A1D67A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C83F201E1F273F8D00A1D67A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		C83F201F1F273F8D00A1D67A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C83F201F1F273F8D00A1D67A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; };
 		C83F20251F273F8D00A1D67A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C83F20271F273F8D00A1D67A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C83F202A1F273F8D00A1D67A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -165,6 +168,15 @@
 				9923D378F863E08E7C25AD4E /* Pods-PhoneBookUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C80FF10F1F7CB564004F9686 /* PhoneBookContact */ = {
+			isa = PBXGroup;
+			children = (
+				C80FF1101F7CB57B004F9686 /* ZLMPhoneBookContact.h */,
+				C80FF1111F7CB57B004F9686 /* ZLMPhoneBookContact.m */,
+			);
+			name = PhoneBookContact;
 			sourceTree = "<group>";
 		};
 		C839C1E31F3BF37A0052C0E5 /* PhoneBookContactMO */ = {
@@ -277,6 +289,7 @@
 		C849E6481F2833090062C24F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C80FF10F1F7CB564004F9686 /* PhoneBookContact */,
 				C839C1E31F3BF37A0052C0E5 /* PhoneBookContactMO */,
 				C86F16B71F32DF5700CEF23F /* PBContactNIO */,
 				C86F16B61F32DF3B00CEF23F /* PhoneBookContactLoader */,
@@ -738,6 +751,7 @@
 				C86F16B51F32C68400CEF23F /* NSDate+Extension.m in Sources */,
 				C85F4FDB1F38053300B68B9F /* ZLMPBContactPickerVC.m in Sources */,
 				C8C93A431F68E75500A93A7C /* PhoneBook.xcdatamodeld in Sources */,
+				C80FF1121F7CB57B004F9686 /* ZLMPhoneBookContact.m in Sources */,
 				C8A6944C1F6906B400C72122 /* ZLMPhoneBookContactMO+CDP.m in Sources */,
 				C85375141F3AFCCE00C524CE /* ZLMtsMutableDictionary.m in Sources */,
 				C83F20561F27576C00A1D67A /* ZLMCheckBox.m in Sources */,

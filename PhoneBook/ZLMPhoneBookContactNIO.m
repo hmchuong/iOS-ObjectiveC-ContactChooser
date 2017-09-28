@@ -31,7 +31,7 @@
 
 #pragma mark - Constructors
 
-- (instancetype)initWithPhoneBookContact:(ZLMPhoneBookContactMO *)phoneBookContact {
+- (instancetype)initWithPhoneBookContact:(ZLMPhoneBookContact *)phoneBookContact {
     
     self = [super init];
     
