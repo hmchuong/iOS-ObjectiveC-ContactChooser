@@ -203,6 +203,9 @@
     }
     managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [managedObjectContext setPersistentStoreCoordinator:coordinator];
+    
+    // Merge contacts with same identifier
+    managedObjectContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
     return managedObjectContext;
 }
 
