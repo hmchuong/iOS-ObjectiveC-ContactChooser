@@ -8,8 +8,8 @@
 
 #import "ZLMPBContactPickerVC.h"
 #import "MBProgressHUD.h"
-#import "ZLMtsMutableArray.h"
-#import "ZLMtsMutableDictionary.h"
+#import "HMCThreadSafeMutableArray.h"
+#import "HMCThreadSafeMutableDictionary.h"
 #import "NSString+Extension.h"
 
 @interface ZLMPBContactPickerVC ()

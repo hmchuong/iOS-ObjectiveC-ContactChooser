@@ -23,9 +23,7 @@
 		C83F20561F27576C00A1D67A /* ZLMCheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = C83F20551F27576C00A1D67A /* ZLMCheckBox.m */; };
 		C8494AFD1F42C8EE001D9EC4 /* ZLMLinkedList.m in Sources */ = {isa = PBXBuildFile; fileRef = C8494AFC1F42C8EE001D9EC4 /* ZLMLinkedList.m */; };
 		C849E64B1F28333B0062C24F /* ZLMPhoneBookContactNIO.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64A1F28333B0062C24F /* ZLMPhoneBookContactNIO.m */; };
-		C849E64F1F283C160062C24F /* ZLMtsMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C849E64E1F283C160062C24F /* ZLMtsMutableArray.m */; };
 		C85375101F3AF12B00C524CE /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = C853750F1F3AF12B00C524CE /* UIImage+Extension.m */; };
-		C85375141F3AFCCE00C524CE /* ZLMtsMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = C85375131F3AFCCE00C524CE /* ZLMtsMutableDictionary.m */; };
 		C85818951F3081700033577B /* ZLMContactCollectionNICell.m in Sources */ = {isa = PBXBuildFile; fileRef = C85818931F3081700033577B /* ZLMContactCollectionNICell.m */; };
 		C85B0CCD1F413DB1001ABB04 /* ZLMSystemHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CCC1F413DB1001ABB04 /* ZLMSystemHelper.m */; };
 		C85B0CD41F414611001ABB04 /* LRUMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B0CD31F414611001ABB04 /* LRUMemoryCache.m */; };
@@ -92,12 +90,8 @@
 		C8494AFC1F42C8EE001D9EC4 /* ZLMLinkedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLMLinkedList.m; sourceTree = "<group>"; };
 		C849E6491F28333B0062C24F /* ZLMPhoneBookContactNIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLMPhoneBookContactNIO.h; sourceTree = "<group>"; };
 		C849E64A1F28333B0062C24F /* ZLMPhoneBookContactNIO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLMPhoneBookContactNIO.m; sourceTree = "<group>"; };
-		C849E64D1F283C160062C24F /* ZLMtsMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLMtsMutableArray.h; sourceTree = "<group>"; };
-		C849E64E1F283C160062C24F /* ZLMtsMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLMtsMutableArray.m; sourceTree = "<group>"; };
 		C853750E1F3AF12B00C524CE /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		C853750F1F3AF12B00C524CE /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
-		C85375121F3AFCCE00C524CE /* ZLMtsMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLMtsMutableDictionary.h; sourceTree = "<group>"; };
-		C85375131F3AFCCE00C524CE /* ZLMtsMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLMtsMutableDictionary.m; sourceTree = "<group>"; };
 		C85818921F3081700033577B /* ZLMContactCollectionNICell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLMContactCollectionNICell.h; sourceTree = "<group>"; };
 		C85818931F3081700033577B /* ZLMContactCollectionNICell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLMContactCollectionNICell.m; sourceTree = "<group>"; };
 		C85B0CCB1F413DB1001ABB04 /* ZLMSystemHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLMSystemHelper.h; sourceTree = "<group>"; };
@@ -305,8 +299,6 @@
 				C85B0CCA1F413D90001ABB04 /* System */,
 				C86F16A91F32C37C00CEF23F /* Extensions */,
 				C8F4B5211F31C8CA00077116 /* ImageCache */,
-				C85375111F3AFC9C00C524CE /* ThreadSafeMutableDictionary */,
-				C8F4B5201F31C8A500077116 /* ThreadSafeMutableArray */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -318,15 +310,6 @@
 				C85F4FDA1F38053300B68B9F /* ZLMPBContactPickerVC.m */,
 			);
 			name = Controllers;
-			sourceTree = "<group>";
-		};
-		C85375111F3AFC9C00C524CE /* ThreadSafeMutableDictionary */ = {
-			isa = PBXGroup;
-			children = (
-				C85375121F3AFCCE00C524CE /* ZLMtsMutableDictionary.h */,
-				C85375131F3AFCCE00C524CE /* ZLMtsMutableDictionary.m */,
-			);
-			name = ThreadSafeMutableDictionary;
 			sourceTree = "<group>";
 		};
 		C85818911F30815B0033577B /* ContactCollectionNICell */ = {
@@ -442,15 +425,6 @@
 				C87AAB141F2F26A000EEE4B6 /* ZLMContactTableNICell.m */,
 			);
 			name = ContactTableNICell;
-			sourceTree = "<group>";
-		};
-		C8F4B5201F31C8A500077116 /* ThreadSafeMutableArray */ = {
-			isa = PBXGroup;
-			children = (
-				C849E64D1F283C160062C24F /* ZLMtsMutableArray.h */,
-				C849E64E1F283C160062C24F /* ZLMtsMutableArray.m */,
-			);
-			name = ThreadSafeMutableArray;
 			sourceTree = "<group>";
 		};
 		C8F4B5211F31C8CA00077116 /* ImageCache */ = {
@@ -753,9 +727,7 @@
 				C8C93A431F68E75500A93A7C /* PhoneBook.xcdatamodeld in Sources */,
 				C80FF1121F7CB57B004F9686 /* ZLMPhoneBookContact.m in Sources */,
 				C8A6944C1F6906B400C72122 /* ZLMPhoneBookContactMO+CDP.m in Sources */,
-				C85375141F3AFCCE00C524CE /* ZLMtsMutableDictionary.m in Sources */,
 				C83F20561F27576C00A1D67A /* ZLMCheckBox.m in Sources */,
-				C849E64F1F283C160062C24F /* ZLMtsMutableArray.m in Sources */,
 				C849E64B1F28333B0062C24F /* ZLMPhoneBookContactNIO.m in Sources */,
 				C85818951F3081700033577B /* ZLMContactCollectionNICell.m in Sources */,
 				C83F201D1F273F8D00A1D67A /* main.m in Sources */,

@@ -7,8 +7,8 @@
 //
 
 #import "LRUMemoryCache.h"
-#import "ZLMtsMutableArray.h"
-#import "ZLMtsMutableDictionary.h"
+#import "HMCThreadSafeMutableArray.h"
+#import "HMCThreadSafeMutableDictionary.h"
 #import "LRUObject.h"
 #import "ZLMLinkedList.h"
 
@@ -17,7 +17,7 @@
 /**
  Dictionary to store objects
  */
-@property (strong, nonatomic) ZLMtsMutableDictionary *storedObjects;
+@property (strong, nonatomic) HMCThreadSafeMutableDictionary *storedObjects;
 @property (strong, nonatomic) ZLMLinkedList *lruList;
 
 @property NSUInteger currentTotalCost;               // Total cost of all stored object
@@ -33,7 +33,7 @@
     
     self = [super init];
     
-    _storedObjects = [[ZLMtsMutableDictionary alloc] init];
+    _storedObjects = [[HMCThreadSafeMutableDictionary alloc] init];
     
     _totalCostThreshold = NSUIntegerMax;
     _currentTotalCost = 0;

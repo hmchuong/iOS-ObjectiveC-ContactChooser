@@ -20,8 +20,6 @@
 #define DEFAULT_NO_DATA_MESSAGE @"Không tìm thấy kết quả phù hợp"
 #define DEFAULT_SEARCH_PLACEHOLDER @"Nhập tên bạn bè"
 
-@class ZLMContactPickerView;
-
 
 /**
  Contact picker view
